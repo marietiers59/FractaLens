@@ -23,132 +23,228 @@
 
 package fr.univartois.butinfo.fractalens.complex;
 
+import java.util.Objects;
+
 /**
- * The IComplex interface defines the methods for making operations on complex numbers.
+ * The Complex class is an implementation of {@link IComplex} representing a
+ * complex number {@code z = a + ib}, where {@code a} is its real part,
+ * {@code b} is its imaginary part, and {@code i} is the imaginary unit such
+ * that {@code i² = -1}.
+ *
+ * Instances of this class are immutable: every operation returns a new
+ * complex number, and never modifies the complex numbers it is applied to.
  *
  * @author Romain Wallon
  *
  * @version 0.1.0
  */
 public class Complex implements IComplex {
-	
-	private double a,b;
-	//private double column, row, height, width; //pas besoin de ça dans cette classe.
-	
-	public Complex(double a, double b) {
-		this.a = a;
-		this.b = b;
-	}
-	
-	Complex z = new Complex(a,b);
-	IComplex resA = getRealPart();
-	IComplex resB = getImaginaryPart();
+
+    /**
+     * The real part {@code a} of this complex number.
+     */
+    private final double realPart;
+
+    /**
+     * The imaginary part {@code b} of this complex number.
+     */
+    private final double imaginaryPart;
+
+    /**
+     * Creates a new Complex representing the number {@code a + ib}.
+     *
+     * @param realPart The real part {@code a} of the complex number.
+     * @param imaginaryPart The imaginary part {@code b} of the complex number.
+     */
+    public Complex(double realPart, double imaginaryPart) {
+        this.realPart = realPart; //a
+        this.imaginaryPart = imaginaryPart; //b
+    }
 
     /**
      * Gives the real part of this complex number.
      *
-     * @return The real part of this complex number.
+     * @return The real part {@code a} of this complex number {@code a + ib}.
      */
+    @Override
     public double getRealPart() {
-    	return a;
+        return realPart; //a
     }
 
     /**
      * Gives the imaginary part of this complex number.
      *
-     * @return The imaginary part of this complex number.
+     * @return The imaginary part {@code b} of this complex number {@code a + ib}.
      */
+    @Override
     public double getImaginaryPart() {
-    	return b;
+        return imaginaryPart; //b
     }
 
     /**
-     * Gives the modulus of this complex number.
+     * Gives the modulus of this complex number, i.e., its distance to 0 in the
+     * complex plane, computed as {@code |z| = sqrt(a² + b²)}.
      *
      * @return The modulus of this complex number.
      */
+    @Override
     public double abs() {
-    	//TODO
+        return Math.sqrt(realPart * realPart + imaginaryPart * imaginaryPart); //i = a² + b²
     }
 
     /**
-     * Gives the opposite of this complex number.
+     * Gives the opposite of this complex number, computed as
+     * {@code -z = -a - ib}.
      *
      * @return The opposite of this complex number.
      */
+    @Override
     public IComplex negate() {
-    	//TODO
+        return new Complex(-realPart, -imaginaryPart); //swap the sign everywhere: every "+" turns into "-"
     }
 
     /**
-     * Gives the conjugate of this complex number.
+     * Gives the conjugate of this complex number, computed as
+     * {@code a - ib}.
      *
      * @return The conjugate of this complex number.
      */
+    @Override
     public IComplex conjugate() {
-    	zbarre = //TODO
-    	return zbarre;
+        return new Complex(realPart, -imaginaryPart); //zbar = a - i*b
     }
 
     /**
-     * Adds this complex number to an other one.
+     * Adds this complex number to an other one, using the formula
+     * {@code z1 + z2 = (a1 + a2) + i(b1 + b2)}.
      *
      * @param other The complex number to add to this one.
      *
      * @return The result of {@code this + other}.
      */
+    @Override
     public IComplex add(IComplex other) {
-    	IComplex resA = getRealPart()+value;
-    	IComplex resB = getImaginaryPart()+value;
-    	return resA+resB; //z = a+i*b
+        return new Complex(
+                realPart + other.getRealPart(), //a of z + a of other
+                imaginaryPart + other.getImaginaryPart()); //b of z + b of other
     }
 
     /**
-     * Subtracts a complex number from this one.
+     * Subtracts a complex number from this one, using the formula
+     * {@code z1 - z2 = (a1 - a2) + i(b1 - b2)}.
      *
      * @param other The complex number to subtract from this one.
      *
      * @return The result of {@code this - other}.
      */
+    @Override
     public IComplex subtract(IComplex other) {
-    	IComplex resA = getRealPart()-value;
-    	IComplex resB = getImaginaryPart()-value;
-    	return resA+resB; //z = a+i*b
+        return new Complex(
+                realPart - other.getRealPart(),
+                imaginaryPart - other.getImaginaryPart());
     }
 
     /**
-     * Multiplies this complex number by a real value.
+     * Multiplies this complex number by a real value, using the formula
+     * {@code r * z = (r * a) + i(r * b)}.
      *
-     * @param value The value by which to multiply this number.
+     * @param value The real value by which to multiply this number.
      *
      * @return The result of {@code this * value}.
      */
+    @Override
     public IComplex multiply(double value) {
-    	IComplex resA = getRealPart()*value;
-    	IComplex resB = getImaginaryPart()*value;
-    	return resA+resB; //z = a+i*b
+        return new Complex(realPart * value, imaginaryPart * value); //a*value + b*value
     }
 
     /**
-     * Multiplies this complex number by an other one.
+     * Multiplies this complex number by an other one, using the formula
+     * {@code z1 * z2 = (a1 * a2 - b1 * b2) + i(a1 * b2 + a2 * b1)}.
      *
      * @param other The complex number to multiply this one with.
      *
      * @return The result of {@code this * other}.
      */
+    @Override
     public IComplex multiply(IComplex other) {
-    	return z*other;
+        double a2 = other.getRealPart();
+        double b2 = other.getImaginaryPart();
+        return new Complex(
+                realPart * a2 - imaginaryPart * b2,
+                realPart * b2 + a2 * imaginaryPart);
     }
 
     /**
-     * Divides this complex number by an other one.
+     * Divides this complex number by an other one, using the formula
+     * {@code z1 / z2 = ((a1 * a2 + b1 * b2) + i(a2 * b1 - a1 * b2)) / (a2² + b2²)}.
+     *
+     * If {@code other} is equal to 0, the parts of the result are not finite
+     * (they are either infinite or NaN), following the IEEE 754 rules applied
+     * to {@code double} values.
      *
      * @param other The complex number to divide this one by.
      *
      * @return The result of {@code this / other}.
      */
+    @Override
     public IComplex divide(IComplex other) {
-    	return z/other;
+        double a2 = other.getRealPart();
+        double b2 = other.getImaginaryPart();
+        double denominator = a2 * a2 + b2 * b2;
+        return new Complex(
+                (realPart * a2 + imaginaryPart * b2) / denominator,
+                (a2 * imaginaryPart - realPart * b2) / denominator);
+    }
+
+    /**
+     * Checks whether this complex number is equal to the given object.
+     * Two complex numbers are considered equal when they have the same real
+     * part and the same imaginary part.
+     *
+     * @param obj The object to compare with this complex number.
+     *
+     * @return {@code true} if {@code obj} is an {@link IComplex} with the same
+     *         real and imaginary parts as this one, {@code false} otherwise.
+     *
+     * @see Object#equals(Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof IComplex)) {
+            return false;
+        }
+        IComplex other = (IComplex) obj;
+        return Double.compare(realPart, other.getRealPart()) == 0
+                && Double.compare(imaginaryPart, other.getImaginaryPart()) == 0;
+    }
+
+    /**
+     * Computes a hash code for this complex number, consistent with
+     * {@link #equals(Object)}.
+     *
+     * @return The hash code of this complex number.
+     *
+     * @see Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(realPart, imaginaryPart);
+    }
+
+    /**
+     * Gives a string representation of this complex number, in the form
+     * {@code a + bi}.
+     *
+     * @return The string representation of this complex number.
+     *
+     * @see Object#toString()
+     */
+    @Override
+    public String toString() {
+        return realPart + " + " + imaginaryPart + "i";
     }
 
 }
