@@ -52,6 +52,6 @@ public class ComplexSequenceJulia implements IComplexSequence{
      */
     @Override
     public Iterator<IComplex> iterator() {
-        return newComplexSequenceIterator(this, z0, nbTerms);
+        return new ComplexSequenceIterator(this, z0, nbTerms);
     }
 }
