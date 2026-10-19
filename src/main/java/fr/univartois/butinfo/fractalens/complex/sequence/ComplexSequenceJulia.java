@@ -1,4 +1,48 @@
 package fr.univartois.butinfo.fractalens.complex.sequence;
 
-public class ComplexSequenceJulia {
+import fr.univartois.butinfo.fractalens.complex.IComplex;
+
+import java.util.Iterator;
+
+/**
+ * The ComplexSequenceJulia class implements the Julia's sequence, which is a sequence of complex numbers that is defined by the following formula:
+ * jn(z) = jn−1(z)2 + c
+ */
+public class ComplexSequenceJulia implements IComplexSequence{
+    private final IComplex z0;
+    private final IComplex c;
+    private final int nbTerms;
+
+    /**
+     * Creates a new Julia's sequence using the given parameters.
+     *
+     * @param z0
+     * @param c
+     * @param nbTerms
+     */
+    public ComplexSequenceJulia(IComplex z0, IComplex c, int nbTerms) {
+        this.z0 = z0;
+        this.c = c;
+        this.nbTerms = nbTerms;
+    }
+
+    /**
+     * Computes the next term of the sequence, based on the previous one.
+     *
+     * @param previous The previous value in the sequence.
+     *
+     * @return The next value in the sequence.
+     */
+    @Override
+    public IComplex computeNext(IComplex previous) {
+        return previous.multiply(previous).add(c);
+    }
+
+    /**
+     * @return an Iterator over the elements of this sequence.
+     */
+    @Override
+    public Iterator<IComplex> iterator() {
+        return newComplexSequenceIterator(this, z0, nbTerms);
+    }
 }
