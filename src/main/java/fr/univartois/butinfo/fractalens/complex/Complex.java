@@ -31,6 +31,18 @@ package fr.univartois.butinfo.fractalens.complex;
  * @version 0.1.0
  */
 public class Complex implements IComplex {
+	
+	private double a,b;
+	//private double column, row, height, width; //pas besoin de ça dans cette classe.
+	
+	public Complex(double a, double b) {
+		this.a = a;
+		this.b = b;
+	}
+	
+	Complex z = new Complex(a,b);
+	IComplex resA = getRealPart();
+	IComplex resB = getImaginaryPart();
 
     /**
      * Gives the real part of this complex number.
@@ -38,7 +50,7 @@ public class Complex implements IComplex {
      * @return The real part of this complex number.
      */
     public double getRealPart() {
-    	//TODO
+    	return a;
     }
 
     /**
@@ -47,7 +59,7 @@ public class Complex implements IComplex {
      * @return The imaginary part of this complex number.
      */
     public double getImaginaryPart() {
-    	//TODO
+    	return b;
     }
 
     /**
@@ -74,7 +86,8 @@ public class Complex implements IComplex {
      * @return The conjugate of this complex number.
      */
     public IComplex conjugate() {
-    	//TODO
+    	zbarre = //TODO
+    	return zbarre;
     }
 
     /**
@@ -85,7 +98,9 @@ public class Complex implements IComplex {
      * @return The result of {@code this + other}.
      */
     public IComplex add(IComplex other) {
-    	//TODO
+    	IComplex resA = getRealPart()+value;
+    	IComplex resB = getImaginaryPart()+value;
+    	return resA+resB; //z = a+i*b
     }
 
     /**
@@ -96,7 +111,9 @@ public class Complex implements IComplex {
      * @return The result of {@code this - other}.
      */
     public IComplex subtract(IComplex other) {
-    	//TODO
+    	IComplex resA = getRealPart()-value;
+    	IComplex resB = getImaginaryPart()-value;
+    	return resA+resB; //z = a+i*b
     }
 
     /**
@@ -107,7 +124,9 @@ public class Complex implements IComplex {
      * @return The result of {@code this * value}.
      */
     public IComplex multiply(double value) {
-    	
+    	IComplex resA = getRealPart()*value;
+    	IComplex resB = getImaginaryPart()*value;
+    	return resA+resB; //z = a+i*b
     }
 
     /**
@@ -118,7 +137,7 @@ public class Complex implements IComplex {
      * @return The result of {@code this * other}.
      */
     public IComplex multiply(IComplex other) {
-    	//TODO
+    	return z*other;
     }
 
     /**
@@ -129,7 +148,7 @@ public class Complex implements IComplex {
      * @return The result of {@code this / other}.
      */
     public IComplex divide(IComplex other) {
-    	//TODO
+    	return z/other;
     }
 
 }
