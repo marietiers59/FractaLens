@@ -16,9 +16,9 @@ public class ComplexSequenceJulia implements IComplexSequence{
     /**
      * Creates a new Julia's sequence using the given parameters.
      *
-     * @param z0
-     * @param c
-     * @param nbTerms
+     * @param z0 The initial value of the sequence.
+     * @param c The constant number in the definition of the considered Julia's sequence.
+     * @param nbTerms The maximum number of terms to compute.
      */
     public ComplexSequenceJulia(IComplex z0, IComplex c, int nbTerms) {
         this.z0 = z0;
