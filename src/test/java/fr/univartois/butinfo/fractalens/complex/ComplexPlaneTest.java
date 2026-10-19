@@ -45,8 +45,7 @@ class ComplexPlaneTest {
      * @return The created complex number.
      */
     private static IComplex createComplex(double realPart, double imaginaryPart) {
-        // TODO Create here an instance of your class implementing IComplex.
-        return null;
+        return new Complex(realPart, imaginaryPart);
     }
 
     /**
@@ -58,8 +57,7 @@ class ComplexPlaneTest {
      * @return The created complex plane.
      */
     private static IComplexPlane createPlane(int height, int width) {
-        // TODO Create here an instance of your class implementing IComplexPlane.
-        return null;
+        return new ComplexPlane(height, width);
     }
 
     /**

@@ -65,9 +65,8 @@ class ComplexSequenceTest {
      */
     private static IComplexSequence createJuliaSequence(
             IComplex first, IComplex constant, int nbTerms) {
-        // TODO Create here an instance of your class implementing IComplexSequence for
         // Julia's sequence.
-        return null;
+        return new ComplexSequenceJulia(first, constant, nbTerms);
     }
 
     /**
