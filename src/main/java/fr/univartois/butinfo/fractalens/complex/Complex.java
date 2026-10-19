@@ -43,12 +43,12 @@ public class Complex implements IComplex {
     /**
      * The real part {@code a} of this complex number.
      */
-    private final double realPart;
+    private final double realPart; //a
 
     /**
      * The imaginary part {@code b} of this complex number.
      */
-    private final double imaginaryPart;
+    private final double imaginaryPart; //b
 
     /**
      * Creates a new Complex representing the number {@code a + ib}.
@@ -217,8 +217,8 @@ public class Complex implements IComplex {
             return false;
         }
         IComplex other = (IComplex) obj;
-        return Double.compare(realPart, other.getRealPart()) == 0
-                && Double.compare(imaginaryPart, other.getImaginaryPart()) == 0;
+        return Math.abs(realPart - other.getRealPart()) <= 1e-5
+                && Math.abs(imaginaryPart - other.getImaginaryPart()) <= 1e-5;
     }
 
     /**
