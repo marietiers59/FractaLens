@@ -9,8 +9,17 @@ import java.util.Iterator;
  * jn(z) = jn−1(z)2 + c
  */
 public class ComplexSequenceJulia implements IComplexSequence{
+    /**
+     * The initial value of the sequence.
+     */
     private final IComplex z0;
+    /**
+     * The constant number in the definition of the considered Julia's sequence.
+     */
     private final IComplex c;
+    /**
+     * The maximum number of terms to compute.
+     */
     private final int nbTerms;
 
     /**
