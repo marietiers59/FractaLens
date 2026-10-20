@@ -31,12 +31,11 @@ public class ComplexPlane implements IComplexPlane{
 	@Override
 	public IComplex asComplex(int row, int column) {//On met 0 pour la première ligne
 		if (row <height && column < width ) {
-			double a = column - width/2;
-			double b = height/2 - row;
-			IComplex z = new Complex(a, b);
-			return z;
+			double a = column - width/2.;
+			double b = height/2. - row;
+			return new Complex(a, b);
 		}
-		else {
+		else {//Mettre des tests unitaires pour ça
 			if (row >= height && column >= width){
 				throw new IllegalArgumentException("La ligne et la colonne sont plus grand que la taille et la largeur de l'image");
 			}
