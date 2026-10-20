@@ -38,7 +38,7 @@ public class BufferedImageAdapter implements IFractalImage{
 
     /**
      * Returns the BufferedImage object that stores the fractal image.
-     * @return
+     * @return The BufferedImage object.
      */
     public BufferedImage getImage() {
         return this.image;
@@ -46,7 +46,7 @@ public class BufferedImageAdapter implements IFractalImage{
 
     /**
      * Returns the height of the image.
-     * @return
+     * @return  The height of the image.
      */
     @Override
     public int getHeight() {
@@ -55,7 +55,7 @@ public class BufferedImageAdapter implements IFractalImage{
 
     /**
      * Returns the width of the image.
-     * @return
+     * @return The width of the image.
      */
     @Override
     public int getWidth() {
@@ -77,7 +77,7 @@ public class BufferedImageAdapter implements IFractalImage{
      * Saves this image in a file.
      * @param path The path of the file in which to save this image.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     public void saveAs(String path) throws IOException {
