@@ -3,7 +3,9 @@ package fr.univartois.butinfo.fractalens.image;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -18,6 +20,9 @@ public class BufferedImageAdapter implements IFractalImage{
      * The BufferedImage object that stores the fractal image.
      */
     private final BufferedImage image;
+
+    /** The format used when the output file has no (or an empty) extension. */
+    private static final String DEFAULT_FORMAT = "png";
 
     /**
      * Creates a new BufferedImageAdapter with the given width and height.
@@ -81,6 +86,17 @@ public class BufferedImageAdapter implements IFractalImage{
      */
     @Override
     public void saveAs(String path) throws IOException {
-        ImageIO.write(this.image, "png", new java.io.File(path));
+        String format = extensionOf(path);
+        if (!ImageIO.write(image, format, new File(path))) {
+            throw new IOException("Unsupported image format: " + format);
+        }
+    }
+
+    private static String extensionOf(String path) {
+        int dot = path.lastIndexOf('.');
+        if (dot < 0 || dot == path.length() - 1) {
+            return DEFAULT_FORMAT;
+        }
+        return path.substring(dot + 1).toLowerCase(Locale.ROOT);
     }
 }
