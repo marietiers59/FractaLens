@@ -4,12 +4,21 @@ import java.awt.Color;
 
 public class GreyscalePalette implements IPalette {
 
+    /**
+     * 
+     */
     private final int maxIterations;
 
+    /**
+     * @param maxIterations
+     */
     public GreyscalePalette(int maxIterations) {
         this.maxIterations = maxIterations;
     }
 
+    /**
+     *
+     */
     @Override
     public Color getColor(int nbIterations) {
         float ratio = (float) nbIterations / maxIterations;
