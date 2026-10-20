@@ -1,19 +1,42 @@
 package fr.univartois.butinfo.fractalens.complex;
 
-//Je transforme ici ComplexPlane en un plan décoré pour pouvoir après le transformer soit en plan zoomé, soit en plan translaté (le centre a changé)
-abstract class ComplexPlaneDecorator implements IComplexPlane{
+/**
+ * The ComplexPlaneDecorator class change a ComplexPlane into a decorated plan
+ * in order to turn it into either a zoomed plan or a translated one
+ *
+ * @author Thibault BREGUET
+ *
+ * @version 0.1.0
+ */
+
+abstract class ComplexPlaneDecorator implements IComplexPlane {
 
 	private IComplexPlane complexPlane;
 	
-	//Insérer ici le constructeur qui prend en paramètre un plan complex
+	/**
+     * Give an instance of ComplexPlaneDecorator.
+     * 
+     * @param complexPlane A complex plane.
+     * 
+     * @return An instance of ComplexPlaneDecorator.
+     */
+
 	public ComplexPlaneDecorator(IComplexPlane complexPlane) {
 		this.complexPlane = complexPlane;
 	}
 	
-	//Délège à l'objet décoré l'appel de méthode
+	/**
+     * Delegate the calling of the function asComplex to the class complexPlane.
+     * The function asComplex give the complex number of the pixel whose coordinates are entered.
+     * 
+     * @param row The pixel row.
+     * @param column The pixel column.
+     * 
+     * @return The complex number of the chosen pixel.
+     */
+
 	@Override
 	public IComplex asComplex(int row, int column) {
 		return complexPlane.asComplex(row, column);
 	}
-
 }
