@@ -1,6 +1,7 @@
 package fr.univartois.butinfo.fractalens.palette;
 
 import java.awt.Color;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,10 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class FixedPaletteTest {
 
+    private static final List<Color> Colors = List.of(Color.BLACK, Color.WHITE, Color.RED, Color.PINK, Color.BLUE,
+            Color.GREEN, Color.YELLOW, Color.ORANGE, Color.MAGENTA, Color.CYAN);
     /**
      * The fixed palette under test.
      */
-    private final IPalette palette = new FixedPalette();
+    private final IPalette palette = new FixedPalette(Colors);
 
     /**
      * Checks that the palette is usable as an {@link IPalette} strategy.
@@ -69,6 +72,7 @@ class FixedPaletteTest {
     @Test
     void testJustAfterLastColorGivesLastColor() {
         assertEquals(Color.CYAN, palette.getColor(10));
+
     }
 
     /**
@@ -78,6 +82,6 @@ class FixedPaletteTest {
     @Test
     void testBeyondLastColorGivesLastColor() {
         assertEquals(Color.CYAN, palette.getColor(11));
-        assertEquals(Color.CYAN, palette.getColor(255));
+        assertEquals(Color.CYAN, palette.getColor(1000));
     }
 }
