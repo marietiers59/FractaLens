@@ -4,7 +4,6 @@ import java.util.function.BiFunction;
 
 import fr.univartois.butinfo.fractalens.palette.GreyscalePalette;
 import fr.univartois.butinfo.fractalens.palette.IPalette;
-import fr.univartois.butinfo.fractalens.complex.ComplexPlaneZoom;
 import fr.univartois.butinfo.fractalens.complex.sequence.ComplexSequenceJulia;
 import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
 import fr.univartois.butinfo.fractalens.generator.FractalGenerator;
