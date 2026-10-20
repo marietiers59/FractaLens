@@ -1,5 +1,5 @@
 
-package fr.univartois.butinfo.fractalens.complex.image;
+package fr.univartois.butinfo.fractalens.image;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
