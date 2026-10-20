@@ -23,7 +23,10 @@ public class CustomPalette implements IPalette {
     }
 
     /**
+     * {@inheritDoc}
      *
+     * @throws IndexOutOfBoundsException Si la liste ne contient pas de couleur
+     *         pour ce nombre d'itérations.
      */
     @Override
     public Color getColor(int nbIterations, int maxIterations) {
