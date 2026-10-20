@@ -1,6 +1,7 @@
 package fr.univartois.butinfo.fractalens.palette;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.Color;
@@ -11,32 +12,81 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the {@link FixedPalette} class.
+ *
+ * @author Théo Brureau
  */
 class FixedPaletteTest {
 
     /**
-     * The custom palette under test, with one color per number of iterations.
+     * The colors of the palette under test, one per number of iterations.
      */
-    private final IPalette palette = new FixedPalette(List.of(Color.RED, Color.GREEN, Color.BLUE));
+    private static final List<Color> COLORS = List.of(Color.BLACK, Color.WHITE, Color.RED, Color.PINK,
+            Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.MAGENTA, Color.CYAN);
 
     /**
-     * Checks that each number of iterations gives the color at the same
-     * index in the list.
+     * The fixed palette under test.
+     */
+    private final IPalette palette = new FixedPalette(COLORS);
+
+    /**
+     * Checks that the palette is usable as an {@link IPalette} strategy.
      */
     @Test
-    void testGetColorReturnsColorAtIndex() {
-        assertEquals(Color.RED, palette.getColor(0));
-        assertEquals(Color.GREEN, palette.getColor(1));
-        assertEquals(Color.BLUE, palette.getColor(2));
+    void testIsAPalette() {
+        assertInstanceOf(IPalette.class, palette);
     }
 
     /**
-     * Checks that a number of iterations beyond the end of the list throws
-     * an exception.
+     * Checks that the first color of the list is returned for 0 iterations.
      */
     @Test
-    void testGetColorBeyondListThrowsException() {
-        assertThrows(IndexOutOfBoundsException.class, () -> palette.getColor(3));
+    void testFirstColor() {
+        assertEquals(Color.BLACK, palette.getColor(0));
+    }
+
+    /**
+     * Checks that the colors are returned in the order of the list.
+     */
+    @Test
+    void testColorsInOrder() {
+        for (int i = 0; i < COLORS.size(); i++) {
+            assertEquals(COLORS.get(i), palette.getColor(i), "Mauvaise couleur pour " + i + " itération(s)");
+        }
+    }
+
+    /**
+     * Checks that the last color of the list is returned for 9 iterations.
+     */
+    @Test
+    void testLastColor() {
+        assertEquals(Color.CYAN, palette.getColor(9));
+    }
+
+    /**
+     * Checks that the same number of iterations always gives the same color.
+     */
+    @Test
+    void testSameInputSameColor() {
+        assertEquals(palette.getColor(4), palette.getColor(4));
+    }
+
+    /**
+     * Checks that a number of iterations just after the end of the list gives
+     * the last color (instead of failing).
+     */
+    @Test
+    void testJustAfterLastColorGivesLastColor() {
+        assertEquals(Color.CYAN, palette.getColor(10));
+    }
+
+    /**
+     * Checks that a number of iterations greater than the size of the list
+     * gives the last color.
+     */
+    @Test
+    void testBeyondLastColorGivesLastColor() {
+        assertEquals(Color.CYAN, palette.getColor(11));
+        assertEquals(Color.CYAN, palette.getColor(1000));
     }
 
     /**
