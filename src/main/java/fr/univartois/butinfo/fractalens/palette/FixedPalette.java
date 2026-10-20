@@ -34,6 +34,9 @@ public class FixedPalette implements IPalette {
      */
     @Override
     public Color getColor(int nbIterations) {
+        if (nbIterations >= colors.size()) {
+            return colors.get(colors.size() - 1);
+        }
         return colors.get(nbIterations);
     }
 }
