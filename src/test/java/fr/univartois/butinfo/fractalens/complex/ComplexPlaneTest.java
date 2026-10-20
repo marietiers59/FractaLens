@@ -45,8 +45,7 @@ class ComplexPlaneTest {
      * @return The created complex number.
      */
     private static IComplex createComplex(double realPart, double imaginaryPart) {
-        // TODO Create here an instance of your class implementing IComplex.
-        return null;
+        return new Complex(realPart, imaginaryPart);
     }
 
     /**
@@ -58,8 +57,7 @@ class ComplexPlaneTest {
      * @return The created complex plane.
      */
     private static IComplexPlane createPlane(int height, int width) {
-        // TODO Create here an instance of your class implementing IComplexPlane.
-        return null;
+        return new ComplexPlane(height, width);
     }
 
     /**
@@ -96,6 +94,19 @@ class ComplexPlaneTest {
 
         IComplex bottomRight = createComplex(399, -299);
         assertEquals(bottomRight, plane.asComplex(599, 799));
+        
+        /*
+         * The following tests are for checking the error handlers
+        */
+        
+        //IComplex heightWidthError = createComplex(-400, 300);
+        //assertEquals(heightWidthError, plane.asComplex(900, 900));
+        
+        //IComplex heightError = createComplex(-400, 300);
+        //assertEquals(heightError, plane.asComplex(900, 100));
+        
+        //IComplex widthError = createComplex(-400, 300);
+        //assertEquals(widthError, plane.asComplex(100, 900));
     }
 
 }
