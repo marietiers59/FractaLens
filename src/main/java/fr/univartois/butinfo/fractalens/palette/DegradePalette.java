@@ -44,8 +44,11 @@ public class DegradePalette implements IPalette{
      */
     @Override
     public Color getColor(int nbIterations) {
-        int ratio = nbIterations / maxIterations;
-        return new Color(startColor.getRed()+ ratio * (endColor.getRed() - startColor.getRed()),startColor.getGreen()+ ratio * (endColor.getGreen() - startColor.getGreen()),startColor.getBlue()+ ratio * (endColor.getBlue() - startColor.getBlue()));
+        float ratio = (float) nbIterations / maxIterations;
+        int red = Math.round(startColor.getRed() + ratio * (endColor.getRed() - startColor.getRed()));
+        int green = Math.round(startColor.getGreen() + ratio * (endColor.getGreen() - startColor.getGreen()));
+        int blue = Math.round(startColor.getBlue() + ratio * (endColor.getBlue() - startColor.getBlue()));
+        return new Color(red, green, blue);
     }
 
 }
