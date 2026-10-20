@@ -9,10 +9,9 @@ import java.awt.Color; //AWT : Abstract Window Toolkit, première bibliothèque 
 public interface IPalette {
 
     /**
-     * Donne la couleur associée à un nombre d'itérations.
-     *
      * @param nbIterations Le nombre d'itérations effectuées avant divergence.
-     * @return La couleur associée.
+     * @param maxIterations Le nombre maximal d'itérations.
+     * @return La couleur associée (noir si iterations == maxIterations).
      */
-    Color getColor(int nbIterations);
+    Color getColor(int nbIterations, int maxIterations);
 }
