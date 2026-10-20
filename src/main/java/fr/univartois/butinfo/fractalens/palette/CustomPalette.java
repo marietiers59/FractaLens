@@ -4,19 +4,21 @@ import java.awt.Color;
 import java.util.List;
 
 /**
- * Palette de couleur fixe : associe à chaque nombre d'itérations
- * la couleur située à cet indice dans une liste.
+ * Fixed color palette: associates each number of iterations with the
+ * color at that index in a list.
  */
 public class CustomPalette implements IPalette {
 
     /**
-     * Les couleurs de la palette (l'indice correspond au nombre d'itérations).
+     * The colors of the palette (the index is the number of iterations).
      */
     private final List<Color> colors;
 
     /**
-     * @param colors Les couleurs de la palette ; la liste doit contenir
-     *        au moins (maxIterations + 1) couleurs.
+     * Creates a fixed color palette.
+     *
+     * @param colors The colors of the palette; the list must contain at
+     *        least (maximum number of iterations + 1) colors.
      */
     public CustomPalette(List<Color> colors) {
         this.colors = List.copyOf(colors);
@@ -25,11 +27,11 @@ public class CustomPalette implements IPalette {
     /**
      * {@inheritDoc}
      *
-     * @throws IndexOutOfBoundsException Si la liste ne contient pas de couleur
-     *         pour ce nombre d'itérations.
+     * @throws IndexOutOfBoundsException If the list contains no color for
+     *         this number of iterations.
      */
     @Override
-    public Color getColor(int nbIterations, int maxIterations) {
+    public Color getColor(int nbIterations) {
         return colors.get(nbIterations);
     }
 }
