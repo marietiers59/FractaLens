@@ -15,7 +15,10 @@ public class ComplexPlane implements IComplexPlane{
 	
 	/**
      * Give an instance of ComplexPlane.
-     *
+     * 
+     * @param height The complex plane's height.
+     * @param width The complex plane's width.
+     * 
      * @return An instance of ComplexPlane.
      */
 	public ComplexPlane(int height, int width) {//On met 5 lignes pour une hauteur/largeur de 5 lignes
@@ -25,7 +28,10 @@ public class ComplexPlane implements IComplexPlane{
 	
 	/**
      * Give the complex number of the pixel whose coordinates are entered.
-     *
+     * 
+     * @param row The pixel row.
+     * @param column The pixel column.
+     * 
      * @return The complex number of the chosen pixel.
      */
 	@Override
