@@ -1,7 +1,7 @@
 package fr.univartois.butinfo.fractalens.complex;
 
 //Je transforme ici ComplexPlane en un plan décoré pour pouvoir après le transformer soit en plan zoomé, soit en plan translaté (le centre a changé)
-abstract class ComplexPlaneDecorator implements IComplexPlane{
+public abstract class ComplexPlaneDecorator implements IComplexPlane{
 
 	private IComplexPlane complexPlane;
 	
