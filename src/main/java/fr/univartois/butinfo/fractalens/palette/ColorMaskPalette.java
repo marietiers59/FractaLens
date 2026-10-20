@@ -5,7 +5,7 @@ import java.awt.Color;
 /**
  * Palette decorator applying a primary color mask to the colors of the
  * decorated palette: only the component of the chosen primary color (red,
- * green or blue) is kept, the two others are set to 0.
+ * green, blue, yellow, cyan or magenta) is kept, the two others are set to 0.
  *
  * For example, decorating a {@link GreyscalePalette} with the
  * {@link Mask#RED} mask turns the black-to-white gradient into a
@@ -31,7 +31,22 @@ public class ColorMaskPalette extends PaletteDecorator {
         /**
          * Keeps only the blue component.
          */
-        BLUE
+        BLUE,
+        
+        /**
+         * Keeps only the red and green components.
+         */
+        YELLOW,
+        
+        /**
+         * Keeps only the green and blue components.
+         */
+        CYAN,
+        
+        /**
+         * Keeps only the blue and red components.
+         */
+        MAGENTA
     }
 
     /**
@@ -60,6 +75,9 @@ public class ColorMaskPalette extends PaletteDecorator {
             case RED -> new Color(original.getRed(), 0, 0);
             case GREEN -> new Color(0, original.getGreen(), 0);
             case BLUE -> new Color(0, 0, original.getBlue());
+            case YELLOW -> new Color(original.getRed(), original.getGreen(), 0);
+            case CYAN -> new Color(0, original.getRed(), original.getGreen());
+            case MAGENTA -> new Color(original.getRed(), 0, original.getGreen());
         };
     }
 }
