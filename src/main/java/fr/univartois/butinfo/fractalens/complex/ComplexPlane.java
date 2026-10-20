@@ -35,7 +35,7 @@ public class ComplexPlane implements IComplexPlane{
 			double b = height/2. - row;
 			return new Complex(a, b);
 		}
-		else {//Mettre des tests unitaires pour ça
+		else {
 			if (row >= height && column >= width){
 				throw new IllegalArgumentException("La ligne et la colonne sont plus grand que la taille et la largeur de l'image");
 			}
