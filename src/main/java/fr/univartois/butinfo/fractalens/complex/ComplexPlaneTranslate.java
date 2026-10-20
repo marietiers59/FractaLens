@@ -9,7 +9,7 @@ public class ComplexPlaneTranslate extends ComplexPlaneDecorator {
     /**
      * The value to translate.
      */
-    private IComplex valTranslate;
+    private final IComplex valTranslate;
 
     /**
      * Constructor of the ComplexPlaneTranslate class.

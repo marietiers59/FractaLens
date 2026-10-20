@@ -10,15 +10,14 @@ package fr.univartois.butinfo.fractalens.complex;
 
 public class ComplexPlaneZoom extends ComplexPlaneDecorator {
 	
-	private double valeurZoom;
+	private final double valeurZoom;
 	
 	/**
      * Give an instance of ComplexPlaneZoom.
      * 
      * @param valeurZoom Indicate the value of the zoom.
      * @param complexPlane A complex plane from the decorator.
-     * 
-     * @return An instance of ComplexPlaneDecorator.
+     *
      */
 
 	public ComplexPlaneZoom(double valeurZoom, IComplexPlane complexPlane) {
