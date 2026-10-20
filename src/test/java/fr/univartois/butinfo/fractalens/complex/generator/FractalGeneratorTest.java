@@ -22,7 +22,7 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fr.univartois.butinfo.fractalens.generator;
+package fr.univartois.butinfo.fractalens.complex.generator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -35,6 +35,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiFunction;
 
+import fr.univartois.butinfo.fractalens.generator.FractalGenerator;
+import fr.univartois.butinfo.fractalens.palette.IPalette;
 import org.junit.jupiter.api.Test;
 
 import fr.univartois.butinfo.fractalens.complex.Complex;

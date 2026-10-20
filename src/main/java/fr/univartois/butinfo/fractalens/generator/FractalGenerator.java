@@ -2,8 +2,10 @@ package fr.univartois.butinfo.fractalens.generator;
 
 import fr.univartois.butinfo.fractalens.complex.ComplexPlane;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
+import fr.univartois.butinfo.fractalens.complex.IComplexPlane;
 import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
 import fr.univartois.butinfo.fractalens.image.IFractalImage;
+import fr.univartois.butinfo.fractalens.palette.IPalette;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -23,7 +25,7 @@ public class FractalGenerator implements IFractalGenerator {
     /**
      * The ComplexPlane class handle how to link a position in an image to a number on the complex plane.
      */
-    private ComplexPlane plane;
+    private IComplexPlane plane;
 
     /**
      * The palette used to color the fractal.
@@ -56,7 +58,7 @@ public class FractalGenerator implements IFractalGenerator {
      * @param sequenceFunction The BiFunction generating the complex sequence for each point based on a maximum number of terms.
      * @param nbTherm          The maximum number of terms for the sequence generation.
      */
-    FractalGenerator(IFractalImage image, ComplexPlane plane, IPalette palette, String outputPath, BiFunction<IComplex, Integer, IComplexSequence> sequenceFunction, int nbTherm) {
+    public FractalGenerator(IFractalImage image, IComplexPlane plane, IPalette palette, String outputPath, BiFunction<IComplex, Integer, IComplexSequence> sequenceFunction, int nbTherm) {
         this.image = image;
         this.plane = plane;
         this.palette = palette;
