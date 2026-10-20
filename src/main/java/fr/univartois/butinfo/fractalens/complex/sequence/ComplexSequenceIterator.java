@@ -5,7 +5,8 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
 import java.util.Iterator;
 
 /**
- *
+ * The ComplexSequenceIterator class allows iterating over the terms of a complex number sequence
+ * up to a maximum number of iterations or until the divergence criterion is met.
  */
 public class ComplexSequenceIterator implements Iterator<IComplex>{
 
@@ -44,10 +45,10 @@ public class ComplexSequenceIterator implements Iterator<IComplex>{
 
     /**
      *  Checks if the iterator has more terms.
-     *  @return {@code true} if the iterator has more terms and the modulus of {@code actual} is < 2, {@code false} otherwise.
+     *  @return {@code true} if the iterator has more terms and the modulus of {@code actual} is <= 2, {@code false} otherwise.
      */
     public boolean hasNext() {
-        return count < maxIterations && actual.abs() <2;
+        return count < maxIterations && actual.abs() <=2;
     }
 
     /**
