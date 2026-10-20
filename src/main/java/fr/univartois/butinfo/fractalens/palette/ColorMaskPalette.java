@@ -76,8 +76,8 @@ public class ColorMaskPalette extends PaletteDecorator {
             case GREEN -> new Color(0, original.getGreen(), 0);
             case BLUE -> new Color(0, 0, original.getBlue());
             case YELLOW -> new Color(original.getRed(), original.getGreen(), 0);
-            case CYAN -> new Color(0, original.getRed(), original.getGreen());
-            case MAGENTA -> new Color(original.getRed(), 0, original.getGreen());
+            case CYAN -> new Color(0, original.getGreen(), original.getBlue());
+            case MAGENTA -> new Color(original.getRed(), 0, original.getBlue());
         };
     }
 }
