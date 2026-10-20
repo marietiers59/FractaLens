@@ -50,3 +50,7 @@ sonar {
         property("sonar.projectKey", "fractalens")
     }
 }
+
+application {
+    mainClass = 'fr.univartois.butinfo.fractalens.complex.Main'
+}
