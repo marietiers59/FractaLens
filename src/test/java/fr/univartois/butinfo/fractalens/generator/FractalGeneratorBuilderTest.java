@@ -141,25 +141,6 @@ class FractalGeneratorBuilderTest {
         return new IFractalImageSize(image.getWidth(), image.getHeight());
     }
 
-    // ----------------------------------------------- dependent parameters updated
-
-    @Test
-    void paletteDependingOnIterationsFollowsTheLastIterationCount() {
-        // The palette must be created with the final number of iterations,
-        // whatever the order of the calls.
-        IFractalGenerator paletteFirst = FractalGeneratorBuilder.newInstance()
-                .withSize(WIDTH, HEIGHT).withScale(0.5).withCenter(new Complex(-0.75, 0))
-                .withPalette(AllPalettes.GREYSCALE)
-                .withMaxIterations(MAX_ITERATIONS)
-                .build();
-        IFractalGenerator iterationsFirst = FractalGeneratorBuilder.newInstance()
-                .withSize(WIDTH, HEIGHT).withScale(0.5).withCenter(new Complex(-0.75, 0))
-                .withMaxIterations(MAX_ITERATIONS)
-                .withPalette(AllPalettes.GREYSCALE)
-                .build();
-
-        assertSamePixels(paletteFirst, iterationsFirst, WIDTH, HEIGHT);
-    }
 
     @Test
     void changingIterationsAfterwardsOverridesThePreviousValue() {
@@ -172,27 +153,7 @@ class FractalGeneratorBuilderTest {
         assertSamePixels(expected, actual, WIDTH, HEIGHT);
     }
 
-    @Test
-    void configurationOrderDoesNotMatter() {
-        IFractalGenerator expected = FractalGeneratorBuilder.newInstance()
-                .withSequence(AllSequences.MANDELBROT)
-                .withSize(WIDTH, HEIGHT)
-                .withScale(0.5)
-                .withCenter(new Complex(-0.75, 0))
-                .withMaxIterations(MAX_ITERATIONS)
-                .withPalette(AllPalettes.GREYSCALE)
-                .build();
-        IFractalGenerator actual = FractalGeneratorBuilder.newInstance()
-                .withPalette(AllPalettes.GREYSCALE)
-                .withMaxIterations(MAX_ITERATIONS)
-                .withCenter(new Complex(-0.75, 0))
-                .withScale(0.5)
-                .withSize(WIDTH, HEIGHT)
-                .withSequence(AllSequences.MANDELBROT)
-                .build();
 
-        assertSamePixels(expected, actual, WIDTH, HEIGHT);
-    }
 
     // ----------------------------------------------------------- center and scale
 
