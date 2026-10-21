@@ -10,6 +10,7 @@ import fr.univartois.butinfo.fractalens.complex.ComplexPlaneTranslate;
 import fr.univartois.butinfo.fractalens.complex.ComplexPlaneZoom;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
 import fr.univartois.butinfo.fractalens.complex.IComplexPlane;
+import fr.univartois.butinfo.fractalens.complex.sequence.AllSequences;
 import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
 import fr.univartois.butinfo.fractalens.image.BufferedImageAdapter;
 import fr.univartois.butinfo.fractalens.image.IFractalImage;
@@ -59,7 +60,7 @@ public class FractalGeneratorBuilder {
      * How to build the sequence to study for each pixel.
      */
     private BiFunction<IComplex, Integer, IComplexSequence> sequence =
-            AllSequences.MANDELBROT.sequenceFactory();
+            AllSequences.MANDELBROT.getSequenceFactory();
 
     /**
      * The file in which the image is saved.
@@ -162,7 +163,7 @@ public class FractalGeneratorBuilder {
      */
     public FractalGeneratorBuilder withPalette(IPalette palette) {
         Objects.requireNonNull(palette, "The palette must not be null");
-        this.paletteFactory = nbColors -> palette;
+        this.paletteFactory = palette;
         return this;
     }
 
@@ -173,7 +174,7 @@ public class FractalGeneratorBuilder {
      * @return This builder.
      * @throws NullPointerException If the type of sequence is null.
      */
-    public FractalGeneratorBuilder withSequence(SequenceType sequenceType) {
+    public FractalGeneratorBuilder withSequence(AllSequences sequenceType) {
         Objects.requireNonNull(sequenceType, "The type of sequence must not be null");
         this.sequence = sequenceType.getSequenceFactory();
         return this;
@@ -218,4 +219,5 @@ public class FractalGeneratorBuilder {
         IFractalImage image = new BufferedImageAdapter(width, height);
         return new FractalGenerator(image, plane, paletteFactory, outputPath, sequence, maxIterations);
     }
+
 }
