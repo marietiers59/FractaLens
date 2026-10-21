@@ -1,12 +1,12 @@
 package fr.univartois.butinfo.fractalens.complex;
 
 import java.awt.*;
+import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 
-import fr.univartois.butinfo.fractalens.palette.ColorMaskPalette;
-import fr.univartois.butinfo.fractalens.palette.DegradePalette;
-import fr.univartois.butinfo.fractalens.palette.GreyscalePalette;
-import fr.univartois.butinfo.fractalens.palette.IPalette;
+import fr.univartois.butinfo.fractalens.complex.sequence.ComplexSequenceLambda;
+import fr.univartois.butinfo.fractalens.palette.*;
 import fr.univartois.butinfo.fractalens.complex.sequence.ComplexSequenceJulia;
 import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
 import fr.univartois.butinfo.fractalens.generator.FractalGenerator;
@@ -39,6 +39,7 @@ public final class  Main {
 
     /** The name of the output file, when none is given on the command line. */
     private static final String DEFAULT_OUTPUT = "julia.png";
+
 
     /**
      * Prevents the instantiation of this class.
@@ -81,6 +82,7 @@ public final class  Main {
                 MAX_ITERATIONS);
         generator.generateImage();
         generator.saveImage();
+
 
 
 
