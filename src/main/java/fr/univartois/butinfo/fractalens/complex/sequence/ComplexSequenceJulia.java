@@ -7,6 +7,7 @@ import java.util.Iterator;
 /**
  * The ComplexSequenceJulia class implements the Julia's sequence, which is a sequence of complex numbers that is defined by the following formula:
  * jn(z) = jn−1(z)2 + c
+ * @author Théo Brureau
  */
 public class ComplexSequenceJulia implements IComplexSequence{
     /**

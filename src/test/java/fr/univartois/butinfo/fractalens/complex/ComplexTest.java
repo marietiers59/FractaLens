@@ -25,6 +25,7 @@ package fr.univartois.butinfo.fractalens.complex;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -261,7 +262,7 @@ class ComplexTest {
 
     /**
      * Test method for
-     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#hashCode()}.
+     * .
      */
     @Test
     void testHashCode() {
@@ -284,7 +285,7 @@ class ComplexTest {
 
     /**
      * Test method for
-     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#equals(java.lang.Object)}.
+     * .
      */
     @Test
     void testEqualsObject() {
@@ -316,7 +317,7 @@ class ComplexTest {
 
     /**
      * Test method for
-     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#toString()}.
+     * .
      */
     @Test
     void testToString() {
@@ -331,6 +332,176 @@ class ComplexTest {
 
         IComplex z = createComplex(2, 2);
         assertEquals("2.0 + 2.0i", z.toString());
+    }
+
+    /**
+     * Test method for
+     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#power(int)}
+     * with exponent 0 (the result is always 1).
+     */
+    @Test
+    void testPowerZero() {
+        IComplex one = createComplex(1, 0);
+
+        assertEquals(one, createComplex(3, -4).power(0));
+        assertEquals(one, createComplex(0, 1).power(0));
+        assertEquals(one, createComplex(0, 0).power(0));
+    }
+
+    /**
+     * Test method for
+     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#power(int)}
+     * with exponent 1 (the result is the number itself).
+     */
+    @Test
+    void testPowerOne() {
+        IComplex z = createComplex(3, -4);
+        assertEquals(z, z.power(1));
+
+        IComplex zero = createComplex(0, 0);
+        assertEquals(zero, zero.power(1));
+    }
+
+    /**
+     * Test method for
+     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#power(int)}
+     * with exponent 2, which is the one used by Julia's and Burning Ship's sequences.
+     */
+    @Test
+    void testPowerTwo() {
+        // (1 + i)^2 = 2i
+        assertEquals(createComplex(0, 2), createComplex(1, 1).power(2));
+
+        // i^2 = -1
+        assertEquals(createComplex(-1, 0), createComplex(0, 1).power(2));
+
+        // (3 - 4i)^2 = 9 - 16 - 24i = -7 - 24i
+        assertEquals(createComplex(-7, -24), createComplex(3, -4).power(2));
+
+        // (0.5 + 0.5i)^2 = 0.5i
+        assertEquals(createComplex(0, 0.5), createComplex(0.5, 0.5).power(2));
+
+        // power(2) must be the same as multiplying the number by itself.
+        IComplex z = createComplex(1.5, -2.5);
+        assertEquals(z.multiply(z), z.power(2));
+    }
+
+    /**
+     * Test method for
+     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#power(int)}
+     * with exponents greater than 2.
+     */
+    @Test
+    void testPowerHigher() {
+        IComplex onePlusI = createComplex(1, 1);
+
+        // (1 + i)^3 = -2 + 2i
+        assertEquals(createComplex(-2, 2), onePlusI.power(3));
+
+        // (1 + i)^4 = -4
+        assertEquals(createComplex(-4, 0), onePlusI.power(4));
+
+        // (1 + i)^10 = (2i)^5 = 32i
+        assertEquals(createComplex(0, 32), onePlusI.power(10));
+
+        // i^4 = 1, i^5 = i
+        IComplex i = createComplex(0, 1);
+        assertEquals(createComplex(1, 0), i.power(4));
+        assertEquals(i, i.power(5));
+
+        // (1 - i)^8 = 16
+        assertEquals(createComplex(16, 0), createComplex(1, -1).power(8));
+    }
+
+    /**
+     * Test method for
+     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#power(int)}
+     * on real numbers (the imaginary part must stay at 0).
+     */
+    @Test
+    void testPowerRealNumber() {
+        assertEquals(createComplex(1024, 0), createComplex(2, 0).power(10));
+        assertEquals(createComplex(-27, 0), createComplex(-3, 0).power(3));
+        assertEquals(createComplex(0.125, 0), createComplex(0.5, 0).power(3));
+    }
+
+    /**
+     * Test method for
+     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#power(int)}
+     * on 0 and 1, which are fixed points of the power operation.
+     */
+    @Test
+    void testPowerFixedPoints() {
+        IComplex zero = createComplex(0, 0);
+        IComplex one = createComplex(1, 0);
+
+        assertEquals(zero, zero.power(2));
+        assertEquals(zero, zero.power(5));
+        assertEquals(one, one.power(2));
+        assertEquals(one, one.power(100));
+    }
+
+    /**
+     * Test method for
+     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#power(int)}
+     * checking consistency with repeated multiplications and with the modulus
+     * (|z^n| = |z|^n).
+     */
+    @Test
+    void testPowerIsConsistentWithMultiplication() {
+        IComplex z = createComplex(0.6, 0.8);
+        IComplex expected = createComplex(1, 0);
+        for (int n = 0; n <= 8; n++) {
+            assertEquals(expected, z.power(n));
+            expected = expected.multiply(z);
+        }
+
+        IComplex w = createComplex(1.2, -0.7);
+        assertEquals(Math.pow(w.abs(), 5), w.power(5).abs(), 1e-9);
+    }
+
+    /**
+     * Test method for
+     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#power(int)}
+     * on a number of the unit circle (De Moivre's formula).
+     */
+    @Test
+    void testPowerDeMoivre() {
+        double angle = Math.PI / 7;
+        IComplex z = createComplex(Math.cos(angle), Math.sin(angle));
+
+        IComplex result = z.power(5);
+        assertEquals(Math.cos(5 * angle), result.getRealPart(), 1e-9);
+        assertEquals(Math.sin(5 * angle), result.getImaginaryPart(), 1e-9);
+    }
+
+    /**
+     * Test method for
+     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#power(int)}
+     * checking that the number on which it is called is not modified.
+     */
+    @Test
+    void testPowerDoesNotModifyReceiver() {
+        IComplex z = createComplex(2, 3);
+        IComplex result = z.power(3);
+
+        assertEquals(2, z.getRealPart(), 0.0);
+        assertEquals(3, z.getImaginaryPart(), 0.0);
+        assertNotEquals(z, result);
+    }
+
+    /**
+     * Test method for
+     * {@link fr.univartois.butinfo.fractalens.complex.IComplex#power(int)}
+     * with a negative exponent, which is not supported.
+     */
+    @Test
+    void testPowerNegative() {
+        IComplex z = createComplex(1, 1);
+
+        assertThrows(IllegalArgumentException.class, () -> z.power(-1));
+        assertThrows(IllegalArgumentException.class, () -> z.power(-10));
+        assertThrows(IllegalArgumentException.class, () -> z.power(Integer.MIN_VALUE));
     }
 
 }
