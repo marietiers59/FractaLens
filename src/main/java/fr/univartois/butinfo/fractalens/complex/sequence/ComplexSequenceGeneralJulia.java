@@ -4,6 +4,15 @@ import java.util.Iterator;
 
 import fr.univartois.butinfo.fractalens.complex.IComplex;
 
+/**
+ * The ComplexSequenceGeneralJulia class implements the general Julia's sequence, which is a sequence of complex numbers
+ * that is defined by the following formula: jn(z) = jn−1(z)^p + c
+ * or jn + 1 = z^p + c
+ * 
+ * @author Thibault BREGUET
+ *
+ * @version 1.0
+ */
 public class ComplexSequenceGeneralJulia implements IComplexSequence{
 
 	/**
