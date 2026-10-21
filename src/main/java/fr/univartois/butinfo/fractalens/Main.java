@@ -1,11 +1,9 @@
-package fr.univartois.butinfo.fractalens.complex;
+package fr.univartois.butinfo.fractalens;
 
 import java.awt.*;
-import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
 
-import fr.univartois.butinfo.fractalens.complex.sequence.ComplexSequenceLambda;
+import fr.univartois.butinfo.fractalens.complex.*;
 import fr.univartois.butinfo.fractalens.palette.*;
 import fr.univartois.butinfo.fractalens.complex.sequence.ComplexSequenceJulia;
 import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
