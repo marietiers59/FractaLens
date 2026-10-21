@@ -83,9 +83,6 @@ public final class  Main {
         generator.generateImage();
         generator.saveImage();
 
-
-
-
     }
 
 }
