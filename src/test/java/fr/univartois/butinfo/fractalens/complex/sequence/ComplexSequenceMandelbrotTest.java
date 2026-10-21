@@ -33,17 +33,16 @@ class ComplexSequenceMandelbrotTest {
     /**
      * Creates a new sequence implementing Mandelbrot's sequence.
      *
-     * @param constant The constant number in the definition of the considered
-     *        Mandelbrot's sequence.
+     * @param first The first term of the sequence (which is also the constant number
+     *        in the definition of the considered Mandelbrot's sequence).
      * @param nbTerms The maximum number of terms to compute.
-     * @param first The first term of the sequence.
      *
      * @return The created Mandelbrot's sequence.
      */
     private static IComplexSequence createMandelbrotSequence(
-            IComplex constant, int nbTerms, IComplex first) {
+            IComplex first, int nbTerms) {
         // Mandelbrot's sequence.
-        return new ComplexSequenceMandelbrot(constant, nbTerms, first);
+        return new ComplexSequenceMandelbrot(first, nbTerms);
     }
 
     /**
@@ -52,21 +51,17 @@ class ComplexSequenceMandelbrotTest {
      */
     @Test
     void testComputeNext() {
-        IComplex z0 = createComplex(0, 0);
-        IComplex c = createComplex(1, 0);
-        IComplexSequence mandelbrot = createMandelbrotSequence(c, 50, z0);
+        IComplex z0 = createComplex(1, 0);
+        IComplexSequence mandelbrot = createMandelbrotSequence(z0, 50);
 
-        IComplex z1 = createComplex(1, 0);
+        IComplex z1 = createComplex(2, 0);
         assertEquals(z1, mandelbrot.computeNext(z0));
 
-        IComplex z2 = createComplex(2, 0);
+        IComplex z2 = createComplex(5, 0);
         assertEquals(z2, mandelbrot.computeNext(z1));
 
-        IComplex z3 = createComplex(5, 0);
+        IComplex z3 = createComplex(26, 0);
         assertEquals(z3, mandelbrot.computeNext(z2));
-
-        IComplex z4 = createComplex(26, 0);
-        assertEquals(z4, mandelbrot.computeNext(z3));
     }
 
     /**
@@ -76,12 +71,11 @@ class ComplexSequenceMandelbrotTest {
      */
     @Test
     void testIteratorOnConvergence() {
-        IComplex z0 = createComplex(0, 0);
-        IComplex c = createComplex(-1, 0);
+        // With z0 = -1, the sequence alternates between -1 and 0 (it stays bounded).
+        IComplex z0 = createComplex(-1, 0);
         int nbTerms = 50;
 
-        // With c = -1, the sequence alternates between 0 and -1 (it stays bounded).
-        IComplexSequence mandelbrot = createMandelbrotSequence(c, nbTerms, z0);
+        IComplexSequence mandelbrot = createMandelbrotSequence(z0, nbTerms);
         int nbIterations = 0;
 
         for (var _ : mandelbrot) {
@@ -98,12 +92,11 @@ class ComplexSequenceMandelbrotTest {
      */
     @Test
     void testIteratorOnDivergence() {
-        IComplex z0 = createComplex(0, 0);
-        IComplex c = createComplex(1, 1);
+        // With z0 = 1 + i, the modulus exceeds 2 after a few terms.
+        IComplex z0 = createComplex(1, 1);
         int nbTerms = 50;
 
-        // With c = 1 + i, the modulus exceeds 2 after a few terms.
-        IComplexSequence mandelbrot = createMandelbrotSequence(c, nbTerms, z0);
+        IComplexSequence mandelbrot = createMandelbrotSequence(z0, nbTerms);
         int nbIterations = 0;
 
         for (var _ : mandelbrot) {
