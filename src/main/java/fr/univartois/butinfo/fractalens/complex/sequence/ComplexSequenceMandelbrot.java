@@ -7,14 +7,14 @@ import java.util.Iterator;
 /**
  * The ComplexSequenceMandelbrot class implements the Mandelbrot's sequence, which is a
  * sequence of complex numbers that is defined by the following formula:
- * {@code z(n) = z(n-1)² + c}
+ * {@code z(n) = z(n-1)² + z0}
  */
 public class ComplexSequenceMandelbrot implements IComplexSequence {
 
     /**
-     * The constant number in the definition of the considered Mandelbrot's sequence.
+     * The initial value of the sequence (also the constant added at each step).
      */
-    private final IComplex c;
+    private final IComplex z0;
 
     /**
      * The maximum number of terms to compute.
@@ -22,21 +22,14 @@ public class ComplexSequenceMandelbrot implements IComplexSequence {
     private final int nbTerms;
 
     /**
-     * The initial value of the sequence.
-     */
-    private final IComplex z0;
-
-    /**
      * Creates a new Mandelbrot's sequence using the given parameters.
      *
-     * @param c The constant number in the definition of the considered Mandelbrot's sequence.
-     * @param nbTerms The maximum number of terms to compute.
      * @param z0 The initial value of the sequence.
+     * @param nbTerms The maximum number of terms to compute.
      */
-    public ComplexSequenceMandelbrot(IComplex c, int nbTerms, IComplex z0) {
-        this.c = c;
-        this.nbTerms = nbTerms;
+    public ComplexSequenceMandelbrot(IComplex z0, int nbTerms) {
         this.z0 = z0;
+        this.nbTerms = nbTerms;
     }
 
     /**
@@ -48,7 +41,7 @@ public class ComplexSequenceMandelbrot implements IComplexSequence {
      */
     @Override
     public IComplex computeNext(IComplex previous) {
-        return previous.power(2).add(c);
+        return previous.multiply(previous).add(z0);
     }
 
     /**
