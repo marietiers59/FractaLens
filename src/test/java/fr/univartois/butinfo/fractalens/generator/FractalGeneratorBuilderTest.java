@@ -50,7 +50,7 @@ class FractalGeneratorBuilderTest {
 
     private FractalGeneratorBuilder baseBuilder() {
         return FractalGeneratorBuilder.newInstance()
-                .withSequence(SequenceType.MANDELBROT)
+                .withSequence(AllSequences.MANDELBROT)
                 .withSize(WIDTH, HEIGHT)
                 .withScale(0.001)
                 .withCenter(new Complex(0, 0))
@@ -91,8 +91,8 @@ class FractalGeneratorBuilderTest {
         assertSame(builder, builder.withMaxIterations(MAX_ITERATIONS));
         assertSame(builder, builder.withPalette(PaletteType.values()[0]));
         assertSame(builder, builder.withPalette(BLACK_OR_WHITE));
-        assertSame(builder, builder.withSequence(SequenceType.values()[0]));
-        assertSame(builder, builder.withSequence(SequenceType.MANDELBROT.getSequenceFactory()));
+        assertSame(builder, builder.withSequence(AllSequences.values()[0]));
+        assertSame(builder, builder.withSequence(AllSequences.MANDELBROT.sequenceFactory()));
         assertSame(builder, builder.withOutputPath("out.png"));
     }
 
@@ -173,7 +173,7 @@ class FractalGeneratorBuilderTest {
     @Test
     void configurationOrderDoesNotMatter() {
         IFractalGenerator expected = FractalGeneratorBuilder.newInstance()
-                .withSequence(SequenceType.MANDELBROT)
+                .withSequence(AllSequences.MANDELBROT)
                 .withSize(WIDTH, HEIGHT)
                 .withScale(0.5)
                 .withCenter(new Complex(-0.75, 0))
@@ -186,7 +186,7 @@ class FractalGeneratorBuilderTest {
                 .withCenter(new Complex(-0.75, 0))
                 .withScale(0.5)
                 .withSize(WIDTH, HEIGHT)
-                .withSequence(SequenceType.MANDELBROT)
+                .withSequence(AllSequences.MANDELBROT)
                 .build();
 
         assertSamePixels(expected, actual, WIDTH, HEIGHT);
@@ -229,8 +229,8 @@ class FractalGeneratorBuilderTest {
     // ----------------------------------------------------------------- sequence
 
     @ParameterizedTest
-    @EnumSource(SequenceType.class)
-    void everySequenceOfTheEnumCanBeUsed(SequenceType type) {
+    @EnumSource(AllSequences.class)
+    void everySequenceOfTheEnumCanBeUsed(AllSequences type) {
         IFractalGenerator generator = FractalGeneratorBuilder.newInstance()
                 .withSequence(type).withSize(4, 3).withMaxIterations(20).build();
 
@@ -243,10 +243,10 @@ class FractalGeneratorBuilderTest {
     @Test
     void enumSequenceAndRawSequenceGiveTheSameImage() {
         BiFunction<IComplex, Integer, IComplexSequence> raw =
-                (z0, n) -> SequenceType.MANDELBROT.getSequenceFactory().apply(z0, n);
+                (z0, n) -> AllSequences.MANDELBROT.sequenceFactory().apply(z0, n);
 
         IFractalGenerator fromEnum = baseBuilder().withScale(0.05)
-                .withSequence(SequenceType.MANDELBROT).build();
+                .withSequence(AllSequences.MANDELBROT).build();
         IFractalGenerator fromRaw = baseBuilder().withScale(0.05).withSequence(raw).build();
 
         assertSamePixels(fromEnum, fromRaw, WIDTH, HEIGHT);
@@ -256,7 +256,7 @@ class FractalGeneratorBuilderTest {
     void rawSequenceIsUsedByTheGenerator() {
         // Whatever the pixel, the sequence is studied from 10 + 10i: it always diverges.
         BiFunction<IComplex, Integer, IComplexSequence> alwaysDiverging =
-                (z0, n) -> SequenceType.MANDELBROT.getSequenceFactory().apply(new Complex(10, 10), n);
+                (z0, n) -> AllSequences.MANDELBROT.sequenceFactory().apply(new Complex(10, 10), n);
 
         IFractalGenerator generator = baseBuilder().withSequence(alwaysDiverging).build();
 
@@ -266,11 +266,11 @@ class FractalGeneratorBuilderTest {
     @Test
     void lastSequenceWins() {
         BiFunction<IComplex, Integer, IComplexSequence> alwaysDiverging =
-                (z0, n) -> SequenceType.MANDELBROT.getSequenceFactory().apply(new Complex(10, 10), n);
+                (z0, n) -> AllSequences.MANDELBROT.sequenceFactory().apply(new Complex(10, 10), n);
 
         IFractalGenerator generator = baseBuilder()
                 .withSequence(alwaysDiverging)
-                .withSequence(SequenceType.MANDELBROT)
+                .withSequence(AllSequences.MANDELBROT)
                 .build();
 
         assertEquals(Color.BLACK, centerColor(generator));
@@ -412,7 +412,7 @@ class FractalGeneratorBuilderTest {
         assertThrows(NullPointerException.class, () -> builder.withCenter(null));
         assertThrows(NullPointerException.class, () -> builder.withPalette((PaletteType) null));
         assertThrows(NullPointerException.class, () -> builder.withPalette((IPalette) null));
-        assertThrows(NullPointerException.class, () -> builder.withSequence((SequenceType) null));
+        assertThrows(NullPointerException.class, () -> builder.withSequence((AllSequences) null));
         assertThrows(NullPointerException.class,
                 () -> builder.withSequence((BiFunction<IComplex, Integer, IComplexSequence>) null));
     }
@@ -422,7 +422,7 @@ class FractalGeneratorBuilderTest {
     @Test
     void fullChainedConfigurationBuildsAGenerator() {
         IFractalGenerator generator = FractalGeneratorBuilder.newInstance()
-                .withSequence(SequenceType.MANDELBROT)
+                .withSequence(AllSequences.MANDELBROT)
                 .withSize(WIDTH, HEIGHT)
                 .withScale(0.004)
                 .withCenter(new Complex(-0.75, 0))
