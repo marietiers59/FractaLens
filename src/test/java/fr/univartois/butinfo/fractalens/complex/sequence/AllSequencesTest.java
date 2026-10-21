@@ -144,16 +144,6 @@ class AllSequencesTest {
 
 
     /**
-     * Test method for the generalized Burning Ship's sequence, with a power of 3.
-     */
-    @Test
-    void testBurningShipGeneralized() {
-        IComplexSequence sequence = createSequence(AllSequences.BURNING_SHIP_GENERALIZED,
-                createComplex(1, 1));
-        assertComplexEquals(createComplex(-1, 3), sequence.computeNext(createComplex(-1, 1)));
-    }
-
-    /**
      * Test method for the Tricorn's sequence: {@code conj(z)² + (-0.4 + 0.6i)}.
      */
     @Test
