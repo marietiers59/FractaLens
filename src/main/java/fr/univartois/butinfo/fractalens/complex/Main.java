@@ -63,7 +63,7 @@ public final class Main {
         BiFunction<IComplex, Integer, IComplexSequence> sequence = (z0, nbTerms) ->
                 new ComplexSequenceLambda((first, z) -> z.multiply(z).add(first), z0, nbTerms);
 
-        generate(width, height, maxIterations, 0.001, new Complex(-0.75, 0),
+        generate(width, height, maxIterations, 0.004, new Complex(-0.75, 0),
                 new DegradePalette(maxIterations, Color.BLACK, Color.ORANGE),
                 sequence, outputPath);
     }
@@ -86,7 +86,7 @@ public final class Main {
         BiFunction<IComplex, Integer, IComplexSequence> sequence = (z0, nbTerms) ->
                 new ComplexSequenceBurningShip(c, nbTerms, z0);
 
-        generate(width, height, maxIterations, 0.0001, new Complex(-1.755, -0.03),
+        generate(width, height, maxIterations, 0.1, new Complex(-1.755, -0.03),
                 new DegradePalette(maxIterations, Color.BLACK, Color.RED),
                 sequence, outputPath);
     }

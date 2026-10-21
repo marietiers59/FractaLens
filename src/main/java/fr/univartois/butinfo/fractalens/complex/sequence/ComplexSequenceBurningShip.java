@@ -22,7 +22,7 @@ public class ComplexSequenceBurningShip implements IComplexSequence{
     /**
      * The initial value of the sequence.
      */
-    private IComplex z0;
+    private final IComplex z0;
 
     /**
      * Constructor of the ComplexSequenceBurningShip class.
