@@ -93,10 +93,10 @@ public final class Main {
         int width = 800;
         int height = 800;
         int maxIterations = 64;
+        IComplex c = new Complex(-0.4, 0.6);
 
-        // b(n) = (|Re(b(n-1))| + i|Im(b(n-1))|)^2 + c, where c is the pixel.
-        BiFunction<IComplex, Integer, IComplexSequence> sequence = (pixel, nbTerms) ->
-                new ComplexSequenceBurningShip(pixel, nbTerms, new Complex(0, 0));
+        BiFunction<IComplex, Integer, IComplexSequence> sequence = (z0, nbTerms) ->
+                new ComplexSequenceBurningShip(c, nbTerms, z0);
 
         generate(width, height, maxIterations, 0.0001, new Complex(-1.755, -0.03),
                 new DegradePalette(maxIterations, Color.BLACK, Color.YELLOW),
