@@ -221,6 +221,24 @@ public class Complex implements IComplex {
                 && Math.abs(imaginaryPart - other.getImaginaryPart()) <= 1e-5;
     }
 
+
+    /**
+     * Computes the power of this complex number to the given power.
+     * @param power the power
+     * @return the result of the power
+     */
+    @Override
+    public IComplex power(int power) {
+        if (power < 0) {
+            throw new IllegalArgumentException("power must be >= 0");
+        }
+        IComplex result = new Complex(1, 0);
+        for (int i = 0; i < power; i++) {
+            result = result.multiply(this);
+        }
+        return result;
+    }
+
     /**
      * Computes a hash code for this complex number, consistent with
      * {@link #equals(Object)}.
