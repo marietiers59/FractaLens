@@ -2,6 +2,7 @@ package fr.univartois.butinfo.fractalens.complex.sequence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -47,6 +48,23 @@ class ComplexSequenceTricornGeneraliseeTest {
     private static IComplexSequence createSequence(
             IComplex first, IComplex constant, int nbTerms, int power) {
         return new ComplexSequenceTricornGeneralisee(constant, nbTerms, first, power);
+    }
+
+    /**
+     * Test checking that the generalized Tricorn's sequence is a particular case of
+     * {@link ComplexSequenceLambda}, and gives the same terms as a
+     * {@link ComplexSequenceLambda} built directly with the Tricorn's lambda expression.
+     */
+    @Test
+    void testIsLambdaSequence() {
+        IComplex z0 = createComplex(0.3, -0.2);
+        IComplex c = createComplex(-0.4, 0.6);
+        IComplexSequence tricorn = createSequence(z0, c, 64, 3);
+        IComplexSequence lambda = new ComplexSequenceLambda(
+                (first, z) -> z.conjugate().power(3).add(c), z0, 64);
+
+        assertInstanceOf(ComplexSequenceLambda.class, tricorn);
+        assertEquals(collect(lambda), collect(tricorn));
     }
 
     /**
