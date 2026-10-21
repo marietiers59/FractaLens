@@ -42,14 +42,14 @@ public enum AllSequences {
 	/**
 	 * The Burning Ship's sequence: {@code b(n) = (|Re(b(n-1))| + i|Im(b(n-1))|)² + c}.
 	 */
-	BURNING_SHIP((c, nbTerms) -> new ComplexSequenceBurningShip(
-			c, nbTerms, new Complex(0, 0))),
+	BURNING_SHIP((z0, nbTerms) -> new ComplexSequenceBurningShip(
+			new Complex(0, 0), nbTerms, z0)),
 
 	/**
 	 * The generalized Burning Ship's sequence, with a power of 3.
 	 */
-	BURNING_SHIP_GENERALIZED((c, nbTerms) -> new ComplexSequenceGeneralizedBurningShip(
-			c, nbTerms, new Complex(0, 0), 3)),
+	BURNING_SHIP_GENERALIZED((z0, nbTerms) -> new ComplexSequenceGeneralizedBurningShip(
+			new Complex(0,0), nbTerms, z0, 3)),
 
 	/**
 	 * The Tricorn's sequence: {@code t(n) = conj(t(n-1))² + c}.
