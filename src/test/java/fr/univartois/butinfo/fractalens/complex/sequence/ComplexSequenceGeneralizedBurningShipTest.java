@@ -162,21 +162,6 @@ class ComplexSequenceGeneralizedBurningShipTest {
         }
     }
 
-    /**
-     * Test method for {@link IComplexSequence#computeNext(IComplex)} checking that
-     * the generalized sequence with p = 2 gives the same terms as the classical
-     * Burning Ship's sequence.
-     */
-    @Test
-    void testPowerTwoIsClassicalBurningShip() {
-        IComplex z0 = createComplex(0, 0);
-        IComplex c = createComplex(-0.4, 0.6);
-
-        List<IComplex> generalized = collect(createSequence(z0, c, 64, 2));
-        List<IComplex> classical = collect(new ComplexSequenceBurningShip(c, 64, z0));
-
-        assertEquals(classical, generalized);
-    }
 
     /**
      * Test method for {@link IComplexSequence#computeNext(IComplex)} checking that

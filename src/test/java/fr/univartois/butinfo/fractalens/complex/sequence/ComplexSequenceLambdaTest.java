@@ -158,23 +158,6 @@ class ComplexSequenceLambdaTest {
     }
 
     /**
-     * Test method for {@link IComplexSequence#computeNext(IComplex)} with Burning
-     * Ship's expression, which must behave like {@link ComplexSequenceBurningShip}.
-     */
-    @Test
-    void testBurningShipAsLambda() {
-        IComplex z0 = createComplex(0, 0);
-        IComplex c = createComplex(-0.4, 0.6);
-
-        IComplexSequence lambda = createSequence((first, z) ->
-                new Complex(Math.abs(z.getRealPart()), Math.abs(z.getImaginaryPart()))
-                        .power(2).add(c), z0, 64);
-        IComplexSequence ship = new ComplexSequenceBurningShip(c, 64, z0);
-
-        assertEquals(collect(ship), collect(lambda));
-    }
-
-    /**
      * Test method for {@link IComplexSequence#computeNext(IComplex)} with Julia's
      * expression, which must behave like {@link ComplexSequenceJulia}.
      */

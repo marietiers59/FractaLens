@@ -45,7 +45,7 @@ public class ComplexSequenceBurningShip implements IComplexSequence{
     @Override
     public IComplex computeNext(IComplex previous) {
         IComplex z = new Complex(Math.abs(previous.getRealPart()), Math.abs(previous.getImaginaryPart()));
-        return z.multiply(z).add(c);
+        return z.multiply(z).add(z0);
     }
 
     /**
