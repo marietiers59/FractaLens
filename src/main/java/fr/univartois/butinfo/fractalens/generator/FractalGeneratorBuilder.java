@@ -58,7 +58,7 @@ public class FractalGeneratorBuilder {
      * How to build the sequence to study for each pixel.
      */
     private BiFunction<IComplex, Integer, IComplexSequence> sequence =
-            SequenceType.MANDELBROT.getSequenceFactory();
+            AllSequences.MANDELBROT.sequenceFactory();
 
     /**
      * The file in which the image is saved.
