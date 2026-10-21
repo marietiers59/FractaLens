@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.List;
 import java.util.function.IntFunction;
 
+import fr.univartois.butinfo.fractalens.palette.ColorMaskPalette.Mask;
+
 /**
  * Enumeration of every color palette available in FractaLens.
  *
@@ -20,161 +22,148 @@ public enum AllPalettes {
     // ------------------------------------------------------------------ Greyscale
 
     /** Black-to-white gradient. */
-    GREYSCALE(max -> new GreyscalePalette(max), false, null),
+    GREYSCALE(max -> new GreyscalePalette(max)),
 
     /** White-to-black gradient. */
-    GREYSCALE_INVERTED(max -> new GreyscalePalette(max), true, null),
+    GREYSCALE_INVERTED(max -> new InvertedPalette(new GreyscalePalette(max))),
 
     /** Greyscale palette keeping only the red component. */
-    GREYSCALE_RED(max -> new GreyscalePalette(max), false, ColorMaskPalette.Mask.RED),
+    GREYSCALE_RED(max -> new ColorMaskPalette(new GreyscalePalette(max), Mask.RED)),
 
     /** Greyscale palette keeping only the green component. */
-    GREYSCALE_GREEN(max -> new GreyscalePalette(max), false, ColorMaskPalette.Mask.GREEN),
+    GREYSCALE_GREEN(max -> new ColorMaskPalette(new GreyscalePalette(max), Mask.GREEN)),
 
     /** Greyscale palette keeping only the blue component. */
-    GREYSCALE_BLUE(max -> new GreyscalePalette(max), false, ColorMaskPalette.Mask.BLUE),
+    GREYSCALE_BLUE(max -> new ColorMaskPalette(new GreyscalePalette(max), Mask.BLUE)),
 
     /** Greyscale palette keeping only the red and green components. */
-    GREYSCALE_YELLOW(max -> new GreyscalePalette(max), false, ColorMaskPalette.Mask.YELLOW),
+    GREYSCALE_YELLOW(max -> new ColorMaskPalette(new GreyscalePalette(max), Mask.YELLOW)),
 
     /** Greyscale palette keeping only the green and blue components. */
-    GREYSCALE_CYAN(max -> new GreyscalePalette(max), false, ColorMaskPalette.Mask.CYAN),
+    GREYSCALE_CYAN(max -> new ColorMaskPalette(new GreyscalePalette(max), Mask.CYAN)),
 
     /** Greyscale palette keeping only the blue and red components. */
-    GREYSCALE_MAGENTA(max -> new GreyscalePalette(max), false, ColorMaskPalette.Mask.MAGENTA),
+    GREYSCALE_MAGENTA(max -> new ColorMaskPalette(new GreyscalePalette(max), Mask.MAGENTA)),
 
     /** Inverted greyscale palette keeping only the red component. */
-    GREYSCALE_INVERTED_RED(max -> new GreyscalePalette(max), true, ColorMaskPalette.Mask.RED),
+    GREYSCALE_INVERTED_RED(max -> new ColorMaskPalette(new InvertedPalette(new GreyscalePalette(max)), Mask.RED)),
 
     /** Inverted greyscale palette keeping only the green component. */
-    GREYSCALE_INVERTED_GREEN(max -> new GreyscalePalette(max), true, ColorMaskPalette.Mask.GREEN),
+    GREYSCALE_INVERTED_GREEN(max -> new ColorMaskPalette(new InvertedPalette(new GreyscalePalette(max)), Mask.GREEN)),
 
     /** Inverted greyscale palette keeping only the blue component. */
-    GREYSCALE_INVERTED_BLUE(max -> new GreyscalePalette(max), true, ColorMaskPalette.Mask.BLUE),
+    GREYSCALE_INVERTED_BLUE(max -> new ColorMaskPalette(new InvertedPalette(new GreyscalePalette(max)), Mask.BLUE)),
 
     /** Inverted greyscale palette keeping only the red and green components. */
-    GREYSCALE_INVERTED_YELLOW(max -> new GreyscalePalette(max), true, ColorMaskPalette.Mask.YELLOW),
+    GREYSCALE_INVERTED_YELLOW(max -> new ColorMaskPalette(new InvertedPalette(new GreyscalePalette(max)), Mask.YELLOW)),
 
     /** Inverted greyscale palette keeping only the green and blue components. */
-    GREYSCALE_INVERTED_CYAN(max -> new GreyscalePalette(max), true, ColorMaskPalette.Mask.CYAN),
+    GREYSCALE_INVERTED_CYAN(max -> new ColorMaskPalette(new InvertedPalette(new GreyscalePalette(max)), Mask.CYAN)),
 
     /** Inverted greyscale palette keeping only the blue and red components. */
-    GREYSCALE_INVERTED_MAGENTA(max -> new GreyscalePalette(max), true, ColorMaskPalette.Mask.MAGENTA),
+    GREYSCALE_INVERTED_MAGENTA(max -> new ColorMaskPalette(new InvertedPalette(new GreyscalePalette(max)), Mask.MAGENTA)),
 
     // -------------------------------------------------------------------- Degrade
 
     /** Gradient from {@link Defaults#DEGRADE_START_COLOR} to {@link Defaults#DEGRADE_END_COLOR}. */
-    DEGRADE(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), false, null),
+    DEGRADE(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR)),
 
     /** Inverted gradient palette. */
-    DEGRADE_INVERTED(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), true, null),
+    DEGRADE_INVERTED(max -> new InvertedPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR))),
 
     /** Gradient palette keeping only the red component. */
-    DEGRADE_RED(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), false, ColorMaskPalette.Mask.RED),
+    DEGRADE_RED(max -> new ColorMaskPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), Mask.RED)),
 
     /** Gradient palette keeping only the green component. */
-    DEGRADE_GREEN(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), false, ColorMaskPalette.Mask.GREEN),
+    DEGRADE_GREEN(max -> new ColorMaskPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), Mask.GREEN)),
 
     /** Gradient palette keeping only the blue component. */
-    DEGRADE_BLUE(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), false, ColorMaskPalette.Mask.BLUE),
+    DEGRADE_BLUE(max -> new ColorMaskPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), Mask.BLUE)),
 
     /** Gradient palette keeping only the red and green components. */
-    DEGRADE_YELLOW(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), false, ColorMaskPalette.Mask.YELLOW),
+    DEGRADE_YELLOW(max -> new ColorMaskPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), Mask.YELLOW)),
 
     /** Gradient palette keeping only the green and blue components. */
-    DEGRADE_CYAN(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), false, ColorMaskPalette.Mask.CYAN),
+    DEGRADE_CYAN(max -> new ColorMaskPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), Mask.CYAN)),
 
     /** Gradient palette keeping only the blue and red components. */
-    DEGRADE_MAGENTA(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), false, ColorMaskPalette.Mask.MAGENTA),
+    DEGRADE_MAGENTA(max -> new ColorMaskPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), Mask.MAGENTA)),
 
     /** Inverted gradient palette keeping only the red component. */
-    DEGRADE_INVERTED_RED(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), true, ColorMaskPalette.Mask.RED),
+    DEGRADE_INVERTED_RED(max -> new ColorMaskPalette(new InvertedPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR)), Mask.RED)),
 
     /** Inverted gradient palette keeping only the green component. */
-    DEGRADE_INVERTED_GREEN(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), true, ColorMaskPalette.Mask.GREEN),
+    DEGRADE_INVERTED_GREEN(max -> new ColorMaskPalette(new InvertedPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR)), Mask.GREEN)),
 
     /** Inverted gradient palette keeping only the blue component. */
-    DEGRADE_INVERTED_BLUE(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), true, ColorMaskPalette.Mask.BLUE),
+    DEGRADE_INVERTED_BLUE(max -> new ColorMaskPalette(new InvertedPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR)), Mask.BLUE)),
 
     /** Inverted gradient palette keeping only the red and green components. */
-    DEGRADE_INVERTED_YELLOW(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), true, ColorMaskPalette.Mask.YELLOW),
+    DEGRADE_INVERTED_YELLOW(max -> new ColorMaskPalette(new InvertedPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR)), Mask.YELLOW)),
 
     /** Inverted gradient palette keeping only the green and blue components. */
-    DEGRADE_INVERTED_CYAN(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), true, ColorMaskPalette.Mask.CYAN),
+    DEGRADE_INVERTED_CYAN(max -> new ColorMaskPalette(new InvertedPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR)), Mask.CYAN)),
 
     /** Inverted gradient palette keeping only the blue and red components. */
-    DEGRADE_INVERTED_MAGENTA(max -> new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR), true, ColorMaskPalette.Mask.MAGENTA),
+    DEGRADE_INVERTED_MAGENTA(max -> new ColorMaskPalette(new InvertedPalette(new DegradePalette(max, Defaults.DEGRADE_START_COLOR, Defaults.DEGRADE_END_COLOR)), Mask.MAGENTA)),
 
     // ---------------------------------------------------------------------- Fixed
 
     /** Fixed palette using the colors of {@link Defaults#FIXED_COLORS}. */
-    FIXED(_ -> new FixedPalette(Defaults.FIXED_COLORS), false, null),
+    FIXED(_ -> new FixedPalette(Defaults.FIXED_COLORS)),
 
     /** Inverted fixed palette. */
-    FIXED_INVERTED(_ -> new FixedPalette(Defaults.FIXED_COLORS), true, null),
+    FIXED_INVERTED(_ -> new InvertedPalette(new FixedPalette(Defaults.FIXED_COLORS))),
 
     /** Fixed palette keeping only the red component. */
-    FIXED_RED(_ -> new FixedPalette(Defaults.FIXED_COLORS), false, ColorMaskPalette.Mask.RED),
+    FIXED_RED(_ -> new ColorMaskPalette(new FixedPalette(Defaults.FIXED_COLORS), Mask.RED)),
 
     /** Fixed palette keeping only the green component. */
-    FIXED_GREEN(_ -> new FixedPalette(Defaults.FIXED_COLORS), false, ColorMaskPalette.Mask.GREEN),
+    FIXED_GREEN(_ -> new ColorMaskPalette(new FixedPalette(Defaults.FIXED_COLORS), Mask.GREEN)),
 
     /** Fixed palette keeping only the blue component. */
-    FIXED_BLUE(_ -> new FixedPalette(Defaults.FIXED_COLORS), false, ColorMaskPalette.Mask.BLUE),
+    FIXED_BLUE(_ -> new ColorMaskPalette(new FixedPalette(Defaults.FIXED_COLORS), Mask.BLUE)),
 
     /** Fixed palette keeping only the red and green components. */
-    FIXED_YELLOW(_ -> new FixedPalette(Defaults.FIXED_COLORS), false, ColorMaskPalette.Mask.YELLOW),
+    FIXED_YELLOW(_ -> new ColorMaskPalette(new FixedPalette(Defaults.FIXED_COLORS), Mask.YELLOW)),
 
     /** Fixed palette keeping only the green and blue components. */
-    FIXED_CYAN(_ -> new FixedPalette(Defaults.FIXED_COLORS), false, ColorMaskPalette.Mask.CYAN),
+    FIXED_CYAN(_ -> new ColorMaskPalette(new FixedPalette(Defaults.FIXED_COLORS), Mask.CYAN)),
 
     /** Fixed palette keeping only the blue and red components. */
-    FIXED_MAGENTA(_ -> new FixedPalette(Defaults.FIXED_COLORS), false, ColorMaskPalette.Mask.MAGENTA),
+    FIXED_MAGENTA(_ -> new ColorMaskPalette(new FixedPalette(Defaults.FIXED_COLORS), Mask.MAGENTA)),
 
     /** Inverted fixed palette keeping only the red component. */
-    FIXED_INVERTED_RED(_ -> new FixedPalette(Defaults.FIXED_COLORS), true, ColorMaskPalette.Mask.RED),
+    FIXED_INVERTED_RED(_ -> new ColorMaskPalette(new InvertedPalette(new FixedPalette(Defaults.FIXED_COLORS)), Mask.RED)),
 
     /** Inverted fixed palette keeping only the green component. */
-    FIXED_INVERTED_GREEN(_ -> new FixedPalette(Defaults.FIXED_COLORS), true, ColorMaskPalette.Mask.GREEN),
+    FIXED_INVERTED_GREEN(_ -> new ColorMaskPalette(new InvertedPalette(new FixedPalette(Defaults.FIXED_COLORS)), Mask.GREEN)),
 
     /** Inverted fixed palette keeping only the blue component. */
-    FIXED_INVERTED_BLUE(_ -> new FixedPalette(Defaults.FIXED_COLORS), true, ColorMaskPalette.Mask.BLUE),
+    FIXED_INVERTED_BLUE(_ -> new ColorMaskPalette(new InvertedPalette(new FixedPalette(Defaults.FIXED_COLORS)), Mask.BLUE)),
 
     /** Inverted fixed palette keeping only the red and green components. */
-    FIXED_INVERTED_YELLOW(_ -> new FixedPalette(Defaults.FIXED_COLORS), true, ColorMaskPalette.Mask.YELLOW),
+    FIXED_INVERTED_YELLOW(_ -> new ColorMaskPalette(new InvertedPalette(new FixedPalette(Defaults.FIXED_COLORS)), Mask.YELLOW)),
 
     /** Inverted fixed palette keeping only the green and blue components. */
-    FIXED_INVERTED_CYAN(_ -> new FixedPalette(Defaults.FIXED_COLORS), true, ColorMaskPalette.Mask.CYAN),
+    FIXED_INVERTED_CYAN(_ -> new ColorMaskPalette(new InvertedPalette(new FixedPalette(Defaults.FIXED_COLORS)), Mask.CYAN)),
 
     /** Inverted fixed palette keeping only the blue and red components. */
-    FIXED_INVERTED_MAGENTA(_ -> new FixedPalette(Defaults.FIXED_COLORS), true, ColorMaskPalette.Mask.MAGENTA);
+    FIXED_INVERTED_MAGENTA(_ -> new ColorMaskPalette(new InvertedPalette(new FixedPalette(Defaults.FIXED_COLORS)), Mask.MAGENTA));
 
     /**
-     * The factory creating the base palette from the maximum number of iterations.
+     * The factory creating the (possibly decorated) palette from the maximum
+     * number of iterations.
      */
-    private final IntFunction<IPalette> baseFactory;
+    private final IntFunction<IPalette> paletteFactory;
 
     /**
-     * Whether the colors of the base palette are inverted.
-     */
-    private final boolean inverted;
-
-    /**
-     * The color mask to apply, or {@code null} if no mask is applied.
-     */
-    private final ColorMaskPalette.Mask mask;
-
-    /**
-     * Creates a palette type.
+     * Creates a palette constant.
      *
-     * @param baseFactory The factory creating the base palette.
-     * @param inverted Whether the colors of the base palette are inverted.
-     * @param mask The color mask to apply, or {@code null} for no mask.
+     * @param paletteFactory The factory creating the palette, decorators included.
      */
-    AllPalettes(IntFunction<IPalette> baseFactory, boolean inverted, ColorMaskPalette.Mask mask) {
-        this.baseFactory = baseFactory;
-        this.inverted = inverted;
-        this.mask = mask;
+    AllPalettes(IntFunction<IPalette> paletteFactory) {
+        this.paletteFactory = paletteFactory;
     }
 
     /**
@@ -185,14 +174,7 @@ public enum AllPalettes {
      * @return The palette, decorated as described by this constant.
      */
     public IPalette getPalette(int maxIterations) {
-        IPalette palette = baseFactory.apply(maxIterations);
-        if (inverted) {
-            palette = new InvertedPalette(palette);
-        }
-        if (mask != null) {
-            palette = new ColorMaskPalette(palette, mask);
-        }
-        return palette;
+        return paletteFactory.apply(maxIterations);
     }
 
     /**
