@@ -16,6 +16,7 @@ import java.util.function.BiFunction;
 
 import javax.imageio.ImageIO;
 
+import fr.univartois.butinfo.fractalens.palette.AllPalettes;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -89,7 +90,7 @@ class FractalGeneratorBuilderTest {
         assertSame(builder, builder.withScale(0.001));
         assertSame(builder, builder.withCenter(new Complex(0, 0)));
         assertSame(builder, builder.withMaxIterations(MAX_ITERATIONS));
-        assertSame(builder, builder.withPalette(PaletteType.values()[0]));
+        assertSame(builder, builder.withPalette(AllPalettes.values()[0]));
         assertSame(builder, builder.withPalette(BLACK_OR_WHITE));
         assertSame(builder, builder.withSequence(AllSequences.values()[0]));
         assertSame(builder, builder.withSequence(AllSequences.MANDELBROT.sequenceFactory()));
@@ -147,13 +148,13 @@ class FractalGeneratorBuilderTest {
         // whatever the order of the calls.
         IFractalGenerator paletteFirst = FractalGeneratorBuilder.newInstance()
                 .withSize(WIDTH, HEIGHT).withScale(0.5).withCenter(new Complex(-0.75, 0))
-                .withPalette(PaletteType.GREYSCALE)
+                .withPalette(AllPalettes.GREYSCALE)
                 .withMaxIterations(MAX_ITERATIONS)
                 .build();
         IFractalGenerator iterationsFirst = FractalGeneratorBuilder.newInstance()
                 .withSize(WIDTH, HEIGHT).withScale(0.5).withCenter(new Complex(-0.75, 0))
                 .withMaxIterations(MAX_ITERATIONS)
-                .withPalette(PaletteType.GREYSCALE)
+                .withPalette(AllPalettes.GREYSCALE)
                 .build();
 
         assertSamePixels(paletteFirst, iterationsFirst, WIDTH, HEIGHT);
@@ -162,9 +163,9 @@ class FractalGeneratorBuilderTest {
     @Test
     void changingIterationsAfterwardsOverridesThePreviousValue() {
         IFractalGenerator expected = baseBuilder()
-                .withPalette(PaletteType.GREYSCALE).withScale(0.5).withMaxIterations(10).build();
+                .withPalette(AllPalettes.GREYSCALE).withScale(0.5).withMaxIterations(10).build();
         IFractalGenerator actual = baseBuilder()
-                .withPalette(PaletteType.GREYSCALE).withScale(0.5)
+                .withPalette(AllPalettes.GREYSCALE).withScale(0.5)
                 .withMaxIterations(200).withMaxIterations(10).build();
 
         assertSamePixels(expected, actual, WIDTH, HEIGHT);
@@ -178,10 +179,10 @@ class FractalGeneratorBuilderTest {
                 .withScale(0.5)
                 .withCenter(new Complex(-0.75, 0))
                 .withMaxIterations(MAX_ITERATIONS)
-                .withPalette(PaletteType.GREYSCALE)
+                .withPalette(AllPalettes.GREYSCALE)
                 .build();
         IFractalGenerator actual = FractalGeneratorBuilder.newInstance()
-                .withPalette(PaletteType.GREYSCALE)
+                .withPalette(AllPalettes.GREYSCALE)
                 .withMaxIterations(MAX_ITERATIONS)
                 .withCenter(new Complex(-0.75, 0))
                 .withScale(0.5)
@@ -279,8 +280,8 @@ class FractalGeneratorBuilderTest {
     // ------------------------------------------------------------------ palette
 
     @ParameterizedTest
-    @EnumSource(PaletteType.class)
-    void everyPaletteOfTheEnumCanBeUsed(PaletteType type) {
+    @EnumSource(AllPalettes.class)
+    void everyPaletteOfTheEnumCanBeUsed(AllPalettes type) {
         IFractalGenerator generator = FractalGeneratorBuilder.newInstance()
                 .withPalette(type).withSize(4, 3).withMaxIterations(20).build();
 
@@ -305,7 +306,7 @@ class FractalGeneratorBuilderTest {
     @Test
     void lastPaletteWins() {
         IFractalGenerator generator = baseBuilder()
-                .withPalette(PaletteType.values()[0])
+                .withPalette(AllPalettes.values()[0])
                 .withPalette(iterations -> Color.RED)
                 .build();
 
@@ -410,7 +411,7 @@ class FractalGeneratorBuilderTest {
         FractalGeneratorBuilder builder = FractalGeneratorBuilder.newInstance();
 
         assertThrows(NullPointerException.class, () -> builder.withCenter(null));
-        assertThrows(NullPointerException.class, () -> builder.withPalette((PaletteType) null));
+        assertThrows(NullPointerException.class, () -> builder.withPalette((AllPalettes) null));
         assertThrows(NullPointerException.class, () -> builder.withPalette((IPalette) null));
         assertThrows(NullPointerException.class, () -> builder.withSequence((AllSequences) null));
         assertThrows(NullPointerException.class,
@@ -427,7 +428,7 @@ class FractalGeneratorBuilderTest {
                 .withScale(0.004)
                 .withCenter(new Complex(-0.75, 0))
                 .withMaxIterations(250)
-                .withPalette(PaletteType.GREYSCALE)
+                .withPalette(AllPalettes.GREYSCALE)
                 .withOutputPath(tempDir.resolve("chain.png").toString())
                 .build();
 

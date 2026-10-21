@@ -13,6 +13,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplexPlane;
 import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
 import fr.univartois.butinfo.fractalens.image.BufferedImageAdapter;
 import fr.univartois.butinfo.fractalens.image.IFractalImage;
+import fr.univartois.butinfo.fractalens.palette.AllPalettes;
 import fr.univartois.butinfo.fractalens.palette.IPalette;
 
 /**
@@ -52,7 +53,7 @@ public class FractalGeneratorBuilder {
      * How to create the palette, once the maximum number of iterations is known.
      * It is kept as a function so that the order of the calls to the "with" methods does not matter.
      */
-    private Function<Integer, IPalette> paletteFactory = PaletteType.GREYSCALE::createPalette;
+    private IPalette paletteFactory = AllPalettes.GREYSCALE.getPalette(maxIterations);
 
     /**
      * How to build the sequence to study for each pixel.
@@ -146,9 +147,9 @@ public class FractalGeneratorBuilder {
      * @return This builder.
      * @throws NullPointerException If the type of palette is null.
      */
-    public FractalGeneratorBuilder withPalette(PaletteType paletteType) {
+    public FractalGeneratorBuilder withPalette(AllPalettes paletteType) {
         Objects.requireNonNull(paletteType, "The type of palette must not be null");
-        this.paletteFactory = paletteType::createPalette;
+        this.paletteFactory = paletteType.getPalette(maxIterations);
         return this;
     }
 
@@ -215,7 +216,6 @@ public class FractalGeneratorBuilder {
         plane = new ComplexPlaneTranslate(center, plane);
 
         IFractalImage image = new BufferedImageAdapter(width, height);
-        IPalette palette = paletteFactory.apply(maxIterations);
-        return new FractalGenerator(image, plane, palette, outputPath, sequence, maxIterations);
+        return new FractalGenerator(image, plane, paletteFactory, outputPath, sequence, maxIterations);
     }
 }
