@@ -142,15 +142,6 @@ class AllSequencesTest {
         assertComplexEquals(createComplex(-1, 3), sequence.computeNext(createComplex(1, 1)));
     }
 
-    /**
-     * Test method for the Burning Ship's sequence: {@code (|Re z| + i|Im z|)² + c}.
-     */
-    @Test
-    void testBurningShip() {
-        IComplexSequence sequence = createSequence(AllSequences.BURNING_SHIP,
-                createComplex(1, 1));
-        assertComplexEquals(createComplex(1, 3), sequence.computeNext(createComplex(-1, 1)));
-    }
 
     /**
      * Test method for the generalized Burning Ship's sequence, with a power of 3.

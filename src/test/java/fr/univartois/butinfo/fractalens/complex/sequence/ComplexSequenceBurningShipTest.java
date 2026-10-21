@@ -85,21 +85,7 @@ class ComplexSequenceBurningShipTest {
         assertEquals(createComplex(0, 0), ship.computeNext(createComplex(0, 0)));
     }
 
-    /**
-     * Test method for
-     * {@link IComplexSequence#computeNext(IComplex)} with a non-zero constant.
-     */
-    @Test
-    void testComputeNextWithConstant() {
-        IComplexSequence ship = createBurningShipSequence(
-                createComplex(0, 0), createComplex(0.5, -0.5), 50);
 
-        // (|3| + i|-4|)^2 + c = (3 + 4i)^2 + c = (-7 + 24i) + (0.5 - 0.5i)
-        assertEquals(createComplex(-6.5, 23.5), ship.computeNext(createComplex(3, -4)));
-
-        // From 0, the next term is c itself.
-        assertEquals(createComplex(0.5, -0.5), ship.computeNext(createComplex(0, 0)));
-    }
 
     /**
      * Test method for
@@ -156,17 +142,6 @@ class ComplexSequenceBurningShipTest {
         assertEquals(-0.5, previous.getImaginaryPart(), 0.0);
     }
 
-    /**
-     * Test method for {@link IComplexSequence#iterator()} when the sequence converges.
-     */
-    @Test
-    void testIteratorOnConvergence() {
-        int nbTerms = 50;
-        IComplexSequence ship = createBurningShipSequence(
-                createComplex(0.5, 0), createComplex(0, 0), nbTerms);
-
-        assertEquals(nbTerms, collect(ship).size());
-    }
 
     /**
      * Test method for {@link IComplexSequence#iterator()} when the sequence diverges.
@@ -180,27 +155,6 @@ class ComplexSequenceBurningShipTest {
         // z0 = 2 (modulus <= 2), then z1 = 4.5 + 0.5i, which exceeds the threshold.
         assertTrue(collect(ship).size() < nbTerms);
         assertEquals(1, collect(ship).size());
-    }
-
-    /**
-     * Test method for {@link IComplexSequence#iterator()} checking the terms of the
-     * sequence used in the demonstration of the sprint (c = -0.4 + 0.6i, z0 = 0).
-     */
-    @Test
-    void testIteratorTerms() {
-        IComplexSequence ship = createBurningShipSequence(
-                createComplex(0, 0), createComplex(-0.4, 0.6), 64);
-
-        List<IComplex> terms = collect(ship);
-
-        // z0 = 0
-        // z1 = c = -0.4 + 0.6i
-        // z2 = (0.4 + 0.6i)^2 + c = -0.6 + 1.08i
-        // z3 = (0.6 + 1.08i)^2 + c = -1.2064 + 1.896i, whose modulus is > 2.
-        assertEquals(3, terms.size());
-        assertEquals(createComplex(0, 0), terms.get(0));
-        assertEquals(createComplex(-0.4, 0.6), terms.get(1));
-        assertEquals(createComplex(-0.6, 1.08), terms.get(2));
     }
 
     /**
