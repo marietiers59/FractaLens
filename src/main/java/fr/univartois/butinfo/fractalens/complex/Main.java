@@ -72,6 +72,5 @@ public final class Main {
         generator4.saveImage();
 
 
-
     }
 }
