@@ -1,6 +1,10 @@
 package fr.univartois.butinfo.fractalens.complex;
 
+import java.util.List;
+import java.util.Objects;
+
 import fr.univartois.butinfo.fractalens.complex.sequence.AllSequences;
+import fr.univartois.butinfo.fractalens.generator.FractalGeneratorAnimated;
 import fr.univartois.butinfo.fractalens.generator.FractalGeneratorBuilder;
 import fr.univartois.butinfo.fractalens.generator.IFractalGenerator;
 import fr.univartois.butinfo.fractalens.palette.AllPalettes;
@@ -72,5 +76,31 @@ public final class Main {
         generator4.saveImage();
 
 
+    }
+    
+    /**
+     * 
+     * Put generators containing zoomed images into a list whose type is generator
+     * 
+     * @param generator
+     * @param animation
+     * @param amount
+     * @param scale
+     * @param constantZoom
+     */
+    public static void zoomAnimated(FractalGeneratorBuilder generator, FractalGeneratorAnimated animation, int amount, int scale, int constantZoom) {
+    	//le contenu essentiel est une boucle pour faire varier la valeur du zoom
+    	//Plus la valeur du zoom est petite, plus le zoom est important.
+    	//Il faut donc diminuer petit à petit cette valeur
+    	//public void addFrame(IFractalGenerator generator) {
+        //	generatorList.add(Objects.requireNonNull(generator));
+        //	imageList.clear();
+    	for(int i = 0 ; i < amount; i++) {
+    		scale = scale * constantZoom;
+    		FractalGeneratorBuilder zoomed = generator.withScale(scale);
+    		animation.addFrame(zoomed.build());
+    	}
+    	
+    
     }
 }
