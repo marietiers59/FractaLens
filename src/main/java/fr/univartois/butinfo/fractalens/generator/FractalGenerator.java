@@ -46,7 +46,7 @@ public class FractalGenerator implements IFractalGenerator {
     /**
      * The maximum number of terms/iterations used to compute the fractal sequence.
      */
-    private int nbTherm;
+    private int nbTerms;
 
     /**
      * Creates a new FractalGenerator.
@@ -56,15 +56,15 @@ public class FractalGenerator implements IFractalGenerator {
      * @param palette          The palette used to color the fractal.
      * @param outputPath       The path of the file in which to save the generated image.
      * @param sequenceFunction The BiFunction generating the complex sequence for each point based on a maximum number of terms.
-     * @param nbTherm          The maximum number of terms for the sequence generation.
+     * @param nbTerms          The maximum number of terms for the sequence generation.
      */
-    public FractalGenerator(IFractalImage image, IComplexPlane plane, IPalette palette, String outputPath, BiFunction<IComplex, Integer, IComplexSequence> sequenceFunction, int nbTherm) {
+    public FractalGenerator(IFractalImage image, IComplexPlane plane, IPalette palette, String outputPath, BiFunction<IComplex, Integer, IComplexSequence> sequenceFunction, int nbTerms) {
         this.image = image;
         this.plane = plane;
         this.palette = palette;
         this.outputPath = outputPath;
         this.sequenceFunction = sequenceFunction;
-        this.nbTherm = nbTherm;
+        this.nbTerms = nbTerms;
     }
 
     /**
@@ -97,7 +97,7 @@ public class FractalGenerator implements IFractalGenerator {
     @Override
     public Color computePixelColor(int row, int column) {
         IComplex z0 = plane.asComplex(row, column);
-        IComplexSequence sequence = sequenceFunction.apply(z0, nbTherm);
+        IComplexSequence sequence = sequenceFunction.apply(z0, nbTerms);
 
         int nbIterations = 0;
         for (var temp : sequence) {
