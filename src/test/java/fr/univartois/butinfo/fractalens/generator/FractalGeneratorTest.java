@@ -91,6 +91,7 @@ class FractalGeneratorTest {
                 throw new IOException("Simulated I/O error");
             }
         }
+
     }
 
     /**
@@ -122,13 +123,13 @@ class FractalGeneratorTest {
      * @param palette    The palette used to color the fractal.
      * @param outputPath The path of the file in which to save the image.
      * @param function   The function generating the sequence.
-     * @param nbTherm    The maximum number of terms.
+     * @param nbTerms    The maximum number of terms.
      * @return The created FractalGenerator.
      */
     private static FractalGenerator createGenerator(
             IFractalImage image, ComplexPlane plane, IPalette palette,
-            String outputPath, BiFunction<IComplex, Integer, IComplexSequence> function, int nbTherm) {
-        return new FractalGenerator(image, plane, palette, outputPath, function, nbTherm);
+            String outputPath, BiFunction<IComplex, Integer, IComplexSequence> function, int nbTerms) {
+        return new FractalGenerator(image, plane, palette, outputPath, function, nbTerms);
     }
 
     /**
@@ -141,7 +142,7 @@ class FractalGeneratorTest {
         ComplexPlane plane = new ComplexPlane(10, 10);
         IPalette palette = new DummyPalette();
         String outputPath = "test.png";
-        int nbTherm = 10;
+        int nbTerms = 10;
 
         BiFunction<IComplex, Integer, IComplexSequence> sequenceFunction = (z0, n) -> new IComplexSequence() {
             @Override
@@ -155,7 +156,7 @@ class FractalGeneratorTest {
             }
         };
 
-        FractalGenerator generator = createGenerator(image, plane, palette, outputPath, sequenceFunction, nbTherm);
+        FractalGenerator generator = createGenerator(image, plane, palette, outputPath, sequenceFunction, nbTerms);
 
         Color color = generator.computePixelColor(0, 0);
         assertNotNull(color);
@@ -172,7 +173,7 @@ class FractalGeneratorTest {
         ComplexPlane plane = new ComplexPlane(2, 2);
         IPalette palette = new DummyPalette();
         String outputPath = "test.png";
-        int nbTherm = 5;
+        int nbTerms = 5;
 
         BiFunction<IComplex, Integer, IComplexSequence> sequenceFunction = (z0, n) -> new IComplexSequence() {
             @Override
@@ -186,7 +187,7 @@ class FractalGeneratorTest {
             }
         };
 
-        FractalGenerator generator = createGenerator(image, plane, palette, outputPath, sequenceFunction, nbTherm);
+        FractalGenerator generator = createGenerator(image, plane, palette, outputPath, sequenceFunction, nbTerms);
 
         IFractalImage result = generator.generateImage();
         assertNotNull(result);
@@ -203,11 +204,11 @@ class FractalGeneratorTest {
         ComplexPlane plane = new ComplexPlane(2, 2);
         IPalette palette = new DummyPalette();
         String outputPath = "test.png";
-        int nbTherm = 5;
+        int nbTerms = 5;
 
         BiFunction<IComplex, Integer, IComplexSequence> sequenceFunction = (z0, n) -> null;
 
-        FractalGenerator generator = createGenerator(image, plane, palette, outputPath, sequenceFunction, nbTherm);
+        FractalGenerator generator = createGenerator(image, plane, palette, outputPath, sequenceFunction, nbTerms);
 
         // Should not throw any exception
         generator.saveImage();
@@ -224,11 +225,11 @@ class FractalGeneratorTest {
         ComplexPlane plane = new ComplexPlane(2, 2);
         IPalette palette = new DummyPalette();
         String outputPath = "test.png";
-        int nbTherm = 5;
+        int nbTerms = 5;
 
         BiFunction<IComplex, Integer, IComplexSequence> sequenceFunction = (z0, n) -> null;
 
-        FractalGenerator generator = createGenerator(image, plane, palette, outputPath, sequenceFunction, nbTherm);
+        FractalGenerator generator = createGenerator(image, plane, palette, outputPath, sequenceFunction, nbTerms);
 
         assertThrows(UncheckedIOException.class, () -> generator.saveImage());
     }
