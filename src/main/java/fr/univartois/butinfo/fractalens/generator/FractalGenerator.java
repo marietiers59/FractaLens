@@ -1,6 +1,5 @@
 package fr.univartois.butinfo.fractalens.generator;
 
-import fr.univartois.butinfo.fractalens.complex.ComplexPlane;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
 import fr.univartois.butinfo.fractalens.complex.IComplexPlane;
 import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
@@ -17,6 +16,7 @@ import java.util.function.BiFunction;
  */
 public class FractalGenerator implements IFractalGenerator {
 
+    private final FractalGeneratorBuilder configuration;
     /**
      * The IFractalImage interface defines how to handle the image on which the fractal is drawn.
      */
@@ -59,12 +59,33 @@ public class FractalGenerator implements IFractalGenerator {
      * @param nbTerms          The maximum number of terms for the sequence generation.
      */
     public FractalGenerator(IFractalImage image, IComplexPlane plane, IPalette palette, String outputPath, BiFunction<IComplex, Integer, IComplexSequence> sequenceFunction, int nbTerms) {
+        this(image, plane, palette, outputPath, sequenceFunction, nbTerms, null);
+    }
+
+    /**
+     * Creates a new FractalGenerator, remembering the configuration it was built from.
+     *
+     * @param image            The image on which to draw the fractal.
+     * @param plane            The complex plane linking the pixels of the image to complex numbers.
+     * @param palette          The palette used to color the fractal.
+     * @param outputPath       The path of the file in which to save the generated image.
+     * @param sequenceFunction The BiFunction generating the complex sequence for each point based on a maximum number of terms.
+     * @param nbTerms          The maximum number of terms for the sequence generation.
+     * @param configuration    A copy of the configuration of the builder creating this generator.
+     */
+    FractalGenerator(IFractalImage image, IComplexPlane plane, IPalette palette, String outputPath, BiFunction<IComplex, Integer, IComplexSequence> sequenceFunction, int nbTerms, FractalGeneratorBuilder configuration) {
+        this.configuration = configuration;
         this.image = image;
         this.plane = plane;
         this.palette = palette;
         this.outputPath = outputPath;
         this.sequenceFunction = sequenceFunction;
         this.nbTerms = nbTerms;
+    }
+
+
+    public FractalGeneratorBuilder getConfiguration() {
+        return this.configuration;
     }
 
     /**

@@ -26,13 +26,13 @@ public final class Main {
         IFractalGenerator generator1 = FractalGeneratorBuilder.newInstance()
                 .withSize(600, 800)
                 .withMaxIterations(maxIterations1)
-                .withScale(0.005)
+                .withScale(0.001)
                 .withCenter(new Complex(-0.74364388703715, 0.131825904205330))
                 .withPalette(AllPalettes.DEGRADE_RED.getPalette(maxIterations1))
                 .withSequence(AllSequences.MANDELBROT.getSequenceFactory())
                 .build();
-        FractalGeneratorAnimated animatedGenerator = new FractalGeneratorAnimated("MandleBrotZoom.gif", 100);
-        zoomAnimated(generator1, animatedGenerator, 25, 0.1, 0.8);
+        FractalGeneratorAnimated animatedGenerator = new FractalGeneratorAnimated("MandleBrotZoom.gif", 70);
+        zoomAnimated(generator1, animatedGenerator, 70, 0.1, 0.8);
         animatedGenerator.generateImage();
         animatedGenerator.saveImage();
 
@@ -43,13 +43,13 @@ public final class Main {
         IFractalGenerator generator2 = FractalGeneratorBuilder.newInstance()
                 .withSize(600, 800)
                 .withMaxIterations(maxIterations3)
-                .withScale(0.001)
+                .withScale(0.004)
                 .withCenter(new Complex(0, 0))
-                .withPalette(AllPalettes.FIXED_RED.getPalette(maxIterations3))
+                .withPalette(AllPalettes.DEGRADE_YELLOW.getPalette(maxIterations3))
                 .withSequence(juliaRota)
                 .build();
-        FractalGeneratorAnimated animatedGenerator2 = new FractalGeneratorAnimated("JuliaRotation.gif", 100);
-        rotaAnimated(generator2, animatedGenerator2, 25, new Complex(0.7885, 0));
+        FractalGeneratorAnimated animatedGenerator2 = new FractalGeneratorAnimated("JuliaRotation.gif", 42);
+        rotaAnimated(generator2, animatedGenerator2, 100, new Complex(0.7885, 0), 2 * Math.PI / 100);
         animatedGenerator2.generateImage();
         animatedGenerator2.saveImage();
 
@@ -60,11 +60,11 @@ public final class Main {
      *
      * Put generators containing zoomed images into a list whose type is generator
      *
-     * @param generator
-     * @param animation
-     * @param amount
-     * @param scale
-     * @param constantZoom
+     * @param generator The generator.
+     * @param animation The animation.
+     * @param amount The number of frames.
+     * @param scale The scale.
+     * @param constantZoom The constant zoom.
      */
     public static void zoomAnimated(IFractalGenerator generator, FractalGeneratorAnimated animation,
                                     int amount, double scale, double constantZoom) {
@@ -75,15 +75,23 @@ public final class Main {
         }
     }
 
+    /**
+     * Rotates the generator by the given angle.
+     *
+     * @param generator The generator.
+     * @param animation The animation.
+     * @param amount The number of frames.
+     * @param c The complex number to rotate.
+     */
     public static void rotaAnimated(IFractalGenerator generator, FractalGeneratorAnimated animation,
-                                    int amount, IComplex c) {
+                                    int amount, IComplex c, double theta) {
         for (int i = 0; i < amount; i++) {
-            double theta = 2 * Math.PI * i / amount;
-            IComplex newC = c.multiply(new Complex(Math.cos(theta), Math.sin(theta)));
+            c = c.multiply(new Complex(Math.cos(theta), Math.sin(theta)));
             FractalGeneratorBuilder builder = new FractalGeneratorBuilder(generator);
 
+            IComplex finalC = c;
             builder.withSequence((z0, nbTerms) ->
-                    new ComplexSequenceLambda((first, z) -> z.multiply(z).add(newC), z0, nbTerms));
+                    new ComplexSequenceLambda((first, z) -> z.multiply(z).add(finalC), z0, nbTerms));
             animation.addFrame(builder.build());
         }
     }

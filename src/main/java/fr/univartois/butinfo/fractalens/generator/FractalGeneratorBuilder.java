@@ -74,9 +74,26 @@ public class FractalGeneratorBuilder {
      */
     private FractalGeneratorBuilder() {}
 
-    public FractalGeneratorBuilder(IFractalGenerator generator) {
-        this.generator = generator;
+    /**
+     * Creates a new FractalGeneratorBuilder.
+     * The constructor is private: use {@link #newInstance()} instead.
+     */
+    private FractalGeneratorBuilder(FractalGeneratorBuilder other) {
+        this.height = other.height;
+        this.width = other.width;
+        this.maxIterations = other.maxIterations;
+        this.scale = other.scale;
+        this.center = other.center;
+        this.paletteFactory = other.paletteFactory;
+        this.sequence = other.sequence;
+        this.outputPath = other.outputPath;
     }
+
+    public FractalGeneratorBuilder(IFractalGenerator generator) {
+        this(configurationOf(generator));
+    }
+
+
 
     /**
      * Creates a new builder, configured with the default values.
@@ -85,6 +102,22 @@ public class FractalGeneratorBuilder {
      */
     public static FractalGeneratorBuilder newInstance() {
         return new FractalGeneratorBuilder();
+    }
+
+
+    /**
+     * Gives the configuration that was used to build the given generator.
+     *
+     * @param generator The generator.
+     * @return The configuration of the generator.
+     */
+    private static FractalGeneratorBuilder configurationOf(IFractalGenerator generator) {
+        Objects.requireNonNull(generator, "The generator must not be null");
+        if (generator instanceof FractalGenerator fractalGenerator
+                && fractalGenerator.getConfiguration() != null) {
+            return fractalGenerator.getConfiguration();
+        }
+        throw new IllegalArgumentException("The generator was not created by a builder");
     }
 
     /**
@@ -222,7 +255,7 @@ public class FractalGeneratorBuilder {
         plane = new ComplexPlaneTranslate(center, plane);
 
         IFractalImage image = new BufferedImageAdapter(width, height);
-        return new FractalGenerator(image, plane, paletteFactory, outputPath, sequence, maxIterations);
+        return new FractalGenerator(image, plane, paletteFactory, outputPath, sequence, maxIterations, new FractalGeneratorBuilder(this));
     }
 
 }
