@@ -2,8 +2,12 @@ package fr.univartois.butinfo.fractalens.complex;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiFunction;
 
 import fr.univartois.butinfo.fractalens.complex.sequence.AllSequences;
+import fr.univartois.butinfo.fractalens.complex.sequence.ComplexSequenceJulia;
+import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
+import fr.univartois.butinfo.fractalens.complex.sequence.JuliaRotation;
 import fr.univartois.butinfo.fractalens.generator.FractalGenerator;
 import fr.univartois.butinfo.fractalens.generator.FractalGeneratorAnimated;
 import fr.univartois.butinfo.fractalens.generator.FractalGeneratorBuilder;
@@ -79,13 +83,25 @@ public final class Main {
         generator4.saveImage();
 
 
+        // 5 : Rotation of the Julia's fractal (60 frames, 40 ms per frame = 25 frames per second)
+        int maxIterations5 = 250;
+        FractalGeneratorBuilder builder5 = FractalGeneratorBuilder.newInstance()
+                .withSize(400, 400)
+                .withMaxIterations(maxIterations5)
+                .withScale(0.008)
+                .withCenter(new Complex(0, 0))
+                .withPalette(AllPalettes.DEGRADE_INVERTED_MAGENTA.getPalette(maxIterations5));
+        FractalGeneratorAnimated rotationGenerator = new FractalGeneratorAnimated("julia-rotation.gif", 40);
+        sequenceChangeAnimated(builder5, rotationGenerator, 60, new Complex(-0.4, 0.6));
+        rotationGenerator.generateImage();
+        rotationGenerator.saveImage();
 
     }
-    
+
     /**
-     * 
+     *
      * Put generators containing zoomed images into a list whose type is generator
-     * 
+     *
      * @param generator
      * @param animation
      * @param amount
@@ -104,7 +120,48 @@ public final class Main {
     		FractalGeneratorBuilder zoomed = new FractalGeneratorBuilder(generator).withScale(scale);
     		animation.addFrame(zoomed.build());
     	}
-    	
-    
+
+
+    }
+
+    /**
+     * Puts into the animation the generators of a rotation of the Julia's fractal:
+     * the constant {@code c} of the sequence is rotated by {@code 2 * PI / amount}
+     * between two successive frames.
+     *
+     * The builder is reused for every frame: only the sequence is changed before each
+     * call to {@code build()}, so that all the frames share the configuration of the
+     * builder (size, scale, center, palette, number of iterations).
+     *
+     * @param builder The builder configured for the frames of the animation.
+     * @param animation The animation in which the frames are added.
+     * @param amount The number of frames of a full turn (at least 2).
+     * @param c The constant of the Julia's sequence for the first frame.
+     *
+     * @throws NullPointerException If {@code builder}, {@code animation} or {@code c}
+     *         is {@code null}.
+     * @throws IllegalArgumentException If {@code amount} is lower than 2.
+     *
+     * @author Marie Tiers
+     */
+    public static void sequenceChangeAnimated(FractalGeneratorBuilder builder,
+            FractalGeneratorAnimated animation, int amount, IComplex c) {
+        Objects.requireNonNull(builder, "The builder must not be null");
+        Objects.requireNonNull(animation, "The animation must not be null");
+        Objects.requireNonNull(c, "The constant of the sequence must not be null");
+        if (amount < 2) {
+            throw new IllegalArgumentException("An animation needs at least two frames");
+        }
+
+        double step = 2 * Math.PI / amount;
+        for (int i = 0; i < amount; i++) {
+            // New complex number: c rotated by i * step.
+            IComplex rotatedC = JuliaRotation.rotate(c, i * step);
+            // New Julia's sequence using this complex number.
+            BiFunction<IComplex, Integer, IComplexSequence> julia =
+                    (z0, nbTerms) -> new ComplexSequenceJulia(z0, rotatedC, nbTerms);
+            // New frame, built with the configuration of the builder.
+            animation.addFrame(builder.withSequence(julia).build());
+        }
     }
 }
