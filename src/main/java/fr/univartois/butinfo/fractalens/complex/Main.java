@@ -72,6 +72,14 @@ public final class Main {
         generator4.saveImage();
 
 
-
+    }
+    
+    /**
+     * 
+     */
+    public static void zoomAnimated() {
+    	//le contenu essentiel est une boucle pour faire varier la valeur du zoom
+    	//Plus la valeur du zoom est petite, plus le zoom est important.
+    	//Il faut donc diminuer petit à petit cette valeur
     }
 }
