@@ -25,6 +25,7 @@ import fr.univartois.butinfo.fractalens.palette.IPalette;
  */
 public class FractalGeneratorBuilder {
 
+    private IFractalGenerator generator = null;
     /**
      * The height of the image, in pixels.
      */
@@ -72,6 +73,10 @@ public class FractalGeneratorBuilder {
      * The constructor is private: use {@link #newInstance()} instead.
      */
     private FractalGeneratorBuilder() {}
+
+    public FractalGeneratorBuilder(IFractalGenerator generator) {
+        this.generator = generator;
+    }
 
     /**
      * Creates a new builder, configured with the default values.
