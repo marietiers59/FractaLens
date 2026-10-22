@@ -1,5 +1,7 @@
 package fr.univartois.butinfo.fractalens.complex;
 
+import fr.univartois.butinfo.fractalens.complex.sequence.JuliaRotation;
+import fr.univartois.butinfo.fractalens.complex.sequence.ComplexSequenceJulia;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -76,22 +78,21 @@ public final class Main {
     }
 
     /**
-     * Rotates the generator by the given angle.
+     * Puts into the animation the generators of a rotation of the Julia's fractal:
+     * the constant c is rotated by theta between two successive frames.
      *
-     * @param generator The generator.
-     * @param animation The animation.
+     * @param generator The generator whose configuration is used for every frame.
+     * @param animation The animation in which the frames are added.
      * @param amount The number of frames.
-     * @param c The complex number to rotate.
+     * @param c The constant of the Julia's sequence for the first frame.
+     * @param theta The angle between two successive frames, in radians.
      */
     public static void rotaAnimated(IFractalGenerator generator, FractalGeneratorAnimated animation,
                                     int amount, IComplex c, double theta) {
         for (int i = 0; i < amount; i++) {
-            c = c.multiply(new Complex(Math.cos(theta), Math.sin(theta)));
+            IComplex rotatedC = JuliaRotation.rotate(c, i * theta);
             FractalGeneratorBuilder builder = new FractalGeneratorBuilder(generator);
-
-            IComplex finalC = c;
-            builder.withSequence((z0, nbTerms) ->
-                    new ComplexSequenceLambda((first, z) -> z.multiply(z).add(finalC), z0, nbTerms));
+            builder.withSequence((z0, nbTerms) -> new ComplexSequenceJulia(z0, rotatedC, nbTerms));
             animation.addFrame(builder.build());
         }
     }
