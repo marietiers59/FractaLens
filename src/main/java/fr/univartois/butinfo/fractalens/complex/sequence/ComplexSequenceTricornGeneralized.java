@@ -12,11 +12,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @author Marie Tiers
  */
-<<<<<<<< HEAD:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceTricornGeneralized.java
 public class ComplexSequenceTricornGeneralized extends ComplexSequenceLambda {
-========
-public class ComplexSequenceGeneralizedTricorn extends ComplexSequenceLambda {
->>>>>>>> 739edabb804610c40a6455d842ca099d11a2b566:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceGeneralizedTricorn.java
 
     /**
      * Creates a new generalized Tricorn's sequence using the given parameters.
@@ -26,11 +22,7 @@ public class ComplexSequenceGeneralizedTricorn extends ComplexSequenceLambda {
      * @param z0 The initial value of the sequence.
      * @param p The power used in the definition of the sequence.
      */
-<<<<<<<< HEAD:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceTricornGeneralized.java
     public ComplexSequenceTricornGeneralized(IComplex c, int nbTerms, IComplex z0, int p) {
-========
-    public ComplexSequenceGeneralizedTricorn(IComplex c, int nbTerms, IComplex z0, int p) {
->>>>>>>> 739edabb804610c40a6455d842ca099d11a2b566:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceGeneralizedTricorn.java
         super((first, z) -> z.conjugate().power(p).add(c), z0, nbTerms);
     }
 

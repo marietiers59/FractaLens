@@ -25,11 +25,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @version 0.1.0
  */
-<<<<<<<< HEAD:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/JuliaRotationGeneralized.java
 public final class JuliaRotationGeneralized {
-========
-public final class GeneralizedJuliaRotation {
->>>>>>>> 739edabb804610c40a6455d842ca099d11a2b566:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/GeneralizedJuliaRotation.java
 
     /**
      * The power used by {@link AllSequences#JULIA_GENERALIZED}.
@@ -39,13 +35,8 @@ public final class GeneralizedJuliaRotation {
     /**
      * Prevents the instantiation of this utility class.
      */
-<<<<<<<< HEAD:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/JuliaRotationGeneralized.java
     private JuliaRotationGeneralized() {
         throw new AssertionError("No instances of JuliaRotationGeneralized");
-========
-    private GeneralizedJuliaRotation() {
-        throw new AssertionError("No instances of JuliaRotationGeneralisee");
->>>>>>>> 739edabb804610c40a6455d842ca099d11a2b566:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/GeneralizedJuliaRotation.java
     }
 
     /**
@@ -62,8 +53,8 @@ public final class GeneralizedJuliaRotation {
         return switch (sequence) {
             case JULIA, JULIA_GENERALIZED -> true;
             case MANDELBROT, MANDELBROT_GENERALIZED,
-                    BURNING_SHIP, BURNING_SHIP_GENERALIZED,
-                    TRICORN, TRICORN_GENERALIZED -> false;
+                 BURNING_SHIP, BURNING_SHIP_GENERALIZED,
+                 TRICORN, TRICORN_GENERALIZED -> false;
         };
     }
 
@@ -97,10 +88,10 @@ public final class GeneralizedJuliaRotation {
             case JULIA -> JuliaRotation.factories(c, step);
             case JULIA_GENERALIZED -> generalizedJuliaFactories(c, step);
             case MANDELBROT, MANDELBROT_GENERALIZED,
-                    BURNING_SHIP, BURNING_SHIP_GENERALIZED,
-                    TRICORN, TRICORN_GENERALIZED -> throw new UnsupportedOperationException(
-                            "The rotation is not supported for " + sequence
-                                    + ": only Julia's sequences can be rotated");
+                 BURNING_SHIP, BURNING_SHIP_GENERALIZED,
+                 TRICORN, TRICORN_GENERALIZED -> throw new UnsupportedOperationException(
+                    "The rotation is not supported for " + sequence
+                            + ": only Julia's sequences can be rotated");
         };
     }
 

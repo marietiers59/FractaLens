@@ -21,11 +21,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @author Marie Tiers
  */
-<<<<<<<< HEAD:src/test/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceTricornGeneralizedTest.java
 class ComplexSequenceTricornGeneralizedTest {
-========
-class ComplexSequenceGeneralizedTricornTest {
->>>>>>>> 739edabb804610c40a6455d842ca099d11a2b566:src/test/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceGeneralizedTricornTest.java
 
     /**
      * Creates a new complex number.
@@ -51,11 +47,7 @@ class ComplexSequenceGeneralizedTricornTest {
      */
     private static IComplexSequence createSequence(
             IComplex first, IComplex constant, int nbTerms, int power) {
-<<<<<<<< HEAD:src/test/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceTricornGeneralizedTest.java
         return new ComplexSequenceTricornGeneralized(constant, nbTerms, first, power);
-========
-        return new ComplexSequenceGeneralizedTricorn(constant, nbTerms, first, power);
->>>>>>>> 739edabb804610c40a6455d842ca099d11a2b566:src/test/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceGeneralizedTricornTest.java
     }
 
     /**
