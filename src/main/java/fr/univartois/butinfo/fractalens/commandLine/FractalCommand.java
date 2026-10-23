@@ -75,7 +75,21 @@ public class FractalCommand {
 
     ///////////
 
+    /**
+     * The name of the color palette used to color the fractal.
+     */
+    @Option(names = {"-p", "--palette-name"}, paramLabel = "<name>", defaultValue = "GREYSCALE",
+            description = "The color palette used to color the fractal (default: ${DEFAULT-VALUE}). "
+                    + "Values: ${COMPLETION-CANDIDATES}.")
+    private AllPalettes paletteName;
 
+    /**
+     * The type of image to generate.
+     */
+    @Option(names = {"-t", "--type"}, paramLabel = "<type>", defaultValue = "SINGLE",
+            description = "The type of image to generate (default: ${DEFAULT-VALUE}). "
+                    + "Values: ${COMPLETION-CANDIDATES}.")
+    private ImageType type;
 
     /////////
 
