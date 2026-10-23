@@ -108,9 +108,7 @@ class ComplexPlaneTest {
     void exceptionOutOfBoundRowAndColumn() {
     	IComplexPlane plane = createPlane(600, 800);
     	
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            plane.asComplex(900, 900);
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> plane.asComplex(900, 900));
 
         String expectedMessage = "The numbers of the row and column are bigger than the height and width of the plane !";
         String actualMessage = exception.getMessage();
