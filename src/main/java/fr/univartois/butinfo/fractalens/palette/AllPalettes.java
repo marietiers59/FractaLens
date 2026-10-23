@@ -1,6 +1,7 @@
 package fr.univartois.butinfo.fractalens.palette;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.IntFunction;
 
@@ -14,6 +15,10 @@ import fr.univartois.butinfo.fractalens.palette.ColorMaskPalette.Mask;
  * the project: {@link InvertedPalette} and {@link ColorMaskPalette}.
  * When both decorators are used, the colors are first inverted, then masked, so
  * that only the chosen color components remain visible.
+ *
+ * The {@link #RAINBOW} and {@link #GALAXY} constants are looping multi-color
+ * gradients, built from a {@link FixedPalette} whose colors are computed with
+ * {@link DegradePalette}.
  *
  * @author Marie TIERS
  */
@@ -149,7 +154,19 @@ public enum AllPalettes {
     FIXED_INVERTED_CYAN(_ -> new ColorMaskPalette(new InvertedPalette(new FixedPalette(Defaults.FIXED_COLORS)), Mask.CYAN)),
 
     /** Inverted fixed palette keeping only the blue and red components. */
-    FIXED_INVERTED_MAGENTA(_ -> new ColorMaskPalette(new InvertedPalette(new FixedPalette(Defaults.FIXED_COLORS)), Mask.MAGENTA));
+    FIXED_INVERTED_MAGENTA(_ -> new ColorMaskPalette(new InvertedPalette(new FixedPalette(Defaults.FIXED_COLORS)), Mask.MAGENTA)),
+
+    // ------------------------------------------------------------ Multi-gradient
+
+    /** Rainbow gradient: red, orange, yellow, green, blue, indigo and pink, looping on black. */
+    RAINBOW(max -> new FixedPalette(Defaults.gradientColors(
+            Defaults.RAINBOW_COLORS, Defaults.RAINBOW_PERIOD, Color.BLACK, max))),
+
+    /** Galaxy gradient: black sky, ice blue, white sparks and fire, on a pale sunflower inside. */
+    GALAXY(max -> new FixedPalette(Defaults.gradientColors(
+            Defaults.GALAXY_COLORS, Defaults.GALAXY_PERIOD, Defaults.GALAXY_INSIDE_COLOR, max)));
+
+
 
     /**
      * The factory creating the (possibly decorated) palette from the maximum
@@ -201,6 +218,69 @@ public enum AllPalettes {
         static final List<Color> FIXED_COLORS = List.of(
                 Color.BLACK, Color.BLUE, Color.CYAN, Color.GREEN,
                 Color.YELLOW, Color.ORANGE, Color.RED, Color.MAGENTA, Color.WHITE);
+
+        /**
+         * The number of iterations needed to go once through all the colors of the
+         * rainbow gradient.
+         */
+        static final int RAINBOW_PERIOD = 32;
+
+        /**
+         * The colors of the rainbow gradient, in the order in which they are crossed.
+         */
+        static final List<Color> RAINBOW_COLORS = List.of(
+                new Color(0xFF1744), new Color(0xFF9100), new Color(0xFFEA00),
+                new Color(0x00E676), new Color(0x00B0FF), new Color(0x651FFF),
+                new Color(0xF500A0));
+
+        /**
+         * The number of iterations needed to go once through all the colors of the
+         * galaxy gradient.
+         */
+        static final int GALAXY_PERIOD = 48;
+
+        /**
+         * The colors of the galaxy gradient, in the order in which they are crossed:
+         * black sky, ice blue, white sparks, then fire.
+         */
+        static final List<Color> GALAXY_COLORS = List.of(
+                new Color(0x05010F), new Color(0x9BE7FF), new Color(0xFFFFFF),
+                new Color(0xFF8A00), new Color(0xC1121F));
+
+        /**
+         * The color of the points belonging to the fractal in the galaxy gradient
+         * (a pale sunflower).
+         */
+        static final Color GALAXY_INSIDE_COLOR = new Color(0xFFF2A8);
+
+        /**
+         * Computes the colors of a looping multi-color gradient, one per number of
+         * iterations. The gradient goes through all the given colors every
+         * {@code period} iterations, then starts again, each color fading into the
+         * next one with a {@link DegradePalette}. The last color of the list is the
+         * color of the points belonging to the fractal.
+         *
+         * @param gradient The colors of the gradient, in the order in which they are
+         *        crossed.
+         * @param period The number of iterations needed to go once through all the
+         *        colors.
+         * @param insideColor The color of the points belonging to the fractal.
+         * @param maxIterations The maximum number of iterations.
+         *
+         * @return The colors to give to a {@link FixedPalette}.
+         */
+        static List<Color> gradientColors(List<Color> gradient, int period, Color insideColor, int maxIterations) {
+            List<Color> colors = new ArrayList<>(maxIterations + 1);
+            int size = gradient.size();
+            for (int n = 0; n < maxIterations; n++) {
+                int step = (n % period) * size;
+                Color from = gradient.get(step / period);
+                Color to = gradient.get((step / period + 1) % size);
+                colors.add(new DegradePalette(period, from, to).getColor(step % period));
+            }
+            colors.add(insideColor);
+            return colors;
+        }
 
         /**
          * Prevents instantiation.
