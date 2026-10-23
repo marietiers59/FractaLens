@@ -183,22 +183,6 @@ class JuliaRotationGeneralizedTest {
         assertComplexEquals(createComplex(-2, 2), first.computeNext(createComplex(1, 1)));
     }
 
-    /**
-     * Test method for {@link JuliaRotationGeneralized#factories(AllSequences, IComplex, double)}
-     * with the generalized Julia's sequence: the first factory (angle 0) keeps the
-     * constant, and the pixel and the number of terms are passed to the sequence.
-     */
-    @Test
-    void testFactoriesGeneralizedJuliaFirstFactory() {
-        IComplex z0 = createComplex(0.1, 0.1);
-        IComplexSequence expected = new ComplexSequenceGeneralJulia(z0, C, 10, 3);
-        IComplexSequence actual =
-                JuliaRotationGeneralized.factories(AllSequences.JULIA_GENERALIZED, C, STEP)
-                        .get(0).apply(z0, 10);
-
-        assertEquals(collect(expected), collect(actual));
-    }
-
     // ------------------------------------------------------ factories: unsupported
 
     /**

@@ -13,14 +13,47 @@ The project uses *Java 25* and *Gradle* (through the provided wrapper).
 ```bash
 ./gradlew build      # compiles the library and runs the unit tests
 ./gradlew test       # runs the unit tests and produces the JaCoCo coverage report
-./gradlew run        # runs the demonstration (generates generator1.png to generator4.png)
+./gradlew run --args="-f MANDELBROT -o mandelbrot.png"   # generates a fractal from the command line
 ```
+
+### Command line
+
+The application is a command-line program (built with *picocli*): the fractal to
+generate is chosen with `-f`, and the result is saved in the file given with `-o`.
+
+```bash
+# A single image of the Burning Ship fractal, centered in -1.755 - 0.03i
+./gradlew run --args="-f BURNING_SHIP -x -1.755 -y -0.03 -s 0.0001 -n 64 -w 800 -h 800 -p DEGRADE -o ship.png"
+
+# An animated GIF zooming on the Mandelbrot fractal (30 images)
+./gradlew run --args="-f MANDELBROT -t ZOOM -i 30 -o zoom.gif"
+
+# An animated GIF in which the constant of Julia's sequence rotates
+./gradlew run --args="-f JULIA -t ROTATION -i 36 -o julia.gif"
+```
+
+| Option                  | Description                                                           | Default     |
+|-------------------------|-----------------------------------------------------------------------|-------------|
+| `-f`, `--fractal-name`  | The fractal to generate (a value of `AllSequences`). **Required.**   |             |
+| `-o`, `--output`        | The file in which the fractal is saved (a GIF file for animations). **Required.** |  |
+| `-n`, `--nb-iterations` | The maximum number of iterations.                                     | `250`       |
+| `-w`, `--width`         | The width of the image, in pixels.                                    | `800`       |
+| `-h`, `--height`        | The height of the image, in pixels.                                   | `600`       |
+| `-s`, `--scale`         | The scale (zoom) applied to the complex plane.                        | `0.004`     |
+| `-x`, `--focus-x`       | The real part of the center of the image.                             | `0`         |
+| `-y`, `--focus-y`       | The imaginary part of the center of the image.                        | `0`         |
+| `-p`, `--palette-name`  | The color palette (a value of `AllPalettes`).                         | `GREYSCALE` |
+| `-t`, `--type`          | The type of image: `SINGLE`, `ZOOM` or `ROTATION`.                    | `SINGLE`    |
+| `-i`, `--image-count`   | The number of images of an animation (at least 2).                    | `30`        |
+| `--help`                | Shows the help message.                                               |             |
+
+The `ROTATION` type is only available for `JULIA` and `JULIA_GENERALIZED`.
 
 The coverage report is generated in `build/reports/jacoco/test/html/index.html`.
 
 ## Overview
 
-The library is split into five packages.
+The library is split into six packages.
 Each package is built around one or two design patterns, summarized below.
 
 ```plantuml
@@ -59,13 +92,21 @@ package "image  [Adapter]" #FFFDE7 {
     IFractalImage <|.. BufferedImageAdapter
 }
 
-package "generator  [Strategy + Builder]" #FFF3E0 {
+package "generator  [Strategy + Builder + Composite]" #FFF3E0 {
     interface IFractalGenerator
     class FractalGenerator
+    class FractalGeneratorAnimated
     class FractalGeneratorBuilder
     IFractalGenerator <|.. FractalGenerator
+    IFractalGenerator <|.. FractalGeneratorAnimated
 }
 
+package "commandLine  [Builder]" #E8F5E9 {
+    class FractalCommand
+}
+
+FractalCommand ..> FractalGeneratorBuilder : <<uses>>
+FractalCommand ..> FractalGeneratorAnimated : <<creates>>
 FractalGeneratorBuilder ..> FractalGenerator : <<creates>>
 FractalGenerator o--> IComplexPlane
 FractalGenerator o--> IPalette
@@ -171,6 +212,26 @@ The `AllSequences` enumeration gathers the predefined sequences and gives, for
 each of them, a factory `BiFunction<IComplex, Integer, IComplexSequence>`
 (pixel → sequence) that can be passed to the builder.
 
+| Constant                   | Formula                                   | Role of the pixel `z0`             |
+|----------------------------|-------------------------------------------|------------------------------------|
+| `JULIA`                    | `z² + c`, with `c = -0.4 + 0.6i`          | first term of the sequence         |
+| `JULIA_GENERALIZED`        | `z³ + c`, with `c = 0.285 + 0.01i`        | first term of the sequence         |
+| `MANDELBROT`               | `z² + z0`                                 | constant added at each step        |
+| `MANDELBROT_GENERALIZED`   | `z³ + z0`                                 | constant added at each step        |
+| `BURNING_SHIP`             | `(abs(Re z) + i·abs(Im z))² + z0` | constant added at each step        |
+| `BURNING_SHIP_GENERALIZED` | `(abs(Re z) + i·abs(Im z))³ + z0` | constant added at each step        |
+| `TRICORN`                  | `conjugate(z)² + c`, with `c = -0.4 + 0.6i` | first term of the sequence       |
+| `TRICORN_GENERALIZED`      | `conjugate(z)³ + c`, with `c = 0.285 + 0.01i` | first term of the sequence     |
+
+For the Julia-like sequences, the pixel is the first term and `c` is fixed: the
+image shows which starting points stay bounded. For the Mandelbrot-like sequences
+(Mandelbrot and Burning Ship), the pixel is the constant itself: the image shows
+which constants give a bounded sequence.
+
+`JuliaRotation` and `JuliaRotationGeneralized` build the factories of the images
+of a rotation animation: the constant `c` of Julia's sequence is multiplied by
+`e^(iθ)`, with `θ` going through a full turn.
+
 ```plantuml
 @startuml
 hide empty members
@@ -197,6 +258,17 @@ class ComplexSequenceLambda {
     - nbTerms : int
     + computeNext(previous : IComplex) : IComplex
     + iterator() : Iterator<IComplex>
+}
+
+class JuliaRotation {
+    + {static} rotate(c : IComplex, theta : double) : IComplex
+    + {static} angles(step : double) : List<Double>
+    + {static} factories(c : IComplex, step : double) : List<BiFunction<IComplex, Integer, IComplexSequence>>
+}
+
+class JuliaRotationGeneralized {
+    + {static} isSupported(sequence : AllSequences) : boolean
+    + {static} factories(sequence : AllSequences, c : IComplex, step : double) : List<BiFunction<IComplex, Integer, IComplexSequence>>
 }
 
 class ComplexSequenceJulia
@@ -238,6 +310,10 @@ IComplexSequence ..> ComplexSequenceIterator : <<creates>>
 AllSequences ..> ComplexSequenceLambda : <<creates>>
 AllSequences ..> ComplexSequenceBurningShip : <<creates>>
 AllSequences ..> ComplexSequenceGeneralizedBurningShip : <<creates>>
+JuliaRotation ..> ComplexSequenceJulia : <<creates>>
+JuliaRotationGeneralized ..> JuliaRotation : <<uses>>
+JuliaRotationGeneralized ..> ComplexSequenceGeneralJulia : <<creates>>
+JuliaRotationGeneralized ..> AllSequences : <<uses>>
 @enduml
 ```
 
@@ -374,6 +450,17 @@ sequence of each pixel.
 **Pattern: Builder.** `FractalGeneratorBuilder` provides a default value for
 every parameter and fluent `withXxx()` methods to change them, checking their
 validity. `build()` assembles the decorated plane, the image and the generator.
+A generator created by the builder remembers its configuration: a new builder
+can be created from it (`new FractalGeneratorBuilder(generator)`) to derive
+another generator that only differs by a few parameters (e.g., the scale).
+
+**Pattern: Composite.** `FractalGeneratorAnimated` is itself an `IFractalGenerator`
+that contains other generators (its frames). Generating it generates every
+frame, and saving it writes all the frames in a single animated GIF file.
+Thus, the code using a generator does not need to know whether it produces a
+single image or an animation. Two kinds of animations are provided by the command
+line: a *zoom* (the scale of each frame is a fraction of the previous one) and a
+*rotation* (the constant of Julia's sequence rotates from one frame to the next).
 
 ```plantuml
 @startuml
@@ -390,6 +477,14 @@ class FractalGenerator {
     - nbTherm : int
     ~ sequenceFunction : BiFunction<IComplex, Integer, IComplexSequence>
     + FractalGenerator(image : IFractalImage, plane : IComplexPlane, palette : IPalette, outputPath : String, sequenceFunction : BiFunction<IComplex, Integer, IComplexSequence>, nbTherm : int)
+    + getConfiguration() : FractalGeneratorBuilder
+}
+
+class FractalGeneratorAnimated {
+    - outputPath : String
+    - frameDelay : int
+    + FractalGeneratorAnimated(outputPath : String, frameDelay : int)
+    + addFrame(generator : IFractalGenerator) : void
 }
 
 class FractalGeneratorBuilder {
@@ -400,6 +495,7 @@ class FractalGeneratorBuilder {
     - center : IComplex
     - outputPath : String = "fractal.png"
     - FractalGeneratorBuilder()
+    + FractalGeneratorBuilder(generator : IFractalGenerator)
     + {static} newInstance() : FractalGeneratorBuilder
     + withSize(width : int, height : int) : FractalGeneratorBuilder
     + withScale(scale : double) : FractalGeneratorBuilder
@@ -419,6 +515,8 @@ interface IPalette
 interface IComplexSequence
 
 IFractalGenerator <|.. FractalGenerator
+IFractalGenerator <|.. FractalGeneratorAnimated
+FractalGeneratorAnimated o--> "*" IFractalGenerator : frames
 FractalGenerator o--> "1" IFractalImage : image
 FractalGenerator o--> "1" IComplexPlane : plane
 FractalGenerator o--> "1" IPalette : palette
@@ -428,38 +526,89 @@ FractalGeneratorBuilder --> IPalette : paletteFactory
 @enduml
 ```
 
+### Command line
+
+`FractalCommand` (package `commandLine`) reads the options given by the user with
+*picocli* and configures a `FractalGeneratorBuilder` with them. According to the
+requested type of image, it then returns either the generator built by the builder
+(`SINGLE`), or a `FractalGeneratorAnimated` whose frames are generators derived
+from the same builder (`ZOOM` and `ROTATION`). Invalid parameters (e.g., a
+rotation of a sequence that is not Julia's) are reported to the user with a usage
+error instead of a stack trace.
+
+```plantuml
+@startuml
+hide empty members
+
+class FractalCommand {
+    - fractalName : AllSequences
+    - nbIterations : int
+    - width : int
+    - height : int
+    - scale : double
+    - focusX : double
+    - focusY : double
+    - paletteName : AllPalettes
+    - type : ImageType
+    - imageCount : int
+    - output : String
+    + run() : void
+}
+
+enum ImageType {
+    SINGLE
+    ZOOM
+    ROTATION
+}
+
+class FractalGeneratorBuilder
+class FractalGeneratorAnimated
+interface IFractalGenerator
+enum AllSequences
+enum AllPalettes
+
+FractalCommand ..|> Runnable
+FractalCommand --> ImageType
+FractalCommand --> AllSequences
+FractalCommand --> AllPalettes
+FractalCommand ..> FractalGeneratorBuilder : <<uses>>
+FractalCommand ..> FractalGeneratorAnimated : <<creates>>
+FractalCommand ..> IFractalGenerator : <<runs>>
+@enduml
+```
+
 ## Feature list
 
-| Features                                               | Design Pattern(s)          | Status      | Author(s)                       |
-|--------------------------------------------------------|----------------------------|-------------|---------------------------------|
-| Complex number                                         |                            | Done        | TODO                            |
-| Default complex plane                                  | Decorator                  | Done        | Thibault Breguet                |
-| Scaled complex plane                                   | Decorator                  | Done        | Thibault Breguet                |
-| Translated complex plane                               | Decorator                  | Done        | Théo Brureau                    |
-| Sequence of complex numbers                            | Template method            | Done        | TODO                            |
-| Iterator over a sequence of complex numbers            | Iterator                   | Done        | TODO                            |
-| Julia sequence                                         | Strategy                   | Done        | Théo Brureau                    |
-| Mandelbrot sequence                                    | Strategy                   | Done        | TODO                            |
-| Multijulia sequence                                    | Strategy                   | Done        | Thibault Breguet                |
-| Multibrot sequence                                     | Strategy                   | Done        | TODO                            |
-| Burning Ship sequence (and generalized version)        | Strategy                   | Done        | Théo Brureau                    |
-| Tricorn sequence (and generalized version)             | Strategy                   | Done        | Marie Tiers                     |
-| Generic sequences (defined by a lambda expression)     | Strategy                   | Done        | TODO                            |
-| Enumeration of the available sequences                 | Strategy                   | Done        | Thibault Breguet                |
-| Color palette                                          | Strategy                   | Done        | Marie Tiers                     |
-| Grey scale palette                                     | Strategy                   | Done        | Marie Tiers                     |
-| Red/Green/Blue/... scale palette                       | Decorator                  | Done        | TODO                            |
-| Inverted color palette                                 | Decorator                  | Done        | TODO                            |
-| Gradient-based color palette                           | Strategy                   | Done        | Théo Brureau                    |
-| Predefined color palette                               | Strategy                   | Done        | Théo Brureau                    |
-| Enumeration of the available palettes                  | Strategy + Decorator       | Done        | Marie Tiers                     |
-| `BufferedImage` used as an `IFractalImage`             | Adapter                    | Done        | Théo Brureau                    |
-| Static image generation                                | Strategy                   | Done        | TODO                            |
-| Configuration of the fractal generator                 | Strategy + Builder         | Done        | Théo Brureau                    |
-| Composite of fractal generators (animated GIF)         | Composite                  | In progress | TODO                            |
-| Scale-based animated image generation                  | Composite + Builder        | In progress | TODO                            |
-| Rotation-based animated image generation               | Composite + Builder        | In progress | Marie Tiers                     |
-| Command-line interface                                 | Abstract factory + Builder | To do       |                                 |
+| Features                                               | Design Pattern(s)          | Status      | Author(s)        |
+|--------------------------------------------------------|----------------------------|-------------|------------------|
+| Complex number                                         |                            | Done        | Marie Tiers      |
+| Default complex plane                                  | Decorator                  | Done        | Thibault Breguet |
+| Scaled complex plane                                   | Decorator                  | Done        | Thibault Breguet |
+| Translated complex plane                               | Decorator                  | Done        | Théo Brureau     |
+| Sequence of complex numbers                            | Template method            | Done        | Théo Brureau     |
+| Iterator over a sequence of complex numbers            | Iterator                   | Done        | Joan Pesson      |
+| Julia sequence                                         | Strategy                   | Done        | Théo Brureau     |
+| Mandelbrot sequence                                    | Strategy                   | Done        | Joan Pesson      |
+| Multijulia sequence                                    | Strategy                   | Done        | Thibault Breguet |
+| Multibrot sequence                                     | Strategy                   | Done        | Joan Pesson      |
+| Burning Ship sequence (and generalized version)        | Strategy                   | Done        | Théo Brureau     |
+| Tricorn sequence (and generalized version)             | Strategy                   | Done        | Marie Tiers      |
+| Generic sequences (defined by a lambda expression)     | Strategy                   | Done        | Théo Brureau     |
+| Enumeration of the available sequences                 | Strategy                   | Done        | Thibault Breguet |
+| Color palette                                          | Strategy                   | Done        | Marie Tiers      |
+| Grey scale palette                                     | Strategy                   | Done        | Marie Tiers      |
+| Red/Green/Blue/... scale palette                       | Decorator                  | Done        | Marie Tiers      |
+| Inverted color palette                                 | Decorator                  | Done        | Joan Pesson      |
+| Gradient-based color palette                           | Strategy                   | Done        | Théo Brureau     |
+| Predefined color palette                               | Strategy                   | Done        | Théo Brureau     |
+| Enumeration of the available palettes                  | Strategy + Decorator       | Done        | Marie Tiers      |
+| `BufferedImage` used as an `IFractalImage`             | Adapter                    | Done        | Théo Brureau     |
+| Static image generation                                | Strategy                   | Done        | Théo Brureau     |
+| Configuration of the fractal generator                 | Strategy + Builder         | Done        | Théo Brureau     |
+| Composite of fractal generators (animated GIF)         | Composite                  | Done        | Théo Brureau     |
+| Scale-based animated image generation                  | Composite + Builder        | Done        | Thibault Breguet |
+| Rotation-based animated image generation               | Composite + Builder        | Done        | Marie Tiers      |
+| Command-line interface                                 | Abstract factory + Builder | Done        | Joan Pesson      |
 
 ## Team
 

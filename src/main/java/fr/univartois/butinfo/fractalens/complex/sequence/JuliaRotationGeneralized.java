@@ -53,8 +53,8 @@ public final class JuliaRotationGeneralized {
         return switch (sequence) {
             case JULIA, JULIA_GENERALIZED -> true;
             case MANDELBROT, MANDELBROT_GENERALIZED,
-                    BURNING_SHIP, BURNING_SHIP_GENERALIZED,
-                    TRICORN, TRICORN_GENERALIZED -> false;
+                 BURNING_SHIP, BURNING_SHIP_GENERALIZED,
+                 TRICORN, TRICORN_GENERALIZED -> false;
         };
     }
 
@@ -88,10 +88,10 @@ public final class JuliaRotationGeneralized {
             case JULIA -> JuliaRotation.factories(c, step);
             case JULIA_GENERALIZED -> generalizedJuliaFactories(c, step);
             case MANDELBROT, MANDELBROT_GENERALIZED,
-                    BURNING_SHIP, BURNING_SHIP_GENERALIZED,
-                    TRICORN, TRICORN_GENERALIZED -> throw new UnsupportedOperationException(
-                            "The rotation is not supported for " + sequence
-                                    + ": only Julia's sequences can be rotated");
+                 BURNING_SHIP, BURNING_SHIP_GENERALIZED,
+                 TRICORN, TRICORN_GENERALIZED -> throw new UnsupportedOperationException(
+                    "The rotation is not supported for " + sequence
+                            + ": only Julia's sequences can be rotated");
         };
     }
 
@@ -110,7 +110,7 @@ public final class JuliaRotationGeneralized {
         for (double theta : JuliaRotation.angles(step)) {
             // The rotation is computed once per image, and not once per pixel.
             IComplex rotatedC = JuliaRotation.rotate(c, theta);
-            factories.add((z0, nbTerms) -> new ComplexSequenceGeneralJulia(
+            factories.add((z0, nbTerms) -> new ComplexSequenceGeneralizedJulia(
                     z0, rotatedC, nbTerms, GENERALIZED_JULIA_POWER));
         }
         return List.copyOf(factories);

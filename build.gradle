@@ -51,9 +51,8 @@ jacoco {
 // The configuration of the SonarQube static analysis.
 sonar {
     properties {
-        property("sonar.host.url", "http://sonarqube.univ-artois.fr")
-        property("sonar.projectKey", "fractalens")
-
+        property("sonar.host.url", "https://sonarqube.univ-artois.fr")
+        property("sonar.projectKey", "fractalensThiB_TB_MT_JP")
     }
 }
 

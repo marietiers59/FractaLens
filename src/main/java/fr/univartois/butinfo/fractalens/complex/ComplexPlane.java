@@ -43,13 +43,13 @@ public class ComplexPlane implements IComplexPlane{
 		}
 		else {
 			if (row >= height && column >= width){
-				throw new IllegalArgumentException("La ligne et la colonne sont plus grand que la taille et la largeur de l'image");
+				throw new IllegalArgumentException("The numbers of the row and column are bigger than the height and width of the plane !");
 			}
 			else if (row >= height) {
-				throw new IllegalArgumentException("La ligne est plus grande que la largeur de l'image");
+				throw new IllegalArgumentException("The row's number is bigger than the plane's height !");
 			}
 			else {
-				throw new IllegalArgumentException("La colonne est plus grande que la taille de l'image");
+				throw new IllegalArgumentException("The column's number is bigger than the plane's width !");
 			}
 		}
 	}
