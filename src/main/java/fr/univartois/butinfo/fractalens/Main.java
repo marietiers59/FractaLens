@@ -1,6 +1,6 @@
 package fr.univartois.butinfo.fractalens;
 
-import fr.univartois.butinfo.fractalens.commandLine.FractalCommand;
+import fr.univartois.butinfo.fractalens.commandline.FractalCommand;
 import picocli.CommandLine;
 
 /**

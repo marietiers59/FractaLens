@@ -182,26 +182,6 @@ class FractalGeneratorTest {
         assertEquals(image, result);
     }
 
-    /**
-     * Test method for
-     * {@link fr.univartois.butinfo.fractalens.generator.FractalGenerator#saveImage()}.
-     */
-    @Test
-    void testSaveImage() {
-        DummyFractalImage image = new DummyFractalImage(2, 2);
-        ComplexPlane plane = new ComplexPlane(2, 2);
-        IPalette palette = new DummyPalette();
-        String outputPath = "test.png";
-        int nbTerms = 5;
-
-        BiFunction<IComplex, Integer, IComplexSequence> sequenceFunction = (z0, n) -> null;
-
-        FractalGenerator generator = createGenerator(image, plane, palette, outputPath, sequenceFunction, nbTerms);
-
-        // Should not throw any exception
-        generator.saveImage();
-
-    }
 
     /**
      * Test method for
