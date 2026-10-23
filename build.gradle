@@ -29,6 +29,9 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     // Dependencies for Gifs
     implementation 'com.madgag:animated-gif-lib:1.4'
+
+    implementation 'info.picocli:picocli:4.7.6'
+
 }
 
 // The configuration of JUnit Jupiter for unit tests.
@@ -50,6 +53,7 @@ sonar {
     properties {
         property("sonar.host.url", "http://sonarqube.univ-artois.fr")
         property("sonar.projectKey", "fractalens")
+
     }
 }
 
