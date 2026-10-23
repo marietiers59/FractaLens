@@ -9,7 +9,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
 import fr.univartois.butinfo.fractalens.complex.ImageType;
 import fr.univartois.butinfo.fractalens.complex.sequence.AllSequences;
 import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
-import fr.univartois.butinfo.fractalens.complex.sequence.JuliaRotationGeneralisee;
+import fr.univartois.butinfo.fractalens.complex.sequence.JuliaRotationGeneralized;
 import fr.univartois.butinfo.fractalens.generator.FractalGeneratorAnimated;
 import fr.univartois.butinfo.fractalens.generator.FractalGeneratorBuilder;
 import fr.univartois.butinfo.fractalens.generator.IFractalGenerator;
@@ -218,7 +218,7 @@ public class FractalCommand implements Runnable {
     private IFractalGenerator createRotation(FractalGeneratorBuilder builder) {
         checkImageCount();
          // "JULIA"or  "JULIA_GENERALIZED"
-        if (!JuliaRotationGeneralisee.isSupported(fractalName)) {
+        if (!JuliaRotationGeneralized.isSupported(fractalName)) {
             throw new UnsupportedOperationException(
                     "The rotation is only available for JULIA and JULIA_GENERALIZED, not for "
                             + fractalName);
@@ -232,7 +232,7 @@ public class FractalCommand implements Runnable {
         }
 
         List<BiFunction<IComplex, Integer, IComplexSequence>> factories =
-                JuliaRotationGeneralisee.factories(fractalName, constant, 2 * Math.PI / imageCount);
+                JuliaRotationGeneralized.factories(fractalName, constant, 2 * Math.PI / imageCount);
 
         FractalGeneratorAnimated animation = new FractalGeneratorAnimated(output, FRAME_DELAY);
         for (BiFunction<IComplex, Integer, IComplexSequence> factory : factories) {
