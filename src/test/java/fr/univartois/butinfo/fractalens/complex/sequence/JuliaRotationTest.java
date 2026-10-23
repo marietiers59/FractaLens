@@ -172,7 +172,7 @@ class JuliaRotationTest {
     @Test
     void testAnglesBounds() {
         List<Double> angles = JuliaRotation.angles(2 * Math.PI / 60);
-        assertEquals(0, angles.get(0), 0.0);
+        assertEquals(0, angles.getFirst(), 0.0);
         for (double angle : angles) {
             assertTrue(angle < 2 * Math.PI);
         }
@@ -254,7 +254,7 @@ class JuliaRotationTest {
     @Test
     void testFirstFactoryKeepsConstant() {
         BiFunction<IComplex, Integer, IComplexSequence> first =
-                JuliaRotation.factories(C, 2 * Math.PI / 60).get(0);
+                JuliaRotation.factories(C, 2 * Math.PI / 60).getFirst();
         IComplex z0 = createComplex(0, 0);
 
         IComplexSequence expected = new ComplexSequenceJulia(z0, C, 64);
@@ -291,7 +291,7 @@ class JuliaRotationTest {
         IComplexSequence sequence = JuliaRotation.factories(C, 1).get(3).apply(z0, 5);
 
         List<IComplex> terms = collect(sequence);
-        assertEquals(z0, terms.get(0));
+        assertEquals(z0, terms.getFirst());
         assertTrue(terms.size() <= 5);
     }
 
