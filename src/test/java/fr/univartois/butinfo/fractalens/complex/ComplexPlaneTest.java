@@ -24,6 +24,8 @@
 package fr.univartois.butinfo.fractalens.complex;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -95,6 +97,63 @@ class ComplexPlaneTest {
         IComplex bottomRight = createComplex(399, -299);
         assertEquals(bottomRight, plane.asComplex(599, 799));
 
+    }
+    
+    /**
+     * Test method in order to check if my error handler, the one charged
+     * with raising an error in the case both numbers provided for the row
+     * and column are bigger than the height and width of the plane, is working.
+     */
+    @Test
+    void exceptionOutOfBoundRowAndColumn() {
+    	IComplexPlane plane = createPlane(600, 800);
+    	
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            plane.asComplex(900, 900);
+        });
+
+        String expectedMessage = "The numbers of the row and column are bigger than the height and width of the plane !";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+    
+    /**
+     * Test method in order to check if my error handler, the one
+     * charged with raising an error in the case the number provided
+     * for the row is bigger than the height of the plane, is working.
+     */
+    @Test
+    void exceptionOutOfBoundRow() {
+    	IComplexPlane plane = createPlane(600, 800);
+    	
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            plane.asComplex(900, 100);
+        });
+
+        String expectedMessage = "The row's number is bigger than the plane's height !";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+    
+    /**
+     * Test method in order to check if my error handler, the one
+     * charged with raising an error in the case the number provided
+     * for the column is bigger than the width of the plane, is working.
+     */
+    @Test
+    void exceptionOutOfBoundColumn() {
+    	IComplexPlane plane = createPlane(600, 800);
+    	
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            plane.asComplex(100, 900);
+        });
+
+        String expectedMessage = "The column's number is bigger than the plane's width !";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
 }
