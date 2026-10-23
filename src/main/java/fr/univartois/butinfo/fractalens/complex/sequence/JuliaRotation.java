@@ -79,7 +79,7 @@ public final class JuliaRotation {
      *         number.
      */
     public static List<Double> angles(double step) {
-        if ((step <= 0) || Double.isInfinite(step)) {
+        if (Double.isNaN(step) || step <= 0 || Double.isInfinite(step)) {
             throw new IllegalArgumentException("The step must be a strictly positive finite number");
         }
 
