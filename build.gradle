@@ -58,5 +58,5 @@ sonar {
 }
 
 application {
-    mainClass = 'fr.univartois.butinfo.fractalens.complex.Main'
+    mainClass = 'fr.univartois.butinfo.fractalens.Main'
 }
