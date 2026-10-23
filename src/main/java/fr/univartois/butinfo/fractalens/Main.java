@@ -1,15 +1,15 @@
-package fr.univartois.butinfo.fractalens.complex;
+package fr.univartois.butinfo.fractalens;
 
+import fr.univartois.butinfo.fractalens.complex.Complex;
+import fr.univartois.butinfo.fractalens.complex.IComplex;
 import fr.univartois.butinfo.fractalens.complex.sequence.JuliaRotation;
 import fr.univartois.butinfo.fractalens.complex.sequence.ComplexSequenceJulia;
-import java.util.List;
-import java.util.Objects;
+
 import java.util.function.BiFunction;
 
 import fr.univartois.butinfo.fractalens.complex.sequence.AllSequences;
 import fr.univartois.butinfo.fractalens.complex.sequence.ComplexSequenceLambda;
 import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
-import fr.univartois.butinfo.fractalens.generator.FractalGenerator;
 import fr.univartois.butinfo.fractalens.generator.FractalGeneratorAnimated;
 import fr.univartois.butinfo.fractalens.generator.FractalGeneratorBuilder;
 import fr.univartois.butinfo.fractalens.generator.IFractalGenerator;

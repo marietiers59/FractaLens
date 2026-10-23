@@ -37,7 +37,7 @@ public class FractalGeneratorAnimated implements IFractalGenerator {
         imageList.clear();
     }
 
-    
+
     @Override
     public IFractalImage generateImage() {
         if (generatorList.size() <= 1) {
