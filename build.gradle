@@ -7,7 +7,7 @@ plugins {
     id 'application'
     id 'jacoco'
     id 'java'
-    id 'org.sonarqube' version '3.5.0.2730'
+    id 'org.sonarqube' version '7.5.0.8588'
 }
 
 // The version of Java used in the project.
@@ -48,7 +48,7 @@ jacoco {
 // The configuration of the SonarQube static analysis.
 sonar {
     properties {
-        property("sonar.host.url", "http://sonarqube.univ-artois.fr")
+        property("sonar.host.url", "https://sonarqube.univ-artois.fr")
         property("sonar.projectKey", "fractalens")
     }
 }
