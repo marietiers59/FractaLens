@@ -25,7 +25,11 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @version 0.1.0
  */
+<<<<<<<< HEAD:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/JuliaRotationGeneralized.java
 public final class JuliaRotationGeneralized {
+========
+public final class GeneralizedJuliaRotation {
+>>>>>>>> 739edabb804610c40a6455d842ca099d11a2b566:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/GeneralizedJuliaRotation.java
 
     /**
      * The power used by {@link AllSequences#JULIA_GENERALIZED}.
@@ -35,8 +39,13 @@ public final class JuliaRotationGeneralized {
     /**
      * Prevents the instantiation of this utility class.
      */
+<<<<<<<< HEAD:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/JuliaRotationGeneralized.java
     private JuliaRotationGeneralized() {
         throw new AssertionError("No instances of JuliaRotationGeneralized");
+========
+    private GeneralizedJuliaRotation() {
+        throw new AssertionError("No instances of JuliaRotationGeneralisee");
+>>>>>>>> 739edabb804610c40a6455d842ca099d11a2b566:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/GeneralizedJuliaRotation.java
     }
 
     /**
@@ -110,7 +119,7 @@ public final class JuliaRotationGeneralized {
         for (double theta : JuliaRotation.angles(step)) {
             // The rotation is computed once per image, and not once per pixel.
             IComplex rotatedC = JuliaRotation.rotate(c, theta);
-            factories.add((z0, nbTerms) -> new ComplexSequenceGeneralJulia(
+            factories.add((z0, nbTerms) -> new ComplexSequenceGeneralizedJulia(
                     z0, rotatedC, nbTerms, GENERALIZED_JULIA_POWER));
         }
         return List.copyOf(factories);

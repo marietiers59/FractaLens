@@ -39,7 +39,7 @@ public class FractalGeneratorAnimated implements IFractalGenerator {
     @Override
     public IFractalImage generateImage() {
         if (generatorList.size() <= 1) {
-            throw new IllegalStateException("Une Animation a besoin d'au moins de deux frames");
+            throw new IllegalStateException("An animation needs at least 2 frames.");
         }
         imageList.clear();
         for (IFractalGenerator iFractalGenerator : generatorList) {

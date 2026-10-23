@@ -16,7 +16,11 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @version 0.1.0
  */
+<<<<<<<< HEAD:src/test/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceMandelbrotGeneralizedTest.java
 class ComplexSequenceMandelbrotGeneralizedTest {
+========
+class ComplexSequenceGeneralizedMandelbrotTest {
+>>>>>>>> 739edabb804610c40a6455d842ca099d11a2b566:src/test/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceGeneralizedMandelbrotTest.java
 
     /**
      * Creates a new complex number.
@@ -43,7 +47,11 @@ class ComplexSequenceMandelbrotGeneralizedTest {
     private static IComplexSequence createMandelbrotSequence(
             IComplex first, int power, int nbTerms) {
         // Generalized Mandelbrot's sequence.
+<<<<<<<< HEAD:src/test/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceMandelbrotGeneralizedTest.java
         return new ComplexSequenceMandelbrotGeneralized(first, power, nbTerms);
+========
+        return new ComplexSequenceGeneralizedMandelbrot(first, power, nbTerms);
+>>>>>>>> 739edabb804610c40a6455d842ca099d11a2b566:src/test/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceGeneralizedMandelbrotTest.java
     }
 
     /**
