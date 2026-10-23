@@ -1,29 +1,67 @@
 package fr.univartois.butinfo.fractalens.commandLine;
 
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.function.BiFunction;
+
 import fr.univartois.butinfo.fractalens.complex.Complex;
+import fr.univartois.butinfo.fractalens.complex.IComplex;
 import fr.univartois.butinfo.fractalens.complex.ImageType;
 import fr.univartois.butinfo.fractalens.complex.sequence.AllSequences;
+import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
+import fr.univartois.butinfo.fractalens.complex.sequence.JuliaRotationGeneralisee;
 import fr.univartois.butinfo.fractalens.generator.FractalGeneratorAnimated;
 import fr.univartois.butinfo.fractalens.generator.FractalGeneratorBuilder;
 import fr.univartois.butinfo.fractalens.generator.IFractalGenerator;
 import fr.univartois.butinfo.fractalens.palette.AllPalettes;
-import picocli.CommandLine.Option;
+
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.ParameterException;
+import picocli.CommandLine.Spec;
+import picocli.CommandLine.Model.CommandSpec;
 
 /**
  * The FractalCommand class is the command-line interface of the application.
  * It reads the options given by the user, configures a fractal generator builder
  * accordingly, and generates and saves the requested image.
  *
- * @author Joan Pesson
  *
  * @version 0.1.0
  */
-
-@Command(name= "fractalens",
-        description = "Generates fractal images",
-        sortOptions = false )
+@Command(name = "fractalens",
+        description = "Generates fractal images (single image, zoom or rotation).",
+        sortOptions = false)
 public class FractalCommand {
+
+
+    /**
+     * The delay between two images of an animation, in milliseconds.
+     */
+    private static final int FRAME_DELAY = 70;
+
+    /**
+     * The factor by which the scale is multiplied between two images of a zoom.
+     */
+    private static final double ZOOM_FACTOR = 0.8;
+
+    /**
+     * The minimal number of images of an animation.
+     */
+    private static final int MIN_IMAGE_COUNT = 2;
+
+    /**
+     * The constant of the Julia's sequence used for a rotation.
+     */
+    private static final IComplex JULIA_CONSTANT = new Complex(0.7885, 0);
+
+    /**
+     * The constant of the generalized Julia's sequence used for a rotation.
+     */
+    private static final IComplex JULIA_GENERALIZED_CONSTANT = new Complex(0.285, 0.01);
+
+
+
     /**
      * The fractal to generate.
      */
@@ -76,7 +114,6 @@ public class FractalCommand {
     ///////////
 
 
-
     /////////
 
     /**
@@ -94,27 +131,107 @@ public class FractalCommand {
     private String output;
 
     /**
+     * Whether the help message must be displayed.
+     * The option {@code -h} is not used here, as it stands for the height of the image.
+     */
+    @Option(names = "--help", usageHelp = true,
+            description = "Shows this help message and exits.")
+    private boolean help;
+
+    /**
+     * Generates and saves the image described by the options of the command line.
+     *
+     * @return The exit code of the application.
+     *
+     * @throws ParameterException If the options are invalid.
+     */
+
+
+    /**
      * Creates the generator corresponding to the requested type of image.
      *
      * @return The generator of the image (or of the animation).
      */
     private IFractalGenerator createGenerator() {
-        IFractalGenerator generator = FractalGeneratorBuilder.newInstance()
+        FractalGeneratorBuilder builder = FractalGeneratorBuilder.newInstance()
                 .withSize(width, height)
-                .withMaxIterations(nbIterations)
-                .withScale()
-                .withCenter(new Complex(-0.74364388703715, 0.131825904205330))
-                .withPalette(AllPalettes.DEGRADE_RED.getPalette(maxIterations1))
-                .withSequence(AllSequences.MANDELBROT.getSequenceFactory())
-                .build();
-        FractalGeneratorAnimated animatedGenerator = new FractalGeneratorAnimated("MandleBrotZoom.gif", 70);
-        zoomAnimated(generator1, animatedGenerator, 70, 0.1, 0.8);
-        animatedGenerator.generateImage();
-        animatedGenerator.saveImage();
+                .withMaxIterations(nbIterations) // Must be called before the palette.
+                .withScale(scale)
+                .withCenter(new Complex(focusX, focusY))
+                .withPalette(paletteName)
+                .withSequence(fractalName)
+                .withOutputPath(output);
+
+        return switch (type) {
+            case SINGLE -> builder.build();
+            case ZOOM -> createZoom(builder);
+            case ROTATION -> createRotation(builder);
+        };
     }
 
-
-
-
-
+    /**
+     * Creates an animation zooming on the center of the image.
+     * The scale of each image is the scale of the previous one multiplied by
+     * a constant factor between 0 and 1.
+     *
+     * @param builder The builder configured with the options of the command line.
+     *
+     * @return The animation.
+     */
+    private IFractalGenerator createZoom(FractalGeneratorBuilder builder) {
+        checkImageCount();
+        FractalGeneratorAnimated animation = new FractalGeneratorAnimated(output, FRAME_DELAY);
+        double currentScale = scale;
+        for (int i = 0; i < imageCount; i++) {
+            animation.addFrame(builder.withScale(currentScale).build());
+            currentScale *= ZOOM_FACTOR;
+        }
+        return animation;
     }
+
+    /**
+     * Creates an animation in which the constant of a Julia's sequence makes a full turn.
+     *
+     * @param builder The builder configured with the options of the command line.
+     *
+     * @return The animation.
+     */
+    private IFractalGenerator createRotation(FractalGeneratorBuilder builder) {
+        checkImageCount();
+         // "JULIA"or  "JULIA_GENERALIZED"
+        if (!JuliaRotationGeneralisee.isSupported(fractalName)) {
+            throw new UnsupportedOperationException(
+                    "The rotation is only available for JULIA and JULIA_GENERALIZED, not for "
+                            + fractalName);
+        }
+
+        IComplex constant;
+        if (fractalName == AllSequences.JULIA) {
+            constant = JULIA_CONSTANT;
+        } else {
+            constant = JULIA_GENERALIZED_CONSTANT;
+        }
+
+        List<BiFunction<IComplex, Integer, IComplexSequence>> factories =
+                JuliaRotationGeneralisee.factories(fractalName, constant, 2 * Math.PI / imageCount);
+
+        FractalGeneratorAnimated animation = new FractalGeneratorAnimated(output, FRAME_DELAY);
+        for (BiFunction<IComplex, Integer, IComplexSequence> factory : factories) {
+            animation.addFrame(builder.withSequence(factory).build());
+        }
+        return animation;
+    }
+
+    /**
+     * Checks that there are enough images to make an animation.
+     *
+     * @throws IllegalArgumentException If there are too few images.
+     */
+    private void checkImageCount() {
+        if (imageCount < MIN_IMAGE_COUNT) {
+            throw new IllegalArgumentException(
+                    "An animation needs at least " + MIN_IMAGE_COUNT + " images");
+        }
+    }
+
+}
