@@ -1,21 +1,15 @@
 package fr.univartois.butinfo.fractalens.generator;
 
-import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-
-import fr.univartois.butinfo.fractalens.complex.Complex;
-import fr.univartois.butinfo.fractalens.complex.ComplexPlane;
-import fr.univartois.butinfo.fractalens.complex.ComplexPlaneTranslate;
-import fr.univartois.butinfo.fractalens.complex.ComplexPlaneZoom;
-import fr.univartois.butinfo.fractalens.complex.IComplex;
-import fr.univartois.butinfo.fractalens.complex.IComplexPlane;
+import fr.univartois.butinfo.fractalens.complex.*;
 import fr.univartois.butinfo.fractalens.complex.sequence.AllSequences;
 import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
 import fr.univartois.butinfo.fractalens.image.BufferedImageAdapter;
 import fr.univartois.butinfo.fractalens.image.IFractalImage;
 import fr.univartois.butinfo.fractalens.palette.AllPalettes;
 import fr.univartois.butinfo.fractalens.palette.IPalette;
+
+import java.util.Objects;
+import java.util.function.BiFunction;
 
 /**
  * The FractalGeneratorBuilder class is a builder used to configure and create a fractal generator.
@@ -25,7 +19,6 @@ import fr.univartois.butinfo.fractalens.palette.IPalette;
  */
 public class FractalGeneratorBuilder {
 
-    private IFractalGenerator generator = null;
     /**
      * The height of the image, in pixels.
      */

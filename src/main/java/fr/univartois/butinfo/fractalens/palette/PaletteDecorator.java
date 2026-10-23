@@ -16,7 +16,7 @@ public abstract class PaletteDecorator implements IPalette {
      *
      * @param wrapped The palette to decorate.
      */
-    public PaletteDecorator(IPalette wrapped) {
+    protected PaletteDecorator(IPalette wrapped) {
         this.wrapped = wrapped;
     }
 }
