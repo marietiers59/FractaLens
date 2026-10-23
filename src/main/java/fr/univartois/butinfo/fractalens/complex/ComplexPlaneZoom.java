@@ -43,7 +43,7 @@ public class ComplexPlaneZoom extends ComplexPlaneDecorator {
 			return z;
 		}
 		else {
-			throw new IllegalArgumentException("La valeur du zoom doit être compris entre 0 et 1.");
+			throw new IllegalArgumentException("The zoom's value must be between 0 and 1 !");
 		}
 	}
 }

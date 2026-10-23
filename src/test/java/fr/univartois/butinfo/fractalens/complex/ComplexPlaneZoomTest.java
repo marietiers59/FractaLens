@@ -1,6 +1,8 @@
 package fr.univartois.butinfo.fractalens.complex;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -53,5 +55,26 @@ class ComplexPlaneZoomTest {
         assertEquals(topLeft, plane.asComplex(0, 0));
       
 	}
+	
+	/**
+     * Test method in order to check if my error handler, the one
+     * charged with raising an error in the case the number provided
+     * for the zoom's value is smaller than 0 or bigger than 1, is working.
+     */
+	@Test
+	void testAsComplexInvalidZoom() {
+		ComplexPlaneZoom plane = createComplexZoom(100);
+    	
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            plane.asComplex(0, 0);
+        });
+
+        String expectedMessage = "The zoom's value must be between 0 and 1 !";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+     
+	}
+	
 
 }
