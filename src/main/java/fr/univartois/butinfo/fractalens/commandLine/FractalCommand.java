@@ -32,8 +32,14 @@ import picocli.CommandLine.Model.CommandSpec;
 @Command(name = "fractalens",
         description = "Generates fractal images (single image, zoom or rotation).",
         sortOptions = false)
-public class FractalCommand {
-
+public class FractalCommand implements Runnable {
+    /**
+     * The specification of this command, injected by picocli.
+     * It gives access to the command line, which is needed to report invalid options
+     * with a {@link ParameterException}.
+     */
+    @Spec
+    private CommandSpec spec;
 
     /**
      * The delay between two images of an animation, in milliseconds.
@@ -244,6 +250,17 @@ public class FractalCommand {
         if (imageCount < MIN_IMAGE_COUNT) {
             throw new IllegalArgumentException(
                     "An animation needs at least " + MIN_IMAGE_COUNT + " images");
+        }
+    }
+
+    @Override
+    public void run() {
+        try {
+            IFractalGenerator generator = createGenerator();
+            generator.generateImage();
+            generator.saveImage();
+        } catch (IllegalArgumentException | UnsupportedOperationException | IllegalStateException e) {
+            throw new ParameterException(spec.commandLine(), e.getMessage(), e);
         }
     }
 }
