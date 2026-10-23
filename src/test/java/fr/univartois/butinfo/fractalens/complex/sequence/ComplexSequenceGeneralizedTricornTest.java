@@ -21,7 +21,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @author Marie Tiers
  */
-class ComplexSequenceTricornGeneraliseeTest {
+class ComplexSequenceGeneralizedTricornTest {
 
     /**
      * Creates a new complex number.
@@ -47,7 +47,7 @@ class ComplexSequenceTricornGeneraliseeTest {
      */
     private static IComplexSequence createSequence(
             IComplex first, IComplex constant, int nbTerms, int power) {
-        return new ComplexSequenceTricornGeneralisee(constant, nbTerms, first, power);
+        return new ComplexSequenceGeneralizedTricorn(constant, nbTerms, first, power);
     }
 
     /**

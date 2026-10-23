@@ -13,7 +13,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @version 1.0
  */
-public class ComplexSequenceGeneralJulia implements IComplexSequence{
+public class ComplexSequenceGeneralizedJulia implements IComplexSequence{
 
 	/**
     * The initial value of the sequence.
@@ -41,7 +41,7 @@ public class ComplexSequenceGeneralJulia implements IComplexSequence{
     * @param nbTerms The maximum number of terms to compute.
     * @param p The constant power number in the definition of the considered Julia's sequence.
     */
-   public ComplexSequenceGeneralJulia(IComplex z0, IComplex c, int nbTerms, int p) {
+   public ComplexSequenceGeneralizedJulia(IComplex z0, IComplex c, int nbTerms, int p) {
        this.z0 = z0;
        this.c = c;
        this.nbTerms = nbTerms;

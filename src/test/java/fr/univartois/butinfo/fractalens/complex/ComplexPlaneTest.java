@@ -94,19 +94,7 @@ class ComplexPlaneTest {
 
         IComplex bottomRight = createComplex(399, -299);
         assertEquals(bottomRight, plane.asComplex(599, 799));
-        
-        /*
-         * The following tests are for checking the error handlers
-        */
-        
-        //IComplex heightWidthError = createComplex(-400, 300);
-        //assertEquals(heightWidthError, plane.asComplex(900, 900));
-        
-        //IComplex heightError = createComplex(-400, 300);
-        //assertEquals(heightError, plane.asComplex(900, 100));
-        
-        //IComplex widthError = createComplex(-400, 300);
-        //assertEquals(widthError, plane.asComplex(100, 900));
+
     }
 
 }

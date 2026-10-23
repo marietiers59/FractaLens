@@ -12,7 +12,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @author Marie Tiers
  */
-public class ComplexSequenceTricornGeneralisee extends ComplexSequenceLambda {
+public class ComplexSequenceGeneralizedTricorn extends ComplexSequenceLambda {
 
     /**
      * Creates a new generalized Tricorn's sequence using the given parameters.
@@ -22,7 +22,7 @@ public class ComplexSequenceTricornGeneralisee extends ComplexSequenceLambda {
      * @param z0 The initial value of the sequence.
      * @param p The power used in the definition of the sequence.
      */
-    public ComplexSequenceTricornGeneralisee(IComplex c, int nbTerms, IComplex z0, int p) {
+    public ComplexSequenceGeneralizedTricorn(IComplex c, int nbTerms, IComplex z0, int p) {
         super((first, z) -> z.conjugate().power(p).add(c), z0, nbTerms);
     }
 

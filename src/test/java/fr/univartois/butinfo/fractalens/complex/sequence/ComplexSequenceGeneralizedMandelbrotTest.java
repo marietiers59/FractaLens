@@ -16,7 +16,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @version 0.1.0
  */
-class ComplexSequenceMandelbrotGeneraliseeTest {
+class ComplexSequenceGeneralizedMandelbrotTest {
 
     /**
      * Creates a new complex number.
@@ -43,7 +43,7 @@ class ComplexSequenceMandelbrotGeneraliseeTest {
     private static IComplexSequence createMandelbrotSequence(
             IComplex first, int power, int nbTerms) {
         // Generalized Mandelbrot's sequence.
-        return new ComplexSequenceMandelbrotGeneralisee(first, power, nbTerms);
+        return new ComplexSequenceGeneralizedMandelbrot(first, power, nbTerms);
     }
 
     /**

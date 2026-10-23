@@ -25,7 +25,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @version 0.1.0
  */
-public final class JuliaRotationGeneralisee {
+public final class GeneralizedJuliaRotation {
 
     /**
      * The power used by {@link AllSequences#JULIA_GENERALIZED}.
@@ -35,7 +35,7 @@ public final class JuliaRotationGeneralisee {
     /**
      * Prevents the instantiation of this utility class.
      */
-    private JuliaRotationGeneralisee() {
+    private GeneralizedJuliaRotation() {
         throw new AssertionError("No instances of JuliaRotationGeneralisee");
     }
 
@@ -110,7 +110,7 @@ public final class JuliaRotationGeneralisee {
         for (double theta : JuliaRotation.angles(step)) {
             // The rotation is computed once per image, and not once per pixel.
             IComplex rotatedC = JuliaRotation.rotate(c, theta);
-            factories.add((z0, nbTerms) -> new ComplexSequenceGeneralJulia(
+            factories.add((z0, nbTerms) -> new ComplexSequenceGeneralizedJulia(
                     z0, rotatedC, nbTerms, GENERALIZED_JULIA_POWER));
         }
         return List.copyOf(factories);

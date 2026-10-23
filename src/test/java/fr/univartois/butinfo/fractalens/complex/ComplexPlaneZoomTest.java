@@ -42,8 +42,8 @@ class ComplexPlaneZoomTest {
 	 }
 	
 	 /**
-	     * Test method for
-	     * {@link fr.univartois.butinfo.fractalens.complex.IComplexPlaneZoom#asComplex(int, int)}.
+	  * Test method for
+	  * {@link fr.univartois.butinfo.fractalens.complex.IComplexPlane#asComplex(int, int)}.
 	 */
 	@Test
 	void testAsComplex() {
@@ -53,18 +53,5 @@ class ComplexPlaneZoomTest {
         assertEquals(topLeft, plane.asComplex(0, 0));
       
 	}
-	
-	/*
-     * The following tests are for checking the error handlers
-    */
-	/*
-	@Test
-	void testAsComplexInvalidZoom() {
-		ComplexPlaneZoom plane = createComplexZoom(100);
-		
-       IComplex topLeft = createComplex(-40, 30);
-       assertEquals(topLeft, plane.asComplex(0, 0));
-     
-	}
-	*/
+
 }
