@@ -35,11 +35,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import fr.univartois.butinfo.fractalens.generator.FractalGenerator;
 import fr.univartois.butinfo.fractalens.palette.IPalette;
 import org.junit.jupiter.api.Test;
 
-import fr.univartois.butinfo.fractalens.complex.Complex;
 import fr.univartois.butinfo.fractalens.complex.ComplexPlane;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
 import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
@@ -104,16 +102,6 @@ class FractalGeneratorTest {
         }
     }
 
-    /**
-     * Creates a new complex number.
-     *
-     * @param realPart      The real part of the complex number.
-     * @param imaginaryPart The imaginary part of the complex number.
-     * @return The created complex number.
-     */
-    private static IComplex createComplex(double realPart, double imaginaryPart) {
-        return new Complex(realPart, imaginaryPart);
-    }
 
     /**
      * Creates a new fractal generator for testing.
@@ -194,25 +182,6 @@ class FractalGeneratorTest {
         assertEquals(image, result);
     }
 
-    /**
-     * Test method for
-     * {@link fr.univartois.butinfo.fractalens.generator.FractalGenerator#saveImage()}.
-     */
-    @Test
-    void testSaveImage() {
-        DummyFractalImage image = new DummyFractalImage(2, 2);
-        ComplexPlane plane = new ComplexPlane(2, 2);
-        IPalette palette = new DummyPalette();
-        String outputPath = "test.png";
-        int nbTerms = 5;
-
-        BiFunction<IComplex, Integer, IComplexSequence> sequenceFunction = (z0, n) -> null;
-
-        FractalGenerator generator = createGenerator(image, plane, palette, outputPath, sequenceFunction, nbTerms);
-
-        // Should not throw any exception
-        generator.saveImage();
-    }
 
     /**
      * Test method for

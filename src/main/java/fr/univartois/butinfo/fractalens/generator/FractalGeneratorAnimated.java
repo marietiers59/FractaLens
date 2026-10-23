@@ -1,13 +1,11 @@
 package fr.univartois.butinfo.fractalens.generator;
 
 
-
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import fr.univartois.butinfo.fractalens.image.BufferedImageAdapter;
 import fr.univartois.butinfo.fractalens.image.IFractalImage;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,11 +35,11 @@ public class FractalGeneratorAnimated implements IFractalGenerator {
         imageList.clear();
     }
 
-    
+
     @Override
     public IFractalImage generateImage() {
         if (generatorList.size() <= 1) {
-            throw new IllegalStateException("Une Animation a besoin d'au moins de deux frames");
+            throw new IllegalStateException("An animation needs at least 2 frames.");
         }
         imageList.clear();
         for (IFractalGenerator iFractalGenerator : generatorList) {
