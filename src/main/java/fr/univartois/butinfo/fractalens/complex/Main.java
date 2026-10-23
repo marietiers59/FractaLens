@@ -1,6 +1,16 @@
 package fr.univartois.butinfo.fractalens.complex;
 
+import fr.univartois.butinfo.fractalens.complex.sequence.JuliaRotation;
+import fr.univartois.butinfo.fractalens.complex.sequence.ComplexSequenceJulia;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.BiFunction;
+
 import fr.univartois.butinfo.fractalens.complex.sequence.AllSequences;
+import fr.univartois.butinfo.fractalens.complex.sequence.ComplexSequenceLambda;
+import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
+import fr.univartois.butinfo.fractalens.generator.FractalGenerator;
+import fr.univartois.butinfo.fractalens.generator.FractalGeneratorAnimated;
 import fr.univartois.butinfo.fractalens.generator.FractalGeneratorBuilder;
 import fr.univartois.butinfo.fractalens.generator.IFractalGenerator;
 import fr.univartois.butinfo.fractalens.palette.AllPalettes;
@@ -13,65 +23,77 @@ import fr.univartois.butinfo.fractalens.palette.AllPalettes;
 public final class Main {
 
     public static void main(String[] args) {
-        // 1 : Mandelbrot
+        // Zoom Mandelbrot
         int maxIterations1 = 250;
         IFractalGenerator generator1 = FractalGeneratorBuilder.newInstance()
                 .withSize(600, 800)
                 .withMaxIterations(maxIterations1)
-                .withScale(0.005)
-                .withCenter(new Complex(-0.75, 0))
+                .withScale(0.001)
+                .withCenter(new Complex(-0.74364388703715, 0.131825904205330))
                 .withPalette(AllPalettes.DEGRADE_RED.getPalette(maxIterations1))
                 .withSequence(AllSequences.MANDELBROT.getSequenceFactory())
-                .withOutputPath("generator1.png")
                 .build();
-        generator1.generateImage();
-        generator1.saveImage();
+        FractalGeneratorAnimated animatedGenerator = new FractalGeneratorAnimated("MandleBrotZoom.gif", 70);
+        zoomAnimated(generator1, animatedGenerator, 70, 0.1, 0.8);
+        animatedGenerator.generateImage();
+        animatedGenerator.saveImage();
 
 
-        // 2 : Burning Ship
-        int maxIterations2 = 64;
+        // Rotation Julia
+        int maxIterations3 = 250;
+        BiFunction<IComplex, Integer, IComplexSequence> juliaRota = (z0, nbTerms) -> new ComplexSequenceLambda((first, z) -> z.multiply(z).add(new Complex(0.7885, 0)), z0, nbTerms);
         IFractalGenerator generator2 = FractalGeneratorBuilder.newInstance()
                 .withSize(600, 800)
-                .withMaxIterations(maxIterations2)
-                .withScale(0.00005) // Vue beaucoup plus large pour voir l'extérieur
-                .withCenter(new Complex(-1.755, -0.03))
-                .withPalette(AllPalettes.DEGRADE.getPalette(maxIterations2))
-                .withSequence(AllSequences.BURNING_SHIP.getSequenceFactory())
-                .withOutputPath("generator2.png")
-                .build();
-        generator2.generateImage();
-        generator2.saveImage();
-
-        // 3 : Julia
-        int maxIterations3 = 250;
-        IFractalGenerator generator3 = FractalGeneratorBuilder.newInstance()
-                .withSize(600, 800)
                 .withMaxIterations(maxIterations3)
-                .withScale(0.005)
+                .withScale(0.004)
                 .withCenter(new Complex(0, 0))
-                .withPalette(AllPalettes.DEGRADE_INVERTED_MAGENTA.getPalette(maxIterations3))
-                .withSequence(AllSequences.JULIA.getSequenceFactory())
-                .withOutputPath("generator3.png")
+                .withPalette(AllPalettes.DEGRADE_YELLOW.getPalette(maxIterations3))
+                .withSequence(juliaRota)
                 .build();
-        generator3.generateImage();
-        generator3.saveImage();
+        FractalGeneratorAnimated animatedGenerator2 = new FractalGeneratorAnimated("JuliaRotation.gif", 42);
+        rotaAnimated(generator2, animatedGenerator2, 100, new Complex(0.7885, 0), 2 * Math.PI / 100);
+        animatedGenerator2.generateImage();
+        animatedGenerator2.saveImage();
 
 
-        // 4 : Tricorn
-        int maxIterations4 = 250;
-        IFractalGenerator generator4 = FractalGeneratorBuilder.newInstance()
-                .withSize(800, 800)
-                .withMaxIterations(maxIterations4)
-                .withScale(0.002)
-                .withCenter(new Complex(0, 0))
-                .withPalette(AllPalettes.GREYSCALE.getPalette(maxIterations4))
-                .withPalette(AllPalettes.FIXED.getPalette(maxIterations4))
-                .withOutputPath("generator4.png")
-                .build();
-        generator4.generateImage();
-        generator4.saveImage();
+    }
 
+    /**
+     *
+     * Put generators containing zoomed images into a list whose type is generator
+     *
+     * @param generator The generator.
+     * @param animation The animation.
+     * @param amount The number of frames.
+     * @param scale The scale.
+     * @param constantZoom The constant zoom.
+     */
+    public static void zoomAnimated(IFractalGenerator generator, FractalGeneratorAnimated animation,
+                                    int amount, double scale, double constantZoom) {
+        for (int i = 0; i < amount; i++) {
+            FractalGeneratorBuilder builder = new FractalGeneratorBuilder(generator);
+            animation.addFrame(builder.withScale(scale).build());
+            scale *= constantZoom; // zoomFactor < 1: the smaller the scale, the stronger the zoom
+        }
+    }
 
-
+    /**
+     * Puts into the animation the generators of a rotation of the Julia's fractal:
+     * theta rotates the constant c between two successive frames.
+     *
+     * @param generator The generator whose configuration is used for every frame.
+     * @param animation The animation in which the frames are added.
+     * @param amount The number of frames.
+     * @param c The constant of the Julia's sequence for the first frame.
+     * @param theta The angle between two successive frames, in radians.
+     */
+    public static void rotaAnimated(IFractalGenerator generator, FractalGeneratorAnimated animation,
+                                    int amount, IComplex c, double theta) {
+        for (int i = 0; i < amount; i++) {
+            IComplex rotatedC = JuliaRotation.rotate(c, i * theta);
+            FractalGeneratorBuilder builder = new FractalGeneratorBuilder(generator);
+            builder.withSequence((z0, nbTerms) -> new ComplexSequenceJulia(z0, rotatedC, nbTerms));
+            animation.addFrame(builder.build());
+        }
     }
 }
