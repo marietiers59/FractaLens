@@ -121,7 +121,7 @@ public class FractalGenerator implements IFractalGenerator {
         IComplexSequence sequence = sequenceFunction.apply(z0, nbTerms);
 
         int nbIterations = 0;
-        for (var temp : sequence) {
+        for (var _ : sequence) {
             nbIterations++;
         }
 
