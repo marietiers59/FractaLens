@@ -21,7 +21,7 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package fr.univartois.butinfo.fractalens.commandLine;
+package fr.univartois.butinfo.fractalens.commandline;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -381,7 +381,7 @@ class FractalCommandTest {
 
     /**
      * Test method for the generation of a single image by
-     * {@link fr.univartois.butinfo.fractalens.commandLine.FractalCommand#run()}.
+     * {@link fr.univartois.butinfo.fractalens.commandline.FractalCommand#run()}.
      *
      * @throws IOException If the size of a generated file cannot be read.
      */
@@ -404,7 +404,7 @@ class FractalCommandTest {
 
     /**
      * Test method for the generation of a zoom by
-     * {@link fr.univartois.butinfo.fractalens.commandLine.FractalCommand#run()}.
+     * {@link fr.univartois.butinfo.fractalens.commandline.FractalCommand#run()}.
      *
      * @throws IOException If the size of a generated file cannot be read.
      */
@@ -421,7 +421,7 @@ class FractalCommandTest {
 
     /**
      * Test method for the generation of a rotation by
-     * {@link fr.univartois.butinfo.fractalens.commandLine.FractalCommand#run()}.
+     * {@link fr.univartois.butinfo.fractalens.commandline.FractalCommand#run()}.
      *
      * @throws IOException If the size of a generated file cannot be read.
      */

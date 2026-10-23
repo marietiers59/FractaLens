@@ -1,4 +1,4 @@
-package fr.univartois.butinfo.fractalens.commandLine;
+package fr.univartois.butinfo.fractalens.commandline;
 
 import fr.univartois.butinfo.fractalens.complex.Complex;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
