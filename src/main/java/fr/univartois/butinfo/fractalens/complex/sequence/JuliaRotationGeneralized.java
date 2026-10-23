@@ -8,7 +8,7 @@ import java.util.function.BiFunction;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
 
 /**
- * The JuliaRotationGeneralisee class generalizes the rotation of {@link JuliaRotation}
+ * The JuliaRotationGeneralized class generalizes the rotation of {@link JuliaRotation}
  * to every sequence of {@link AllSequences}.
  *
  * The rotation only makes sense for the sequences whose constant {@code c} can be
@@ -25,7 +25,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @version 0.1.0
  */
-public final class JuliaRotationGeneralisee {
+public final class JuliaRotationGeneralized {
 
     /**
      * The power used by {@link AllSequences#JULIA_GENERALIZED}.
@@ -35,8 +35,8 @@ public final class JuliaRotationGeneralisee {
     /**
      * Prevents the instantiation of this utility class.
      */
-    private JuliaRotationGeneralisee() {
-        throw new AssertionError("No instances of JuliaRotationGeneralisee");
+    private JuliaRotationGeneralized() {
+        throw new AssertionError("No instances of JuliaRotationGeneralized");
     }
 
     /**
