@@ -15,13 +15,13 @@ import fr.univartois.butinfo.fractalens.complex.Complex;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
 
 /**
- * The ComplexSequenceTricornGeneraliseeTest tests the implementation of
+ * The ComplexSequenceTricornGeneralizedTest tests the implementation of
  * {@link IComplexSequence} for the generalized Tricorn's sequence, defined by
  * {@code t(n) = conj(t(n-1))^p + c}.
  *
  * @author Marie Tiers
  */
-class ComplexSequenceTricornGeneraliseeTest {
+class ComplexSequenceTricornGeneralizedTest {
 
     /**
      * Creates a new complex number.
@@ -47,7 +47,7 @@ class ComplexSequenceTricornGeneraliseeTest {
      */
     private static IComplexSequence createSequence(
             IComplex first, IComplex constant, int nbTerms, int power) {
-        return new ComplexSequenceTricornGeneralisee(constant, nbTerms, first, power);
+        return new ComplexSequenceTricornGeneralized(constant, nbTerms, first, power);
     }
 
     /**

@@ -3,6 +3,7 @@ package fr.univartois.butinfo.fractalens.complex.sequence;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * The ComplexSequenceIterator class allows iterating over the terms of a complex number sequence
@@ -56,6 +57,9 @@ public class ComplexSequenceIterator implements Iterator<IComplex>{
      * @return the term before next()
      */
     public IComplex next() {
+        if (!hasNext()) {
+            throw new NoSuchElementException("No more terms");
+        }
         IComplex previous = actual;
         actual = sequence.computeNext(actual);
         count++;

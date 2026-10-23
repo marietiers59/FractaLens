@@ -8,7 +8,7 @@ import java.util.function.BiFunction;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
 
 /**
- * The JuliaRotationGeneralisee class generalizes the rotation of {@link JuliaRotation}
+ * The JuliaRotationGeneralized class generalizes the rotation of {@link JuliaRotation}
  * to every sequence of {@link AllSequences}.
  *
  * The rotation only makes sense for the sequences whose constant {@code c} can be
@@ -25,7 +25,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @version 0.1.0
  */
-public final class JuliaRotationGeneralisee {
+public final class JuliaRotationGeneralized {
 
     /**
      * The power used by {@link AllSequences#JULIA_GENERALIZED}.
@@ -35,8 +35,8 @@ public final class JuliaRotationGeneralisee {
     /**
      * Prevents the instantiation of this utility class.
      */
-    private JuliaRotationGeneralisee() {
-        throw new AssertionError("No instances of JuliaRotationGeneralisee");
+    private JuliaRotationGeneralized() {
+        throw new AssertionError("No instances of JuliaRotationGeneralized");
     }
 
     /**
@@ -53,8 +53,8 @@ public final class JuliaRotationGeneralisee {
         return switch (sequence) {
             case JULIA, JULIA_GENERALIZED -> true;
             case MANDELBROT, MANDELBROT_GENERALIZED,
-                    BURNING_SHIP, BURNING_SHIP_GENERALIZED,
-                    TRICORN, TRICORN_GENERALIZED -> false;
+                 BURNING_SHIP, BURNING_SHIP_GENERALIZED,
+                 TRICORN, TRICORN_GENERALIZED -> false;
         };
     }
 
@@ -88,10 +88,10 @@ public final class JuliaRotationGeneralisee {
             case JULIA -> JuliaRotation.factories(c, step);
             case JULIA_GENERALIZED -> generalizedJuliaFactories(c, step);
             case MANDELBROT, MANDELBROT_GENERALIZED,
-                    BURNING_SHIP, BURNING_SHIP_GENERALIZED,
-                    TRICORN, TRICORN_GENERALIZED -> throw new UnsupportedOperationException(
-                            "The rotation is not supported for " + sequence
-                                    + ": only Julia's sequences can be rotated");
+                 BURNING_SHIP, BURNING_SHIP_GENERALIZED,
+                 TRICORN, TRICORN_GENERALIZED -> throw new UnsupportedOperationException(
+                    "The rotation is not supported for " + sequence
+                            + ": only Julia's sequences can be rotated");
         };
     }
 
@@ -110,7 +110,7 @@ public final class JuliaRotationGeneralisee {
         for (double theta : JuliaRotation.angles(step)) {
             // The rotation is computed once per image, and not once per pixel.
             IComplex rotatedC = JuliaRotation.rotate(c, theta);
-            factories.add((z0, nbTerms) -> new ComplexSequenceGeneralJulia(
+            factories.add((z0, nbTerms) -> new ComplexSequenceGeneralizedJulia(
                     z0, rotatedC, nbTerms, GENERALIZED_JULIA_POWER));
         }
         return List.copyOf(factories);
