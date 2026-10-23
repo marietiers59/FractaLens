@@ -5,11 +5,11 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
 import java.util.Iterator;
 
 /**
- * The ComplexSequenceMandelbrotGeneralisee class implements the generalized Mandelbrot's
+ * The ComplexSequenceMandelbrotGeneralized class implements the generalized Mandelbrot's
  * sequence, which is a sequence of complex numbers that is defined by the following formula:
  * {@code z(n) = z(n-1)^p + z0}
  */
-public class ComplexSequenceMandelbrotGeneralisee implements IComplexSequence {
+public class ComplexSequenceMandelbrotGeneralized implements IComplexSequence {
 
     /**
      * The initial value of the sequence (also the constant added at each step).
@@ -33,7 +33,7 @@ public class ComplexSequenceMandelbrotGeneralisee implements IComplexSequence {
      * @param p The power of the sequence.
      * @param nbTerms The maximum number of terms to compute.
      */
-    public ComplexSequenceMandelbrotGeneralisee(IComplex z0, int p, int nbTerms) {
+    public ComplexSequenceMandelbrotGeneralized(IComplex z0, int p, int nbTerms) {
         this.z0 = z0;
         this.p = p;
         this.nbTerms = nbTerms;

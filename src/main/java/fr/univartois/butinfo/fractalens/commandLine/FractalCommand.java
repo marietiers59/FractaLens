@@ -111,10 +111,23 @@ public class FractalCommand {
             description = "The imaginary part of the center of the image (default: ${DEFAULT-VALUE}).")
     private double focusY;
 
-    ///////////
 
+    /**
+     * The name of the color palette used to color the fractal.
+     */
+    @Option(names = {"-p", "--palette-name"}, paramLabel = "<name>", defaultValue = "GREYSCALE",
+            description = "The color palette used to color the fractal (default: ${DEFAULT-VALUE}). "
+                    + "Values: ${COMPLETION-CANDIDATES}.")
+    private AllPalettes paletteName;
 
-    /////////
+    /**
+     * The type of image to generate.
+     */
+    @Option(names = {"-t", "--type"}, paramLabel = "<type>", defaultValue = "SINGLE",
+            description = "The type of image to generate (default: ${DEFAULT-VALUE}). "
+                    + "Values: ${COMPLETION-CANDIDATES}.")
+    private ImageType type;
+
 
     /**
      * The number of images of an animation.
@@ -233,5 +246,4 @@ public class FractalCommand {
                     "An animation needs at least " + MIN_IMAGE_COUNT + " images");
         }
     }
-
 }

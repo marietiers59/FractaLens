@@ -202,11 +202,11 @@ class ComplexSequenceLambda {
 class ComplexSequenceJulia
 class ComplexSequenceGeneralJulia
 class ComplexSequenceMandelbrot
-class ComplexSequenceMandelbrotGeneralisee
+class ComplexSequenceMandelbrotGeneralized
 class ComplexSequenceBurningShip
 class ComplexSequenceGeneralizedBurningShip
 class ComplexSequenceTricorn
-class ComplexSequenceTricornGeneralisee
+class ComplexSequenceTricornGeneralized
 
 enum AllSequences {
     JULIA
@@ -228,11 +228,11 @@ IComplexSequence <|.. ComplexSequenceLambda
 IComplexSequence <|.. ComplexSequenceJulia
 IComplexSequence <|.. ComplexSequenceGeneralJulia
 IComplexSequence <|.. ComplexSequenceMandelbrot
-IComplexSequence <|.. ComplexSequenceMandelbrotGeneralisee
+IComplexSequence <|.. ComplexSequenceMandelbrotGeneralized
 IComplexSequence <|.. ComplexSequenceBurningShip
 IComplexSequence <|.. ComplexSequenceGeneralizedBurningShip
 IComplexSequence <|.. ComplexSequenceTricorn
-ComplexSequenceLambda <|-- ComplexSequenceTricornGeneralisee
+ComplexSequenceLambda <|-- ComplexSequenceTricornGeneralized
 
 IComplexSequence ..> ComplexSequenceIterator : <<creates>>
 AllSequences ..> ComplexSequenceLambda : <<creates>>
