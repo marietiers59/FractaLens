@@ -49,7 +49,7 @@ jacoco {
 sonar {
     properties {
         property("sonar.host.url", "https://sonarqube.univ-artois.fr")
-        property("sonar.projectKey", "fractalens")
+        property("sonar.projectKey", "fractalensThiB_TB_MT_JP")
     }
 }
 

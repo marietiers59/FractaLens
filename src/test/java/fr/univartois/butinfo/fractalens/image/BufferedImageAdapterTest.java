@@ -16,8 +16,6 @@ import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 
-import fr.univartois.butinfo.fractalens.image.BufferedImageAdapter;
-import fr.univartois.butinfo.fractalens.image.IFractalImage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
