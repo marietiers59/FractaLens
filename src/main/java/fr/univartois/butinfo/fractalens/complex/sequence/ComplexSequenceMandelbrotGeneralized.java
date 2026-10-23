@@ -9,7 +9,11 @@ import java.util.Iterator;
  * sequence, which is a sequence of complex numbers that is defined by the following formula:
  * {@code z(n) = z(n-1)^p + z0}
  */
+<<<<<<<< HEAD:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceMandelbrotGeneralized.java
 public class ComplexSequenceMandelbrotGeneralized implements IComplexSequence {
+========
+public class ComplexSequenceGeneralizedMandelbrot implements IComplexSequence {
+>>>>>>>> 739edabb804610c40a6455d842ca099d11a2b566:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceGeneralizedMandelbrot.java
 
     /**
      * The initial value of the sequence (also the constant added at each step).
@@ -33,7 +37,11 @@ public class ComplexSequenceMandelbrotGeneralized implements IComplexSequence {
      * @param p The power of the sequence.
      * @param nbTerms The maximum number of terms to compute.
      */
+<<<<<<<< HEAD:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceMandelbrotGeneralized.java
     public ComplexSequenceMandelbrotGeneralized(IComplex z0, int p, int nbTerms) {
+========
+    public ComplexSequenceGeneralizedMandelbrot(IComplex z0, int p, int nbTerms) {
+>>>>>>>> 739edabb804610c40a6455d842ca099d11a2b566:src/main/java/fr/univartois/butinfo/fractalens/complex/sequence/ComplexSequenceGeneralizedMandelbrot.java
         this.z0 = z0;
         this.p = p;
         this.nbTerms = nbTerms;
