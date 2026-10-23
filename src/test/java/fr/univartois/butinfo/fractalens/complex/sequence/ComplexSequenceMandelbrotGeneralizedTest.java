@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
 
 /**
- * The ComplexSequenceMandelbrotGeneraliseeTest tests the implementation of
+ * The ComplexSequenceMandelbrotGeneralizedTest tests the implementation of
  * {@link IComplexSequence} for the generalized Mandelbrot's sequence.
  *
  * @author Romain Wallon
  *
  * @version 0.1.0
  */
-class ComplexSequenceMandelbrotGeneraliseeTest {
+class ComplexSequenceMandelbrotGeneralizedTest {
 
     /**
      * Creates a new complex number.
@@ -43,7 +43,7 @@ class ComplexSequenceMandelbrotGeneraliseeTest {
     private static IComplexSequence createMandelbrotSequence(
             IComplex first, int power, int nbTerms) {
         // Generalized Mandelbrot's sequence.
-        return new ComplexSequenceMandelbrotGeneralisee(first, power, nbTerms);
+        return new ComplexSequenceMandelbrotGeneralized(first, power, nbTerms);
     }
 
     /**
