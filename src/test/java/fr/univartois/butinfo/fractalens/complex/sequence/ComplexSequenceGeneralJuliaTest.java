@@ -16,7 +16,7 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
  *
  * @version 1.0
  */
-public class ComplexSequenceGeneralJuliaTest {
+class ComplexSequenceGeneralJuliaTest {
 	/**
      * Creates a new complex number.
      *

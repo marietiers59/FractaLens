@@ -2,7 +2,6 @@ package fr.univartois.butinfo.fractalens.generator;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import fr.univartois.butinfo.fractalens.complex.Complex;
 import fr.univartois.butinfo.fractalens.complex.ComplexPlane;
@@ -25,7 +24,6 @@ import fr.univartois.butinfo.fractalens.palette.IPalette;
  */
 public class FractalGeneratorBuilder {
 
-    private IFractalGenerator generator = null;
     /**
      * The height of the image, in pixels.
      */

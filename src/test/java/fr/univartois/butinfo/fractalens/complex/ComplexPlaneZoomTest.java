@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
  * @version 0.1.0
  */
 
-public class ComplexPlaneZoomTest {
+class ComplexPlaneZoomTest {
 	
 	/**
      * Creates a new complex number.

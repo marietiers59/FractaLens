@@ -19,7 +19,7 @@ import org.junit.jupiter.params.provider.EnumSource;
  *
  * @author Marie TIERS
  */
-public class AllPalettesTest {
+class AllPalettesTest {
 
     /**
      * The maximum number of iterations used in the tests.
