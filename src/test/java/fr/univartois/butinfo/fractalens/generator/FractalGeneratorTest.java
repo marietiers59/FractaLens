@@ -35,11 +35,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import fr.univartois.butinfo.fractalens.generator.FractalGenerator;
 import fr.univartois.butinfo.fractalens.palette.IPalette;
 import org.junit.jupiter.api.Test;
 
-import fr.univartois.butinfo.fractalens.complex.Complex;
 import fr.univartois.butinfo.fractalens.complex.ComplexPlane;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
 import fr.univartois.butinfo.fractalens.complex.sequence.IComplexSequence;
@@ -104,16 +102,6 @@ class FractalGeneratorTest {
         }
     }
 
-    /**
-     * Creates a new complex number.
-     *
-     * @param realPart      The real part of the complex number.
-     * @param imaginaryPart The imaginary part of the complex number.
-     * @return The created complex number.
-     */
-    private static IComplex createComplex(double realPart, double imaginaryPart) {
-        return new Complex(realPart, imaginaryPart);
-    }
 
     /**
      * Creates a new fractal generator for testing.
@@ -212,6 +200,7 @@ class FractalGeneratorTest {
 
         // Should not throw any exception
         generator.saveImage();
+
     }
 
     /**

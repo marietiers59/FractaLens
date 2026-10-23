@@ -28,9 +28,9 @@ class DegradePaletteTest {
      * @param actual The actual color.
      */
     private static void assertColorEquals(Color expected, Color actual) {
-        assertEquals(expected.getRed(), actual.getRed(), TOLERANCE, "red component");
-        assertEquals(expected.getGreen(), actual.getGreen(), TOLERANCE, "green component");
-        assertEquals(expected.getBlue(), actual.getBlue(), TOLERANCE, "blue component");
+        assertEquals((float) expected.getRed(), (float) actual.getRed(), TOLERANCE, "red component");
+        assertEquals((float) expected.getGreen(), (float) actual.getGreen(), TOLERANCE, "green component");
+        assertEquals((float) expected.getBlue(), (float) actual.getBlue(), TOLERANCE, "blue component");
     }
 
     @Test

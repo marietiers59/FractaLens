@@ -21,7 +21,7 @@ abstract class ComplexPlaneDecorator implements IComplexPlane {
      * @return An instance of ComplexPlaneDecorator.
      */
 
-	public ComplexPlaneDecorator(IComplexPlane complexPlane) {
+	protected ComplexPlaneDecorator(IComplexPlane complexPlane) {
 		this.complexPlane = complexPlane;
 	}
 	
