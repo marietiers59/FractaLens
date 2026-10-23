@@ -1,9 +1,5 @@
 package fr.univartois.butinfo.fractalens.commandLine;
 
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.function.BiFunction;
-
 import fr.univartois.butinfo.fractalens.complex.Complex;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
 import fr.univartois.butinfo.fractalens.complex.ImageType;
@@ -14,12 +10,14 @@ import fr.univartois.butinfo.fractalens.generator.FractalGeneratorAnimated;
 import fr.univartois.butinfo.fractalens.generator.FractalGeneratorBuilder;
 import fr.univartois.butinfo.fractalens.generator.IFractalGenerator;
 import fr.univartois.butinfo.fractalens.palette.AllPalettes;
-
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.Spec;
-import picocli.CommandLine.Model.CommandSpec;
+
+import java.util.List;
+import java.util.function.BiFunction;
 
 /**
  * The FractalCommand class is the command-line interface of the application.
@@ -156,14 +154,6 @@ public class FractalCommand implements Runnable {
     @Option(names = "--help", usageHelp = true,
             description = "Shows this help message and exits.")
     private boolean help;
-
-    /**
-     * Generates and saves the image described by the options of the command line.
-     *
-     * @return The exit code of the application.
-     *
-     * @throws ParameterException If the options are invalid.
-     */
 
 
     /**
