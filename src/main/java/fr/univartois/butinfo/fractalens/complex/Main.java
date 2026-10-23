@@ -96,4 +96,6 @@ public final class Main {
             animation.addFrame(builder.build());
         }
     }
+
+
 }
