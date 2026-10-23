@@ -200,6 +200,7 @@ class FractalGeneratorTest {
 
         // Should not throw any exception
         generator.saveImage();
+
     }
 
     /**

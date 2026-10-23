@@ -19,7 +19,7 @@ import fr.univartois.butinfo.fractalens.palette.AllPalettes;
  */
 public final class Main {
 
-    public static void main(String[] args) {
+    static void main() {
         // Zoom Mandelbrot
         int maxIterations1 = 250;
         IFractalGenerator generator1 = FractalGeneratorBuilder.newInstance()

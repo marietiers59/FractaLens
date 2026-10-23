@@ -17,13 +17,13 @@ import fr.univartois.butinfo.fractalens.complex.Complex;
 import fr.univartois.butinfo.fractalens.complex.IComplex;
 
 /**
- * The JuliaRotationGeneraliseeTest tests the methods of {@link JuliaRotationGeneralisee},
+ * The JuliaRotationGeneraliseeTest tests the methods of {@link GeneralizedJuliaRotation},
  * which generalizes the rotation of the constant to every sequence of
  * {@link AllSequences}.
  *
  * @author Marie Tiers
  */
-class JuliaRotationGeneraliseeTest {
+class GeneralizedJuliaRotationTest {
 
     /**
      * The tolerance used to compare real numbers.
@@ -86,40 +86,40 @@ class JuliaRotationGeneraliseeTest {
     // ------------------------------------------------------------------ isSupported
 
     /**
-     * Test method for {@link JuliaRotationGeneralisee#isSupported(AllSequences)} with
+     * Test method for {@link GeneralizedJuliaRotation#isSupported(AllSequences)} with
      * Julia's sequences, which can be rotated.
      */
     @ParameterizedTest
     @EnumSource(value = AllSequences.class, names = { "JULIA", "JULIA_GENERALIZED" })
     void testIsSupportedForJulia(AllSequences sequence) {
-        assertTrue(JuliaRotationGeneralisee.isSupported(sequence));
+        assertTrue(GeneralizedJuliaRotation.isSupported(sequence));
     }
 
     /**
-     * Test method for {@link JuliaRotationGeneralisee#isSupported(AllSequences)} with
+     * Test method for {@link GeneralizedJuliaRotation#isSupported(AllSequences)} with
      * the other sequences, which cannot be rotated.
      */
     @ParameterizedTest
     @EnumSource(value = AllSequences.class, mode = EnumSource.Mode.EXCLUDE,
             names = { "JULIA", "JULIA_GENERALIZED" })
     void testIsNotSupportedForOthers(AllSequences sequence) {
-        assertFalse(JuliaRotationGeneralisee.isSupported(sequence));
+        assertFalse(GeneralizedJuliaRotation.isSupported(sequence));
     }
 
     /**
-     * Test method for {@link JuliaRotationGeneralisee#isSupported(AllSequences)} with
+     * Test method for {@link GeneralizedJuliaRotation#isSupported(AllSequences)} with
      * a {@code null} sequence.
      */
     @Test
     void testIsSupportedNull() {
         assertThrows(NullPointerException.class,
-                () -> JuliaRotationGeneralisee.isSupported(null));
+                () -> GeneralizedJuliaRotation.isSupported(null));
     }
 
     // ---------------------------------------------------------------- factories: Julia
 
     /**
-     * Test method for {@link JuliaRotationGeneralisee#factories(AllSequences, IComplex, double)}
+     * Test method for {@link GeneralizedJuliaRotation#factories(AllSequences, IComplex, double)}
      * with Julia's sequence: it gives the same sequences as
      * {@link JuliaRotation#factories(IComplex, double)}.
      */
@@ -128,7 +128,7 @@ class JuliaRotationGeneraliseeTest {
         List<BiFunction<IComplex, Integer, IComplexSequence>> expected =
                 JuliaRotation.factories(C, STEP);
         List<BiFunction<IComplex, Integer, IComplexSequence>> actual =
-                JuliaRotationGeneralisee.factories(AllSequences.JULIA, C, STEP);
+                GeneralizedJuliaRotation.factories(AllSequences.JULIA, C, STEP);
         IComplex z0 = createComplex(0.2, 0.3);
 
         assertEquals(expected.size(), actual.size());
@@ -141,17 +141,17 @@ class JuliaRotationGeneraliseeTest {
     // ---------------------------------------------------- factories: generalized Julia
 
     /**
-     * Test method for {@link JuliaRotationGeneralisee#factories(AllSequences, IComplex, double)}
+     * Test method for {@link GeneralizedJuliaRotation#factories(AllSequences, IComplex, double)}
      * with the generalized Julia's sequence: there is one factory per angle.
      */
     @Test
     void testFactoriesGeneralizedJuliaCount() {
         assertEquals(60,
-                JuliaRotationGeneralisee.factories(AllSequences.JULIA_GENERALIZED, C, STEP).size());
+                GeneralizedJuliaRotation.factories(AllSequences.JULIA_GENERALIZED, C, STEP).size());
     }
 
     /**
-     * Test method for {@link JuliaRotationGeneralisee#factories(AllSequences, IComplex, double)}
+     * Test method for {@link GeneralizedJuliaRotation#factories(AllSequences, IComplex, double)}
      * with the generalized Julia's sequence: each sequence uses the constant rotated by
      * the corresponding angle (from 0, the next term is the constant itself).
      */
@@ -159,7 +159,7 @@ class JuliaRotationGeneraliseeTest {
     void testFactoriesGeneralizedJuliaUsesRotatedConstant() {
         List<Double> angles = JuliaRotation.angles(STEP);
         List<BiFunction<IComplex, Integer, IComplexSequence>> factories =
-                JuliaRotationGeneralisee.factories(AllSequences.JULIA_GENERALIZED, C, STEP);
+                GeneralizedJuliaRotation.factories(AllSequences.JULIA_GENERALIZED, C, STEP);
 
         for (int k = 0; k < factories.size(); k++) {
             IComplexSequence sequence = factories.get(k).apply(ZERO, 64);
@@ -169,14 +169,14 @@ class JuliaRotationGeneraliseeTest {
     }
 
     /**
-     * Test method for {@link JuliaRotationGeneralisee#factories(AllSequences, IComplex, double)}
+     * Test method for {@link GeneralizedJuliaRotation#factories(AllSequences, IComplex, double)}
      * with the generalized Julia's sequence: the power is 3, as in
      * {@link AllSequences#JULIA_GENERALIZED}.
      */
     @Test
     void testFactoriesGeneralizedJuliaUsesPowerThree() {
         IComplexSequence first =
-                JuliaRotationGeneralisee.factories(AllSequences.JULIA_GENERALIZED, ZERO, STEP)
+                GeneralizedJuliaRotation.factories(AllSequences.JULIA_GENERALIZED, ZERO, STEP)
                         .get(0).apply(ZERO, 64);
 
         // With c = 0: (1 + i)^3 = -2 + 2i
@@ -184,16 +184,16 @@ class JuliaRotationGeneraliseeTest {
     }
 
     /**
-     * Test method for {@link JuliaRotationGeneralisee#factories(AllSequences, IComplex, double)}
+     * Test method for {@link GeneralizedJuliaRotation#factories(AllSequences, IComplex, double)}
      * with the generalized Julia's sequence: the first factory (angle 0) keeps the
      * constant, and the pixel and the number of terms are passed to the sequence.
      */
     @Test
     void testFactoriesGeneralizedJuliaFirstFactory() {
         IComplex z0 = createComplex(0.1, 0.1);
-        IComplexSequence expected = new ComplexSequenceGeneralJulia(z0, C, 10, 3);
+        IComplexSequence expected = new ComplexSequenceGeneralizedJulia(z0, C, 10, 3);
         IComplexSequence actual =
-                JuliaRotationGeneralisee.factories(AllSequences.JULIA_GENERALIZED, C, STEP)
+                GeneralizedJuliaRotation.factories(AllSequences.JULIA_GENERALIZED, C, STEP)
                         .get(0).apply(z0, 10);
 
         assertEquals(collect(expected), collect(actual));
@@ -202,7 +202,7 @@ class JuliaRotationGeneraliseeTest {
     // ------------------------------------------------------ factories: unsupported
 
     /**
-     * Test method for {@link JuliaRotationGeneralisee#factories(AllSequences, IComplex, double)}
+     * Test method for {@link GeneralizedJuliaRotation#factories(AllSequences, IComplex, double)}
      * with the sequences that cannot be rotated: Mandelbrot, Burning Ship, Tricorn and
      * their generalized versions.
      */
@@ -212,26 +212,26 @@ class JuliaRotationGeneraliseeTest {
     void testFactoriesUnsupported(AllSequences sequence) {
         UnsupportedOperationException exception = assertThrows(
                 UnsupportedOperationException.class,
-                () -> JuliaRotationGeneralisee.factories(sequence, C, STEP));
+                () -> GeneralizedJuliaRotation.factories(sequence, C, STEP));
         assertTrue(exception.getMessage().contains(sequence.name()));
     }
 
     // ------------------------------------------------- factories: invalid parameters
 
     /**
-     * Test method for {@link JuliaRotationGeneralisee#factories(AllSequences, IComplex, double)}
+     * Test method for {@link GeneralizedJuliaRotation#factories(AllSequences, IComplex, double)}
      * with invalid parameters.
      */
     @Test
     void testFactoriesInvalidParameters() {
         assertThrows(NullPointerException.class,
-                () -> JuliaRotationGeneralisee.factories(null, C, STEP));
+                () -> GeneralizedJuliaRotation.factories(null, C, STEP));
         assertThrows(NullPointerException.class,
-                () -> JuliaRotationGeneralisee.factories(AllSequences.JULIA, null, STEP));
+                () -> GeneralizedJuliaRotation.factories(AllSequences.JULIA, null, STEP));
         assertThrows(IllegalArgumentException.class,
-                () -> JuliaRotationGeneralisee.factories(AllSequences.JULIA, C, 0));
+                () -> GeneralizedJuliaRotation.factories(AllSequences.JULIA, C, 0));
         assertThrows(IllegalArgumentException.class,
-                () -> JuliaRotationGeneralisee.factories(AllSequences.JULIA_GENERALIZED, C, -1));
+                () -> GeneralizedJuliaRotation.factories(AllSequences.JULIA_GENERALIZED, C, -1));
     }
 
 }
