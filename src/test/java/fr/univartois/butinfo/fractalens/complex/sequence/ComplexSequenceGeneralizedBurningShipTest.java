@@ -16,7 +16,8 @@ import fr.univartois.butinfo.fractalens.complex.IComplex;
 /**
  * The ComplexSequenceGeneralizedBurningShipTest tests the implementation of
  * {@link IComplexSequence} for the generalized Burning Ship's sequence, defined by
- * {@code b(n) = (|Re(b(n-1))| + i|Im(b(n-1))|)^p + c}.
+ * {@code b(n) = (|Re(b(n-1))| + i|Im(b(n-1))|)^p + z0}, where
+ * {@code z0} is both the first term and the constant added at each step.
  */
 class ComplexSequenceGeneralizedBurningShipTest {
 
@@ -35,16 +36,14 @@ class ComplexSequenceGeneralizedBurningShipTest {
     /**
      * Creates a new generalized Burning Ship's sequence.
      *
-     * @param first The first term of the sequence.
-     * @param constant The constant number in the definition of the sequence.
+     * @param z0 The first term of the sequence (also the constant added at each step).
      * @param nbTerms The maximum number of terms to compute.
      * @param power The power used in the definition of the sequence.
      *
      * @return The created sequence.
      */
-    private static IComplexSequence createSequence(
-            IComplex first, IComplex constant, int nbTerms, int power) {
-        return new ComplexSequenceGeneralizedBurningShip(constant, nbTerms, first, power);
+    private static IComplexSequence createSequence(IComplex z0, int nbTerms, int power) {
+        return new ComplexSequenceGeneralizedBurningShip(nbTerms, z0, power);
     }
 
     /**
@@ -69,12 +68,12 @@ class ComplexSequenceGeneralizedBurningShipTest {
     @Test
     void testComputeNextPowerTwo() {
         IComplex zero = createComplex(0, 0);
-        IComplexSequence ship = createSequence(zero, createComplex(0.5, -0.5), 50, 2);
+        IComplexSequence ship = createSequence(createComplex(0.5, -0.5), 50, 2);
 
         // (3 + 4i)^2 + c = (-7 + 24i) + (0.5 - 0.5i)
         assertEquals(createComplex(-6.5, 23.5), ship.computeNext(createComplex(3, -4)));
 
-        IComplexSequence noConstant = createSequence(zero, zero, 50, 2);
+        IComplexSequence noConstant = createSequence(zero, 50, 2);
         assertEquals(createComplex(0, 2), noConstant.computeNext(createComplex(-1, -1)));
         assertEquals(createComplex(0, 2), noConstant.computeNext(createComplex(1, -1)));
     }
@@ -88,11 +87,11 @@ class ComplexSequenceGeneralizedBurningShipTest {
 
         // (|-1| + i|-1|)^3 = (1 + i)^3 = -2 + 2i
         assertEquals(createComplex(-2, 2),
-                createSequence(zero, zero, 50, 3).computeNext(createComplex(-1, -1)));
+                createSequence(zero, 50, 3).computeNext(createComplex(-1, -1)));
 
         // (3 + 4i)^3 = -117 + 44i, then + (1 + i)
         assertEquals(createComplex(-116, 45),
-                createSequence(zero, createComplex(1, 1), 50, 3)
+                createSequence(createComplex(1, 1), 50, 3)
                         .computeNext(createComplex(3, -4)));
     }
 
@@ -101,8 +100,7 @@ class ComplexSequenceGeneralizedBurningShipTest {
      */
     @Test
     void testComputeNextPowerFour() {
-        IComplexSequence ship = createSequence(
-                createComplex(0, 0), createComplex(0.5, 0), 50, 4);
+        IComplexSequence ship = createSequence(createComplex(0.5, 0), 50, 4);
 
         // (|-1| + i|1|)^4 = (1 + i)^4 = -4, then + 0.5
         assertEquals(createComplex(-3.5, 0), ship.computeNext(createComplex(-1, 1)));
@@ -114,8 +112,7 @@ class ComplexSequenceGeneralizedBurningShipTest {
      */
     @Test
     void testComputeNextPowerOne() {
-        IComplexSequence ship = createSequence(
-                createComplex(0, 0), createComplex(0.5, 0.5), 50, 1);
+        IComplexSequence ship = createSequence(createComplex(0.5, 0.5), 50, 1);
 
         assertEquals(createComplex(2.5, 3.5), ship.computeNext(createComplex(-2, -3)));
     }
@@ -126,8 +123,7 @@ class ComplexSequenceGeneralizedBurningShipTest {
      */
     @Test
     void testComputeNextPowerZero() {
-        IComplexSequence ship = createSequence(
-                createComplex(0, 0), createComplex(0.5, 0.25), 50, 0);
+        IComplexSequence ship = createSequence(createComplex(0.5, 0.25), 50, 0);
 
         assertEquals(createComplex(1.5, 0.25), ship.computeNext(createComplex(-2, 3)));
     }
@@ -138,8 +134,7 @@ class ComplexSequenceGeneralizedBurningShipTest {
      */
     @Test
     void testComputeNextNegativePower() {
-        IComplexSequence ship = createSequence(
-                createComplex(0, 0), createComplex(0, 0), 50, -2);
+        IComplexSequence ship = createSequence(createComplex(0, 0), 50, -2);
         IComplex previous = createComplex(1, 1);
 
         assertThrows(IllegalArgumentException.class, () -> ship.computeNext(previous));
@@ -153,7 +148,7 @@ class ComplexSequenceGeneralizedBurningShipTest {
     void testComputeNextIgnoresSigns() {
         IComplex c = createComplex(-0.4, 0.6);
         for (int p = 1; p <= 6; p++) {
-            IComplexSequence ship = createSequence(createComplex(0, 0), c, 50, p);
+            IComplexSequence ship = createSequence(c, 50, p);
 
             IComplex expected = ship.computeNext(createComplex(1, 2));
             assertEquals(expected, ship.computeNext(createComplex(-1, 2)));
@@ -169,8 +164,7 @@ class ComplexSequenceGeneralizedBurningShipTest {
      */
     @Test
     void testComputeNextDoesNotModifyPrevious() {
-        IComplexSequence ship = createSequence(
-                createComplex(0, 0), createComplex(0.1, 0.1), 50, 3);
+        IComplexSequence ship = createSequence(createComplex(0.1, 0.1), 50, 3);
         IComplex previous = createComplex(-1.5, -0.5);
 
         ship.computeNext(previous);
@@ -185,8 +179,7 @@ class ComplexSequenceGeneralizedBurningShipTest {
     @Test
     void testIteratorOnConvergence() {
         int nbTerms = 50;
-        IComplexSequence ship = createSequence(
-                createComplex(0.5, 0), createComplex(0, 0), nbTerms, 3);
+        IComplexSequence ship = createSequence(createComplex(0.1, 0), nbTerms, 3);
 
         assertEquals(nbTerms, collect(ship).size());
     }
@@ -197,31 +190,29 @@ class ComplexSequenceGeneralizedBurningShipTest {
     @Test
     void testIteratorOnDivergence() {
         int nbTerms = 50;
-        IComplexSequence ship = createSequence(
-                createComplex(2, 0), createComplex(0.5, 0.5), nbTerms, 3);
+        IComplexSequence ship = createSequence(createComplex(1.2, 0), nbTerms, 3);
 
-        // z0 = 2 (modulus <= 2), then z1 = 8.5 + 0.5i, which exceeds the threshold.
+        // z0 = 1.2 (modulus <= 2), then z1 = 1.2^3 + 1.2 = 2.928, which exceeds the threshold.
         assertEquals(1, collect(ship).size());
     }
 
     /**
      * Test method for {@link IComplexSequence#iterator()} checking the first terms
-     * of the sequence for p = 3, z0 = 0 and c = -0.4 + 0.6i.
+     * of the sequence for p = 3 and z0 = -0.4 + 0.6i.
      */
     @Test
     void testIteratorTerms() {
-        IComplexSequence ship = createSequence(
-                createComplex(0, 0), createComplex(-0.4, 0.6), 3, 3);
+        IComplexSequence ship = createSequence(createComplex(-0.4, 0.6), 3, 3);
 
         List<IComplex> terms = collect(ship);
 
-        // z0 = 0
-        // z1 = c = -0.4 + 0.6i
-        // z2 = (0.4 + 0.6i)^3 + c = (-0.368 + 0.072i) + c = -0.768 + 0.672i
+        // b0 = z0 = -0.4 + 0.6i
+        // b1 = (0.4 + 0.6i)^3 + z0 = (-0.368 + 0.072i) + z0 = -0.768 + 0.672i
+        // b2 = (0.768 + 0.672i)^3 + z0 = (-0.5875 + 0.8856i) + z0 = -0.9875 + 1.4856i
         assertEquals(3, terms.size());
-        assertEquals(createComplex(0, 0), terms.get(0));
-        assertEquals(createComplex(-0.4, 0.6), terms.get(1));
-        assertEquals(createComplex(-0.768, 0.672), terms.get(2));
+        assertEquals(createComplex(-0.4, 0.6), terms.get(0));
+        assertEquals(createComplex(-0.768, 0.672), terms.get(1));
+        assertEquals(createComplex(-0.987465, 1.485621), terms.get(2));
     }
 
     /**
@@ -232,8 +223,8 @@ class ComplexSequenceGeneralizedBurningShipTest {
     void testIteratorWithNoTerms() {
         IComplex zero = createComplex(0, 0);
 
-        assertFalse(createSequence(zero, zero, 0, 3).iterator().hasNext());
-        assertFalse(createSequence(createComplex(3, 3), zero, 50, 3).iterator().hasNext());
+        assertFalse(createSequence(zero, 0, 3).iterator().hasNext());
+        assertFalse(createSequence(createComplex(3, 3), 50, 3).iterator().hasNext());
     }
 
     /**
@@ -243,7 +234,7 @@ class ComplexSequenceGeneralizedBurningShipTest {
     @Test
     void testIteratorCanBeReused() {
         IComplex z0 = createComplex(0.3, -0.2);
-        IComplexSequence ship = createSequence(z0, createComplex(-0.4, 0.6), 64, 3);
+        IComplexSequence ship = createSequence(z0, 64, 3);
 
         assertTrue(ship.iterator().hasNext());
         assertEquals(z0, ship.iterator().next());
