@@ -19,3 +19,6 @@ bin
 
 # Divers.
 .DS_Store
+
+# Sujets et cours fournis par les enseignants : à garder hors du dépôt public
+enonces-et-aides/
